@@ -22,6 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _bioTextController = TextEditingController();
   final TextEditingController _userNameTextController = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -163,26 +164,40 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (_image != null) {
-                      String res = await AuthMethods().signUpUser(
-                        email: _emailTextController.text,
-                        password: _passwordTextController.text,
-                        userName: _userNameTextController.text,
-                        bio: _bioTextController.text,
-                        file: _image!,
-                      );
-                      print(res);
-                    }
-                  },
-                  child: Text('Sign up'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
-                ),
-              ),
+              _isLoading
+                  ? CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              )
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          if (_image != null) {
+                            String res = await AuthMethods().signUpUser(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text,
+                              userName: _userNameTextController.text,
+                              bio: _bioTextController.text,
+                              file: _image!,
+                            );
+                            setState(() {
+                              _isLoading = false;
+                            });
+                            if (res != 'success') {
+                              showSnackbar(context, res);
+                            }
+                          } else {
+                            showSnackbar(context, "Invalid input.");
+                          }
+                        },
+                        child: Text('Sign up'),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
+                      ),
+                    ),
               SizedBox(
                 height: 15,
               ),

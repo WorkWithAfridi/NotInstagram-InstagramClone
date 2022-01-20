@@ -16,20 +16,18 @@ class AuthMethods {
     required String bio,
     required Uint8List file,
   }) async {
-    String res = 'Some error occurred.';
+    String res = 'An error occurred.';
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           userName.isNotEmpty ||
           file != null) {
         //reg user
-        UserCredential userCredential= await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        
-        
-        String photoUrl=await StorageMethods().uploadImageToStorage(childName: 'profilePics', file: file, isPost: false);
-        // UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        //     email: email, password: password);
+        UserCredential userCredential = await _auth
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        String photoUrl = await StorageMethods().uploadImageToStorage(
+            childName: 'profilePics', file: file, isPost: false);
         //add user to db
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
           'username': userName,
@@ -38,15 +36,46 @@ class AuthMethods {
           'bio': bio,
           'followers': [],
           'following': [],
-          'photoUrl':photoUrl
+          'photoUrl': photoUrl
         });
 
         res = 'success';
       }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'invalid-email') res = "The email is badly formatted.";
+      if (err.code == 'weak-password') res = "Weak Password.";
+      if (err.code == 'email-already-in-use')
+        res = "Email already linked with an account.";
+      else
+        res = err.code;
     } catch (err) {
       res = err.toString();
     }
+    return res;
+  }
 
+  Future<String> logInUser({
+    required String email,
+    required String password,
+  }) async {
+    String res = 'An error occurred.';
+    try {
+      if (email.isNotEmpty && password.isNotEmpty) {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+
+        res = 'success';
+      }else{
+        res='Please enter all the required fields.';
+      }
+    }  on FirebaseAuthException catch (err) {
+      if (err.code == 'invalid-email') res = "The email is badly formatted.";
+      if (err.code == 'user-not-found') res = "No user found. Please sign up and try again.";
+      else
+        res = 'Wrong Credentioals';
+    } catch (err) {
+      res = err.toString();
+    }
     return res;
   }
 }

@@ -34,11 +34,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Not Instagram',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
+        theme: ThemeData.light().copyWith(
+          // scaffoldBackgroundColor: mobileBackgroundColor,
           primaryColor: Colors.pink,
         ),
-        home: SignupScreen()
+        home: LoginScreen()
 
         // const ResponsiveLayout(
         //   mobileScreenLayout: MobileScreenLayout(),
@@ -53,4 +53,4 @@ class MyApp extends StatelessWidget {
 // https://www.youtube.com/watch?v=mEPm9w5QlJM
 
 // time
-// 1:44:11
+// 2:04:53

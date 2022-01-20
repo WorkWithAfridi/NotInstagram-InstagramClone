@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:not_instagram/resources/auth_methods.dart';
 import 'package:not_instagram/utils/colors.dart';
+import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  bool _isLoading = false;
   @override
   void dispose() {
     _emailTextController.dispose();
@@ -98,15 +101,33 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Log in'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
-                ),
-              ),
+              _isLoading
+                  ? CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    )
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          String res = await AuthMethods().logInUser(
+                              email: _emailTextController.text,
+                              password: _passwordTextController.text);
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          if (res != 'success') {
+                            showSnackbar(context, res);
+                          }
+                        },
+                        child: Text('Log in'),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
+                      ),
+                    ),
               SizedBox(
                 height: 15,
               ),
