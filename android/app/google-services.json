@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1067572072236",
+    "project_id": "notinstagram-6f647",
+    "storage_bucket": "notinstagram-6f647.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067572072236:android:e624bc874722add435a689",
+        "android_client_info": {
+          "package_name": "com.workwithafridi.notinstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067572072236-iu4nt08bretbr0naqpbsht29qhf2hcll.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtCjlz5L8gfUy60arRpLWPHQpCHgBT-t8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067572072236-iu4nt08bretbr0naqpbsht29qhf2hcll.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1067572072236-ntq5u4hc2vhi5m11e12l4i7st3rtunug.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.workwithafridi.notinstagram"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
