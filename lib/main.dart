@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/responsive/mobile_screen_layout.dart';
 import 'package:not_instagram/responsive/responsive_layout_screen.dart';
 import 'package:not_instagram/responsive/web_screen_layout.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/signup_screen.dart';
 import 'package:not_instagram/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,20 +34,45 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=> UserProvider())
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Not Instagram',
         theme: ThemeData.light().copyWith(
           // scaffoldBackgroundColor: mobileBackgroundColor,
           primaryColor: Colors.pink,
         ),
-        home: LoginScreen()
+        //check if user is already logged in or not
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return const LoginScreen();
+          },
+        ),
 
-        // const ResponsiveLayout(
-        //   mobileScreenLayout: MobileScreenLayout(),
-        //   webScreenLayout: WebScreenLayout(),
-        // ),
-        );
+        // const
+      ),
+    );
   }
 }
 

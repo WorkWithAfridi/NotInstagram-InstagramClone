@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
+import 'package:not_instagram/responsive/mobile_screen_layout.dart';
+import 'package:not_instagram/responsive/responsive_layout_screen.dart';
+import 'package:not_instagram/responsive/web_screen_layout.dart';
+import 'package:not_instagram/screens/signup_screen.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
@@ -120,7 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             _isLoading = false;
                           });
                           if (res != 'success') {
-                            showSnackbar(context, res);
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => ResponsiveLayout(
+                                  mobileScreenLayout: MobileScreenLayout(),
+                                  webScreenLayout: WebScreenLayout(),
+                                ),
+                              ),
+                            );
                           }
                         },
                         child: Text('Log in'),
@@ -137,7 +148,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text("Don't have an account? "),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SignupScreen(),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Sign Up",
                       style: TextStyle(

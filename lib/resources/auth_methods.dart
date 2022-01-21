@@ -3,11 +3,19 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(currentUser.uid).get();
+    print('-----------------------------');
+    return model.User.fromSnap(documentSnapshot);
+  }
 
   Future<String> signUpUser({
     required String email,
@@ -29,15 +37,21 @@ class AuthMethods {
         String photoUrl = await StorageMethods().uploadImageToStorage(
             childName: 'profilePics', file: file, isPost: false);
         //add user to db
-        await _firestore.collection('users').doc(userCredential.user!.uid).set({
-          'username': userName,
-          'uid': userCredential.user!.uid,
-          'email': email,
-          'bio': bio,
-          'followers': [],
-          'following': [],
-          'photoUrl': photoUrl
-        });
+
+        model.User user = model.User.name(
+            userName: userName,
+            userId: userCredential.user!.uid,
+            email: email,
+            bio: bio,
+            followers: [],
+            following: [],
+            photoUrl: photoUrl);
+
+
+        await _firestore
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set(user.toJson());
 
         res = 'success';
       }
@@ -65,12 +79,13 @@ class AuthMethods {
             email: email, password: password);
 
         res = 'success';
-      }else{
-        res='Please enter all the required fields.';
+      } else {
+        res = 'Please enter all the required fields.';
       }
-    }  on FirebaseAuthException catch (err) {
+    } on FirebaseAuthException catch (err) {
       if (err.code == 'invalid-email') res = "The email is badly formatted.";
-      if (err.code == 'user-not-found') res = "No user found. Please sign up and try again.";
+      if (err.code == 'user-not-found')
+        res = "No user found. Please sign up and try again.";
       else
         res = 'Wrong Credentioals';
     } catch (err) {
