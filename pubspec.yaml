@@ -43,6 +43,7 @@ dependencies:
   lottie: any
   image_picker: any
   provider: any
+  uuid: any
 
 dev_dependencies:
   flutter_test:

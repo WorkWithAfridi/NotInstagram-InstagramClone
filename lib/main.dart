@@ -35,9 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context)=> UserProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Not Instagram',
@@ -81,4 +79,4 @@ class MyApp extends StatelessWidget {
 // https://www.youtube.com/watch?v=mEPm9w5QlJM
 
 // time
-// 2:58:46
+// 3:44:01
