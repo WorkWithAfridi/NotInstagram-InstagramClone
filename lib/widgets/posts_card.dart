@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:not_instagram/model/user.dart';
+import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/resources/firestore_method.dart';
+import 'package:not_instagram/widgets/like_animation.dart';
+import 'package:provider/provider.dart';
 
-class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+class PostCard extends StatefulWidget {
+  final snap;
+  const PostCard({Key? key, required this.snap}) : super(key: key);
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool isLikeAnimating = false;
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).user;
     return Container(
       // color: Colors.black38,
       height: 350,
@@ -25,11 +40,11 @@ class PostCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),
+                          backgroundImage:
+                              NetworkImage(widget.snap['profilePhotoUrl']),
                         ),
                       ),
-                      Text('Mike Shinoda')
+                      Text(widget.snap['username'])
                     ],
                   ),
                   IconButton(
@@ -64,25 +79,64 @@ class PostCard extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: SizedBox(
-                // height: 200,
-                width: double.infinity,
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1520466809213-7b9a56adcd45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-                  fit: BoxFit.fitWidth,
-                  alignment: FractionalOffset.center,
+              child: GestureDetector(
+                onDoubleTap: () async {
+                  await FireStoreMethods().likePost(
+                      widget.snap['postId'], user.userId, widget.snap['likes']);
+                  setState(() {
+                    isLikeAnimating = true;
+                  });
+                },
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      // height: 200,
+                      width: double.infinity,
+                      child: Image.network(
+                        widget.snap['postPhotoUrl'],
+                        fit: BoxFit.fitWidth,
+                        alignment: FractionalOffset.center,
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      duration: Duration(milliseconds: 200),
+                      opacity: isLikeAnimating ? 1 : 0,
+                      child: LikeAnimation(
+                        child: Icon(
+                          Icons.favorite,
+                          color: Colors.white,
+                          size: 120,
+                        ),
+                        isAnimating: isLikeAnimating,
+                        duration: Duration(milliseconds: 400),
+                        onEnd: () {
+                          setState(() {
+                            isLikeAnimating = false;
+                          });
+                        },
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
             Container(
-              height: 35,
+              height: 25,
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
+                    onPressed: () async {
+                      await FireStoreMethods().likePost(widget.snap['postId'],
+                          user.userId, widget.snap['likes']);
+                    },
+                    icon: LikeAnimation(
+                      isAnimating: widget.snap['likes'].contains(user.userId),
+                      smallLike: true,
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                   IconButton(
@@ -118,17 +172,17 @@ class PostCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('420 likes'),
+                  Text('${widget.snap['likes'].length} likes'),
                   RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Mike Shinoda',
+                            text: widget.snap['username'],
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600)),
                         TextSpan(
-                            text: ' Hey, hows it going?',
+                            text: ' ${widget.snap['description']}',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400)),
@@ -139,7 +193,11 @@ class PostCard extends StatelessWidget {
                     onTap: () {},
                     child: Text('View all 12 comments...'),
                   ),
-                  Text('12/12/12'),
+                  Text(
+                    DateFormat.yMMMd().format(
+                      DateTime.parse(widget.snap['datePublished']),
+                    ),
+                  ),
                   SizedBox(
                     height: 5,
                   )
