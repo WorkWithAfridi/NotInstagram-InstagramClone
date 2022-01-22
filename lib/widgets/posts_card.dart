@@ -134,8 +134,12 @@ class _PostCardState extends State<PostCard> {
                       isAnimating: widget.snap['likes'].contains(user.userId),
                       smallLike: true,
                       child: Icon(
-                        Icons.favorite,
-                        color: Colors.red,
+                        widget.snap['likes'].contains(user.userId)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: widget.snap['likes'].contains(user.userId)
+                            ? Colors.red
+                            : Colors.black,
                       ),
                     ),
                   ),
