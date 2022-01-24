@@ -20,12 +20,22 @@ class CustomTextField extends StatelessWidget {
       borderSide: Divider.createBorderSide(context),
     );
     return TextField(
+
+      style: TextStyle(
+        color: Colors.white
+      ),
+      cursorColor: Colors.white54,
       controller: textEditingController,
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(
+          fontSize: 13,
+          color: Colors.white54
+        ),
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
+        fillColor: Colors.white10,
         filled: true,
         contentPadding: EdgeInsets.all(8),
       ),

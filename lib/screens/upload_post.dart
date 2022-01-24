@@ -1,11 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/utils/utils.dart';
+import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -23,10 +25,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
         context: context,
         builder: (context) {
           return SimpleDialog(
-            title: Text('Create a Post'),
+            title: Text('Post a memory'),
             children: [
               SimpleDialogOption(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Text('Take a Photo'),
                 onPressed: () async {
                   Navigator.of(context).pop();
@@ -37,7 +39,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 },
               ),
               SimpleDialogOption(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Text('Choose from Gallery'),
                 onPressed: () async {
                   Navigator.of(context).pop();
@@ -48,7 +50,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 },
               ),
               SimpleDialogOption(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 child: Text('Cancel'),
                 onPressed: () async {
                   Navigator.of(context).pop();
@@ -85,6 +87,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 },
               ),
+              backgroundColor: Colors.black87,
               title: Text('Post To'),
               centerTitle: false,
               actions: [
@@ -115,73 +118,109 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             showSnackbar(
                                 context, 'Could not post. An Error occurred.');
                           }
-                          setState(() {
-                            _isLoading = false;
-                            _file = null;
-                          });
+                          setState(
+                            () {
+                              _isLoading = false;
+                              _file = null;
+                            },
+                          );
                         },
-                        child: Text(
-                          'POST',
-                          style: TextStyle(color: Colors.white),
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.white,
                         ),
                       )
               ],
             ),
+      backgroundColor: Colors.black,
       body: _file == null
           ? Center(
-              child: IconButton(
-                icon: Icon(Icons.upload),
-                onPressed: () {
-                  _selectImage(context);
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * .1,
+                    width: MediaQuery.of(context).size.height * .1,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 3),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.upload,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        _selectImage(context);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Icon(Icons.arrow_upward, color: Colors.white,),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Click here to add a memory...',
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17
+                      ),
+                    ),
+                  )
+                ],
               ),
             )
           : Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  _isLoading ? LinearProgressIndicator() : Container(),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(user.photoUrl),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .4,
-                        child: TextField(
-                          controller: _descriptionController,
-                          decoration: InputDecoration(
-                            hintText: 'Write a caption...',
-                            border: InputBorder.none,
-                          ),
-                          maxLines: 8,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _isLoading ? LinearProgressIndicator() : Container(),
+                    Container(
+                      height: MediaQuery.of(context).size.height * .5,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          alignment: FractionalOffset.topCenter,
+                          image: MemoryImage(_file!),
                         ),
                       ),
-                      SizedBox(
-                        height: 45,
-                        width: 45,
-                        child: AspectRatio(
-                          aspectRatio: 487 / 451,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                alignment: FractionalOffset.topCenter,
-                                image: MemoryImage(_file!),
-                              ),
-                            ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(user.photoUrl),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                              child: CustomTextField(
+                                  textEditingController: _descriptionController,
+                                  hintText: 'Enter description...',
+                                  textInputType: TextInputType.text))
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    )
+                  ],
+                ),
               ),
             ),
     );

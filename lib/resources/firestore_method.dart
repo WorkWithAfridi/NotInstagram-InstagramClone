@@ -48,14 +48,48 @@ class FireStoreMethods {
         await _firebaseFirestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
         });
-      }else{
+      } else {
         await _firebaseFirestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid])
         });
-
       }
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<String> postComment(
+      {required String postId,
+      required String text,
+      required String uid,
+      required String name,
+      required String profilePic}) async {
+    String res = 'Some error occurred.';
+    try {
+      if (text.isNotEmpty) {
+        String commentId = Uuid().v1();
+        await _firebaseFirestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          // TODO: create model later
+          'profilePic': profilePic,
+          'name': name,
+          'uid': uid,
+          'text': text,
+          'commentId': commentId,
+          'datePublished': DateTime.now(),
+        });
+        res='Comment posted';
+
+      } else {
+        res='No input..';
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return res;
   }
 }

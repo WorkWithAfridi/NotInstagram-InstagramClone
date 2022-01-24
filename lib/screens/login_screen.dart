@@ -31,140 +31,150 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: mobileBackgroundColor,
-        ),
-      ),
+      backgroundColor: Colors.black,
       body: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
+        padding: EdgeInsets.only(left: 30, right: 30, top: 70),
         width: MediaQuery.of(context).size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Row(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Text(
+              'English (United Kingdom)',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12),
+            ),
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    // color: Colors.white,
-                    height: MediaQuery.of(context).size.width / 6,
-                    width: MediaQuery.of(context).size.width / 6,
-                    child: Lottie.asset(
-                        'assets/lottie_animations/instagram_logo.json'),
+                  Text(
+                    'Not Instagram',
+                    style: GoogleFonts.getFont('Mochiy Pop P One',
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    'Not an Instagram clone!',
+                    style: GoogleFonts.getFont('Roboto',
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
-                    width: 10,
+                    height: 25,
                   ),
-                  Column(
+                  CustomTextField(
+                      textEditingController: _emailTextController,
+                      hintText: 'Phone number, email address or username',
+                      textInputType: TextInputType.emailAddress),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextField(
+                      textEditingController: _passwordTextController,
+                      hintText: 'Password',
+                      isPass: true,
+                      textInputType: TextInputType.emailAddress),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _isLoading
+                      ? CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if(_emailTextController.text.isNotEmpty && _passwordTextController.text.isNotEmpty){
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                String res = await AuthMethods().logInUser(
+                                    email: _emailTextController.text,
+                                    password: _passwordTextController.text);
+
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                                if (res != 'success') {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => ResponsiveLayout(
+                                        mobileScreenLayout: MobileScreenLayout(),
+                                        webScreenLayout: WebScreenLayout(),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }
+                              else{
+                                showSnackbar(context, 'Credentials cannot be left empty!!');
+                              }
+                            },
+                            child: Text('Log in'),
+                            style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Not Instagram',
-                        style: GoogleFonts.getFont('Mochiy Pop P One',
-                            fontSize: 25, fontWeight: FontWeight.w800),
+                        'Forgotten your login details?',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
                       Text(
-                        'Not an Instagram clone!',
-                        style: GoogleFonts.getFont('Roboto',
-                            fontSize: 15, fontWeight: FontWeight.w800),
+                        ' Get help with logging in.',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 12),
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  )
                 ],
               ),
-              SizedBox(
-                height: 25,
-              ),
-              CustomTextField(
-                  textEditingController: _emailTextController,
-                  hintText: 'Enter your email here.',
-                  textInputType: TextInputType.emailAddress),
-              SizedBox(
-                height: 15,
-              ),
-              CustomTextField(
-                  textEditingController: _passwordTextController,
-                  hintText: 'Enter your password here.',
-                  isPass: true,
-                  textInputType: TextInputType.emailAddress),
-              SizedBox(
-                height: 15,
-              ),
-              _isLoading
-                  ? CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          String res = await AuthMethods().logInUser(
-                              email: _emailTextController.text,
-                              password: _passwordTextController.text);
-
-                          setState(() {
-                            _isLoading = false;
-                          });
-                          if (res != 'success') {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => ResponsiveLayout(
-                                  mobileScreenLayout: MobileScreenLayout(),
-                                  webScreenLayout: WebScreenLayout(),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        child: Text('Log in'),
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Don't have an account? ",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SignupScreen(),
                       ),
-                    ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Don't have an account? "),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SignupScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.w800),
-                    ),
+                    );
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12),
                   ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
         ),
       ),
     );

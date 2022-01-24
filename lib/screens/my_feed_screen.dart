@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 
 class MyFeedScreen extends StatelessWidget {
@@ -9,20 +11,66 @@ class MyFeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Not Instagram'),
+        title: Text(
+          'Not Instagram',
+          style: GoogleFonts.getFont('Mochiy Pop P One',
+              color: Colors.white, fontSize: 17, fontWeight: FontWeight.w800),
+        ),
+        backgroundColor: Colors.black87,
+        elevation: 6,
         actions: [
           IconButton(
             onPressed: () {},
             icon: Icon(Icons.messenger_outline),
           ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shrinkWrap: true,
+                    children: [
+                      'Settings',
+                      'Logout',
+                    ]
+                        .map(
+                          (option) => InkWell(
+                            onTap: () {
+                              if (option == 'Logout') {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginScreen(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 16),
+                              child: Text(option),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              );
+            },
+            icon: Icon(Icons.menu),
+          ),
         ],
       ),
+      backgroundColor: Colors.black87,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Colors.green,
           child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('datePublished', descending: true)
+                .snapshots(),
             builder: (context,
                 AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -31,14 +79,14 @@ class MyFeedScreen extends StatelessWidget {
                 );
               }
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                  itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                return Container(
-                  child: PostCard(
-                    snap: snapshot.data!.docs[index],
-                  ),
-                );
-              });
+                    return Container(
+                      child: PostCard(
+                        snap: snapshot.data!.docs[index],
+                      ),
+                    );
+                  });
             },
           )),
     );

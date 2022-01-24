@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
-import 'package:not_instagram/screens/app_post.dart';
+import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
@@ -57,14 +57,19 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     model.User _user = Provider.of<UserProvider>(context, listen: false).user;
 
     return Scaffold(
-      appBar: PreferredSize(preferredSize: Size.fromHeight(0), child: AppBar()),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(0),
+        child: AppBar(
+          backgroundColor: Colors.black87,
+        ),
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child:
-        // AddPostScreen()
+            // AddPostScreen()
 
-        PageView(
+            PageView(
           children: homeScreenPages,
 
           // physics: BouncingScrollPhysics(),
@@ -77,7 +82,15 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           },
         ),
       ),
+      // backgroundColor: Colors.black87,
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.white,
+        unselectedItemColor: Colors.white38,
+        backgroundColor: Colors.black,
+        elevation: 6,
+        enableFeedback: false,
+        iconSize: 25,
         items: [
           BottomNavigationBarItem(
               icon: Icon(
@@ -113,7 +126,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         onTap: (value) {
           setState(() {
             _page = value;
-            print(value);
           });
           pageController.jumpToPage(_page);
         },
