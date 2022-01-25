@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart' as model;
+import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/storage_methods.dart';
+import 'package:provider/provider.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -70,6 +72,7 @@ class AuthMethods {
   Future<String> logInUser({
     required String email,
     required String password,
+    required BuildContext context
   }) async {
     String res = 'An error occurred.';
     try {
@@ -78,6 +81,8 @@ class AuthMethods {
             email: email, password: password);
 
         res = 'success';
+        model.User _user = Provider.of<UserProvider>(context, listen: false).user;
+        _user = await getUserDetails();
       } else {
         res = 'Please enter all the required fields.';
       }

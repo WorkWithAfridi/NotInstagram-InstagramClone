@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/screens/explore_screen.dart';
+import 'package:not_instagram/screens/profile_screen.dart';
 import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -61,14 +62,15 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(0),
         child: AppBar(
-          backgroundColor: Colors.black87,
+          backgroundColor: backgroundColor,
+          elevation: 0,
         ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child:
-            // ExploreScreen()
+            // ProfileScreen()
 
             PageView(
           children: homeScreenPages,
@@ -88,7 +90,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.white,
         unselectedItemColor: Colors.white38,
-        backgroundColor: Colors.black,
+        backgroundColor: backgroundColor,
         elevation: 6,
         enableFeedback: false,
         iconSize: 25,
@@ -118,9 +120,16 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               label: 'Likes',
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
+              icon:
+              // Icon(Icons.person),
+
+              _user.photoUrl == null
+                  ? Icon(Icons.person)
+                  : CircleAvatar(
+                      backgroundColor: backgroundColor,
+                      backgroundImage: NetworkImage(_user.photoUrl),
+                      radius: 13,
+                    ),
               label: 'Account',
               backgroundColor: Colors.pink),
         ],

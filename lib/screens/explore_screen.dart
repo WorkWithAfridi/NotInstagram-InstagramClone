@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
@@ -23,7 +24,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: backgroundColor,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -38,10 +39,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 decoration: InputDecoration(
                   labelText: 'Search',
                   border: InputBorder.none,
-                  labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1),
+                  labelStyle: subHeaderTextStyle,
                 ),
                 style: TextStyle(
                     color: Colors.white70,
@@ -83,20 +81,20 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           return ListView.builder(
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: Colors.black12,
-                                  backgroundImage: NetworkImage(
-                                      (snapshot.data! as dynamic).docs[index]
-                                          ['photoUrl']),
-                                ),
-                                title: Text(
-                                  (snapshot.data! as dynamic).docs[index]
-                                      ['username'],
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontWeight: FontWeight.w400,
-                                    letterSpacing: 1,
+                              return Card(
+                                color: backgroundColor,
+                                elevation:0,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.black12,
+                                    backgroundImage: NetworkImage(
+                                        (snapshot.data! as dynamic).docs[index]
+                                            ['photoUrl']),
+                                  ),
+                                  title: Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['username'],
+                                    style: headerTextStyle,
                                   ),
                                 ),
                               );

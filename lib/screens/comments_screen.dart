@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/comment_card.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
@@ -31,11 +32,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comments'),
+        title: Text('Comments', style: headerTextStyle,),
         centerTitle: false,
-        backgroundColor: Colors.black87,
+        backgroundColor: backgroundColor,
         elevation: 6,
       ),
+      backgroundColor: backgroundColor,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -43,7 +45,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
           children: [
             Expanded(
               child: Container(
-                color: Colors.black87,
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +84,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             ),
             Container(
               height: kToolbarHeight,
-              color: Colors.black87,
+              // color: Colors.black87,
               padding: EdgeInsets.symmetric(horizontal: 10),
               width: MediaQuery.of(context).size.width,
               child: Row(
@@ -113,9 +114,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                         String res = await FireStoreMethods().postComment(
                             postId: widget.snap['postId'],
                             text: commentTextEditingController.text,
-                            uid: widget.snap['uid'],
-                            name: widget.snap['username'],
-                            profilePic: widget.snap['profilePhotoUrl']);
+                            uid: user.userId,
+                            name: user.userName,
+                            profilePic: user.photoUrl);
                         commentTextEditingController.text='';
                         print(res);
                         showSnackbar(context, res);

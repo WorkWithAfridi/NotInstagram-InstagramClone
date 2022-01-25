@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
@@ -94,8 +95,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 },
               ),
-        backgroundColor: Colors.black87,
-        title: _file == null ? Text('Upload a photo') : Text('Post To'),
+        backgroundColor: backgroundColor,
+        title: _file == null ? Text('Upload a photo', style: headerTextStyle,) : Text('Post To', style: headerTextStyle,),
         centerTitle: _file == null ? true : false,
         actions: [
           _file == null
@@ -141,7 +142,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
       ),
       backgroundColor: Colors.black,
       body: _file == null
-          ? Center(
+          ? Container(
+        height: MediaQuery.of(context).size.height,
+        width: double.infinity,
+        color: backgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,10 +181,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   ),
                   Text(
                     'Click here to add a memory...',
-                    style: GoogleFonts.getFont(
-                      'Roboto',
-                      textStyle: TextStyle(color: Colors.white, fontSize: 17),
-                    ),
+                    style: headerTextStyle,
                   )
                 ],
               ),
@@ -188,6 +189,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           : Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
+              color: backgroundColor,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -220,7 +222,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           Expanded(
                               child: CustomTextField(
                                   textEditingController: _descriptionController,
-                                  hintText: 'Enter description...',
+                                  hintText: 'Enter a caption...',
                                   textInputType: TextInputType.text))
                         ],
                       ),

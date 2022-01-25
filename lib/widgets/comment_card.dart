@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 
 class CommentCard extends StatefulWidget {
   final snap;
@@ -13,7 +14,8 @@ class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.black26,
+      color: backgroundColor,
+      elevation: 0,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
         child: Row(
@@ -35,11 +37,12 @@ class _CommentCardState extends State<CommentCard> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                              text: '${widget.snap['name']}\n',
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
+                            text: '${widget.snap['name']}\n',
+                            style: headerTextStyle,
+                          ),
                           TextSpan(
                               text: '${widget.snap['text']}',
-                              style: TextStyle(color: Colors.white)),
+                              style: headerTextStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 15),),
                         ],
                       ),
                     ),
@@ -49,7 +52,7 @@ class _CommentCardState extends State<CommentCard> {
                         '${DateFormat.yMMMd().format(
                           widget.snap['datePublished'].toDate(),
                         )}',
-                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+                        style: subHeaderNotHighlightedTextStyle
                       ),
                     )
                   ],
@@ -58,7 +61,10 @@ class _CommentCardState extends State<CommentCard> {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.favorite, color: Colors.white,),
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.white,
+              ),
             ),
           ],
         ),

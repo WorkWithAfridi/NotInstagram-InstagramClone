@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:not_instagram/screens/login_screen.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 
 class MyFeedScreen extends StatelessWidget {
@@ -13,11 +14,10 @@ class MyFeedScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Not Instagram',
-          style: GoogleFonts.getFont('Mochiy Pop P One',
-              color: Colors.white, fontSize: 17, fontWeight: FontWeight.w800),
+          style: titleTextStyle.copyWith(fontSize: 20),
         ),
-        backgroundColor: Colors.black87,
-        elevation: 6,
+        backgroundColor: backgroundColor,
+        // elevation: 6,
         actions: [
           IconButton(
             onPressed: () {},
@@ -39,6 +39,7 @@ class MyFeedScreen extends StatelessWidget {
                           (option) => InkWell(
                             onTap: () {
                               if (option == 'Logout') {
+                                Navigator.of(context).pop();
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) => LoginScreen(),
@@ -62,7 +63,7 @@ class MyFeedScreen extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: Colors.black87,
+      backgroundColor: backgroundColor,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,

@@ -5,6 +5,7 @@ import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/screens/comments_screen.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/like_animation.dart';
 import 'package:provider/provider.dart';
@@ -47,12 +48,12 @@ class _PostCardState extends State<PostCard> {
     final User user = Provider.of<UserProvider>(context).user;
     return Container(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
-      color: Colors.black38,
+      // color: Colors.black38,
       height: MediaQuery.of(context).size.height * .6,
       width: double.infinity,
       child: Card(
-        color: Colors.black38,
-        elevation: 6,
+        color: Color(0xff181818),
+        elevation: 10,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,10 +76,7 @@ class _PostCardState extends State<PostCard> {
                       ),
                       Text(
                         widget.snap['username'],
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800),
+                        style: headerTextStyle,
                       )
                     ],
                   ),
@@ -221,6 +219,7 @@ class _PostCardState extends State<PostCard> {
             ),
             Container(
               // height: 100,
+              // color: Colors.purple,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -228,40 +227,22 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   widget.snap['likes'].length > 0
                       ? Text(
-                          '${widget.snap['likes'].length} likes',
-                          style: TextStyle(color: Colors.white),
+                          '${widget.snap['likes'].length} like/s.',
+                          style: subHeaderTextStyle,
                         )
                       : Container(),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: '${widget.snap['username']} \n',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 17)),
-                        TextSpan(
-                          text: '${DateFormat.yMMMd().format(
-                            DateTime.parse(
-                              widget.snap['datePublished'],
-                            ),
-                          )}',
-                          style: TextStyle(
-                              color: Colors.white38,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ],
+                  Text(widget.snap['username'], style: headerTextStyle,),
+                  Text(DateFormat.yMMMd().format(
+                    DateTime.parse(
+                      widget.snap['datePublished'],
                     ),
-                  ),
-                  Text(
+                  ), style: subHeaderNotHighlightedTextStyle,),
+                  widget.snap['description'].toString().isNotEmpty? Text(
                     '${widget.snap['description']}',
                     maxLines: 2,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                    style: headerTextStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                  ) : Container(),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
@@ -273,10 +254,10 @@ class _PostCardState extends State<PostCard> {
                       );
                     },
                     child: noOfComments > 0
-                        ? Text('View all ${noOfComments} comments...',
-                            style: TextStyle(
-                                color: Colors.white38,
-                                fontWeight: FontWeight.w400))
+                        ? Text(
+                            'View all ${noOfComments} comments...',
+                            style: subHeaderNotHighlightedTextStyle,
+                          )
                         : Container(),
                   ),
                   SizedBox(

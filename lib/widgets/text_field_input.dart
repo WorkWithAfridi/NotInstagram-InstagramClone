@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:not_instagram/utils/global_variables.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -21,17 +22,12 @@ class CustomTextField extends StatelessWidget {
     );
     return TextField(
 
-      style: TextStyle(
-        color: Colors.white
-      ),
+      style: subHeaderTextStyle.copyWith(fontSize: 16),
       cursorColor: Colors.white54,
       controller: textEditingController,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(
-          fontSize: 13,
-          color: Colors.white54
-        ),
+        hintStyle: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 15),
         border: inputBorder,
         focusedBorder: inputBorder,
         enabledBorder: inputBorder,
