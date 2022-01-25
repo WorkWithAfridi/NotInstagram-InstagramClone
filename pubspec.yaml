@@ -45,6 +45,8 @@ dependencies:
   provider: any
   uuid: any
   intl: any
+  flutter_staggered_grid_view: any
+  staggered_grid_view_flutter: any
 
 dev_dependencies:
   flutter_test:

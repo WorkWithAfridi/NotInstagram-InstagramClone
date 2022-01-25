@@ -22,43 +22,46 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   _selectImage(BuildContext context) {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return SimpleDialog(
-            title: Text('Post a memory'),
-            children: [
-              SimpleDialogOption(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: Text('Take a Photo'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.camera);
-                  setState(() {
-                    _file = file;
-                  });
-                },
-              ),
-              SimpleDialogOption(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: Text('Choose from Gallery'),
-                onPressed: () async {
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text('Post a memory'),
+          children: [
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text('Take a Photo'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.camera);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text('Choose from Gallery'),
+              onPressed: () async {
+                try {
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(ImageSource.gallery);
                   setState(() {
                     _file = file;
                   });
-                },
-              ),
-              SimpleDialogOption(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: Text('Cancel'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        });
+                } catch (e) {}
+              },
+            ),
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text('Cancel'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   TextEditingController _descriptionController = TextEditingController();
@@ -76,10 +79,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final model.User user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      appBar: _file == null
-          ? PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0))
-          : AppBar(
-              leading: IconButton(
+      appBar:
+          // _file == null
+          //     ? PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0))
+          //     :
+          AppBar(
+        leading: _file == null
+            ? Container()
+            : IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   setState(() {
@@ -87,51 +94,51 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   });
                 },
               ),
-              backgroundColor: Colors.black87,
-              title: Text('Post To'),
-              centerTitle: false,
-              actions: [
-                _file == null
-                    ? Text('')
-                    : TextButton(
-                        onPressed: () async {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          String uid = user.userId;
-                          String userName = user.userName;
-                          String profileImage = user.photoUrl;
+        backgroundColor: Colors.black87,
+        title: _file == null ? Text('Upload a photo') : Text('Post To'),
+        centerTitle: _file == null ? true : false,
+        actions: [
+          _file == null
+              ? Text('')
+              : TextButton(
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    String uid = user.userId;
+                    String userName = user.userName;
+                    String profileImage = user.photoUrl;
 
-                          try {
-                            String res = await FireStoreMethods().uploadPost(
-                                _file!,
-                                _descriptionController.text,
-                                uid,
-                                userName,
-                                user.photoUrl);
-                            if (res == 'success') {
-                              showSnackbar(context, 'Posted');
-                            } else {
-                              showSnackbar(context, res);
-                            }
-                          } catch (e) {
-                            showSnackbar(
-                                context, 'Could not post. An Error occurred.');
-                          }
-                          setState(
-                            () {
-                              _isLoading = false;
-                              _file = null;
-                            },
-                          );
-                        },
-                        child: Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        ),
-                      )
-              ],
-            ),
+                    try {
+                      String res = await FireStoreMethods().uploadPost(
+                          _file!,
+                          _descriptionController.text,
+                          uid,
+                          userName,
+                          user.photoUrl);
+                      if (res == 'success') {
+                        showSnackbar(context, 'Posted');
+                      } else {
+                        showSnackbar(context, res);
+                      }
+                    } catch (e) {
+                      showSnackbar(
+                          context, 'Could not post. An Error occurred.');
+                    }
+                    setState(
+                      () {
+                        _isLoading = false;
+                        _file = null;
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.white,
+                  ),
+                )
+        ],
+      ),
       backgroundColor: Colors.black,
       body: _file == null
           ? Center(
@@ -152,14 +159,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        _selectImage(context);
+                        try {
+                          _selectImage(context);
+                        } catch (e) {}
                       },
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  Icon(Icons.arrow_upward, color: Colors.white,),
+                  Icon(
+                    Icons.arrow_upward,
+                    color: Colors.white,
+                  ),
                   SizedBox(
                     height: 15,
                   ),
@@ -167,10 +179,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     'Click here to add a memory...',
                     style: GoogleFonts.getFont(
                       'Roboto',
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
-                      ),
+                      textStyle: TextStyle(color: Colors.white, fontSize: 17),
                     ),
                   )
                 ],

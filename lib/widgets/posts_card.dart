@@ -5,6 +5,7 @@ import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/screens/comments_screen.dart';
+import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/like_animation.dart';
 import 'package:provider/provider.dart';
 
@@ -67,6 +68,7 @@ class _PostCardState extends State<PostCard> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: CircleAvatar(
+                          backgroundColor: Colors.black12,
                           backgroundImage:
                               NetworkImage(widget.snap['profilePhotoUrl']),
                         ),
@@ -94,7 +96,15 @@ class _PostCardState extends State<PostCard> {
                               ]
                                   .map(
                                     (e) => InkWell(
-                                      onTap: () {},
+                                      onTap: () async {
+                                        if (e == 'Delete') {
+                                          String res = await FireStoreMethods()
+                                              .deletePost(widget.snap['postId'],
+                                                  context);
+                                          showSnackbar(context, res);
+                                          Navigator.pop(context);
+                                        }
+                                      },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 12, horizontal: 16),
@@ -118,6 +128,7 @@ class _PostCardState extends State<PostCard> {
               child: Container(
                 color: Colors.black26,
                 width: double.infinity,
+                height: double.infinity,
                 child: GestureDetector(
                   onDoubleTap: () async {
                     // await FireStoreMethods().likePost(
@@ -235,16 +246,20 @@ class _PostCardState extends State<PostCard> {
                             DateTime.parse(
                               widget.snap['datePublished'],
                             ),
-                          )} \n',
+                          )}',
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w600),
+                              color: Colors.white38,
+                              fontWeight: FontWeight.w400),
                         ),
-                        TextSpan(
-                            text: '${widget.snap['description']}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400)),
                       ],
+                    ),
+                  ),
+                  Text(
+                    '${widget.snap['description']}',
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   GestureDetector(
@@ -260,7 +275,7 @@ class _PostCardState extends State<PostCard> {
                     child: noOfComments > 0
                         ? Text('View all ${noOfComments} comments...',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.white38,
                                 fontWeight: FontWeight.w400))
                         : Container(),
                   ),

@@ -1,8 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:not_instagram/model/posts.dart';
+import 'package:not_instagram/model/user.dart';
+import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/storage_methods.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class FireStoreMethods {
@@ -82,10 +86,30 @@ class FireStoreMethods {
           'commentId': commentId,
           'datePublished': DateTime.now(),
         });
-        res='Comment posted';
-
+        res = 'Comment posted';
       } else {
-        res='No input..';
+        res = 'No input..';
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return res;
+  }
+
+  Future<String> deletePost(String postId, BuildContext context) async {
+    String res = 'An error occurred.';
+    try {
+      DocumentSnapshot documentSnapshot = await _firebaseFirestore.collection('posts').doc(postId).get();
+      String postUid= (documentSnapshot.data() as Map<String, dynamic>)['uid'];
+      User _user = Provider.of<UserProvider>(context, listen: false).user;
+      // print(_user.userId);
+      // print(postUid);
+      // print(postUid.toString()==_user.userId.toString());
+      if(postUid==_user.userId){
+        await _firebaseFirestore.collection('posts').doc(postId).delete();
+        res='Post Deleted.';
+      }else{
+        res='You are not the owner of this post';
       }
     } catch (e) {
       print(e.toString());

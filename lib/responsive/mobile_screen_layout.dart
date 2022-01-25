@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/screens/explore_screen.dart';
 import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -67,7 +68,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child:
-            // AddPostScreen()
+            // ExploreScreen()
 
             PageView(
           children: homeScreenPages,
@@ -100,9 +101,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.search,
+                Icons.explore,
               ),
-              label: 'Search',
+              label: 'Explore',
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
               icon: Icon(
