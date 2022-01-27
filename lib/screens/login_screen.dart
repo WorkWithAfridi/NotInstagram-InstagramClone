@@ -38,140 +38,157 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: backgroundColor,
       body: Container(
         alignment: Alignment.center,
+        // color: Colors.red,
         padding: EdgeInsets.only(left: 30, right: 30, top: 70),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
+            SizedBox(height: 10,),
             Text(
               'English (United Kingdom)',
               style: subHeaderNotHighlightedTextStyle,
             ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Hii, welcome to',
-                    style: titleTextStyle.copyWith(fontSize: 16),
-                  ),
-                  Text(
-                    'Not Instagram.',
-                    style: titleTextStyle.copyWith(fontSize: 30),
-                  ),
-                  Text(
-                    'Definitely not an Instagram clone!',
-                    style: subTitleTextStyle,
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  CustomTextField(
-                      textEditingController: _emailTextController,
-                      hintText: 'Phone number, email address or username',
-                      textInputType: TextInputType.emailAddress),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  CustomTextField(
-                      textEditingController: _passwordTextController,
-                      hintText: 'Password',
-                      isPass: true,
-                      textInputType: TextInputType.emailAddress),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _isLoading
-                      ? CircularProgressIndicator(
-                          color: Theme.of(context).primaryColor,
-                        )
-                      : Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_emailTextController.text.isNotEmpty &&
-                                  _passwordTextController.text.isNotEmpty) {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                String res = await AuthMethods().logInUser(
-                                    email: _emailTextController.text,
-                                    password: _passwordTextController.text,
-                                    context: context);
+              child: Container(
+                // color: Colors.yellow,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Hii, welcome to',
+                      style: titleTextStyle.copyWith(fontSize: 16),
+                    ),
+                    Text(
+                      'Not Instagram.',
+                      style: titleTextStyle.copyWith(fontSize: 30),
+                    ),
+                    Text(
+                      'Definitely not an Instagram clone!',
+                      style: subTitleTextStyle,
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    CustomTextField(
+                        textEditingController: _emailTextController,
+                        hintText: 'Phone number, email address or username',
+                        textInputType: TextInputType.emailAddress),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CustomTextField(
+                        textEditingController: _passwordTextController,
+                        hintText: 'Password',
+                        isPass: true,
+                        textInputType: TextInputType.emailAddress),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _isLoading
+                        ? CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 40,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_emailTextController.text.isNotEmpty &&
+                                    _passwordTextController
+                                        .text.isNotEmpty) {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  String res = await AuthMethods()
+                                      .logInUser(
+                                          email: _emailTextController.text,
+                                          password:
+                                              _passwordTextController.text,
+                                          context: context);
 
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                if (res == 'success') {
-                                  Provider.of<UserProvider>(context,
-                                          listen: false)
-                                      .refreshUser();
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                        builder: (context) => ResponsiveLayout(
-                                          mobileScreenLayout:
-                                              MobileScreenLayout(),
-                                          webScreenLayout: WebScreenLayout(),
-                                        ),
-                                      ),
-                                      ModalRoute.withName('/'));
+                                  if (res == 'success') {
+                                    await Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .refreshUser();
+
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                    Navigator.of(context)
+                                        .pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResponsiveLayout(
+                                                mobileScreenLayout:
+                                                    MobileScreenLayout(),
+                                                webScreenLayout:
+                                                    WebScreenLayout(),
+                                              ),
+                                            ),
+                                            ModalRoute.withName('/'));
+                                  }
+                                } else {
+                                  showSnackbar(context,
+                                      'Credentials cannot be left empty!!');
                                 }
-                              } else {
-                                showSnackbar(context,
-                                    'Credentials cannot be left empty!!');
-                              }
-                            },
-                            child: Text(
-                              'Log in',
-                              style: headerTextStyle,
+                              },
+                              child: Text(
+                                'Log in',
+                                style: headerTextStyle,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor),
                             ),
-                            style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).primaryColor),
                           ),
-                        ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Forgotten your login details?',
-                          style: subHeaderNotHighlightedTextStyle),
-                      Text(' Get help with logging in.',
-                          style: subHeaderTextStyle),
-                    ],
-                  )
-                ],
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Forgotten your login details?',
+                            style: subHeaderNotHighlightedTextStyle),
+                        Text(' Get help with logging in.',
+                            style: subHeaderTextStyle),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  "Don't have an account? ",
-                  style: subHeaderNotHighlightedTextStyle,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SignupScreen(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: subHeaderNotHighlightedTextStyle,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => SignupScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style: subHeaderTextStyle,
                       ),
-                    );
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: subHeaderTextStyle,
-                  ),
+                    ),
+                  ],
                 ),
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
-            SizedBox(
-              height: 10,
-            )
           ],
         ),
       ),

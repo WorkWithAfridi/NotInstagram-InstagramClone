@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:not_instagram/model/user.dart';
+import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/screens/user_profile_screen.dart';
+import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
+import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
@@ -23,6 +28,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
@@ -83,18 +89,65 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             itemBuilder: (context, index) {
                               return Card(
                                 color: backgroundColor,
-                                elevation:0,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.black12,
-                                    backgroundImage: NetworkImage(
-                                        (snapshot.data! as dynamic).docs[index]
-                                            ['photoUrl']),
-                                  ),
-                                  title: Text(
-                                    (snapshot.data! as dynamic).docs[index]
-                                        ['username'],
-                                    style: headerTextStyle,
+                                elevation: 0,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if ((snapshot.data! as dynamic).docs[index]
+                                            ['uid'] ==
+                                        user.userId) {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              UserProfileScreen(),
+                                        ),
+                                      );
+                                      return ;
+                                    }
+
+                                    // DocumentSnapshot documentSnapshot = (await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: (snapshot.data! as dynamic).docs[0]
+                                    // ['uid'] ).get()) as DocumentSnapshot<Object?>;
+
+                                    // User tempUserTwo= await User.fromSnap(documentSnapshot);
+                                    User tempUser = User.name(
+                                      email: (snapshot.data! as dynamic)
+                                          .docs[index]['email'],
+                                      userName: (snapshot.data! as dynamic)
+                                          .docs[index]['username'],
+                                      userId: (snapshot.data! as dynamic)
+                                          .docs[index]['uid'],
+                                      bio: (snapshot.data! as dynamic)
+                                          .docs[index]['bio'],
+                                      photoUrl: (snapshot.data! as dynamic)
+                                          .docs[index]['photoUrl'],
+                                      followers: [],
+                                      following: [],
+                                    );
+
+                                    // tempUser
+                                    //
+                                    // print((snapshot.data! as dynamic)
+                                    //     .docs[index]['followers']);
+
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            VisitorProfileScreen(
+                                                user: tempUser),
+                                      ),
+                                    );
+                                  },
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.black12,
+                                      backgroundImage: NetworkImage(
+                                          (snapshot.data! as dynamic)
+                                              .docs[index]['photoUrl']),
+                                    ),
+                                    title: Text(
+                                      (snapshot.data! as dynamic).docs[index]
+                                          ['username'],
+                                      style: headerTextStyle,
+                                    ),
                                   ),
                                 ),
                               );
@@ -120,8 +173,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               itemCount:
                                   (snapshot.data! as dynamic).docs.length,
                               itemBuilder: (context, index) {
-                                return Image.network((snapshot.data! as dynamic)
-                                    .docs[index]['postPhotoUrl'], fit: BoxFit.cover,);
+                                return Image.network(
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['postPhotoUrl'],
+                                  fit: BoxFit.cover,
+                                );
                               },
                               staggeredTileBuilder: (index) =>
                                   StaggeredTile.count((index % 7 == 0) ? 2 : 1,

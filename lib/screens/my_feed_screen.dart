@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
@@ -21,7 +22,7 @@ class MyFeedScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.messenger_outline),
+            icon: Icon(FontAwesomeIcons.comment),
           ),
           IconButton(
             onPressed: () {
@@ -39,6 +40,7 @@ class MyFeedScreen extends StatelessWidget {
                           (option) => InkWell(
                             onTap: () {
                               if (option == 'Logout') {
+                                FirebaseAuth.instance.signOut();
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(

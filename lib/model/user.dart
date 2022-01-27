@@ -34,11 +34,11 @@ class User {
     var snapshot = documentSnapshot.data() as Map<String, dynamic>;
     return User.name(
         email: snapshot['email'],
-        following: [],
+        following: snapshot['following'].cast<String>(),
         userId: snapshot['uid'],
         bio: snapshot['bio'],
         userName: snapshot['username'],
         photoUrl: snapshot['photoUrl'],
-        followers: [],);
+        followers: snapshot['followers'].cast<String>(),);
   }
 }

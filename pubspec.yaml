@@ -45,6 +45,7 @@ dependencies:
   provider: any
   uuid: any
   intl: any
+  font_awesome_flutter: any
   flutter_staggered_grid_view: any
   staggered_grid_view_flutter: any
 

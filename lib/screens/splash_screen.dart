@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:not_instagram/main.dart';
+import 'package:not_instagram/responsive/mobile_screen_layout.dart';
+import 'package:not_instagram/screens/splash_screen_push.dart';
+import 'package:not_instagram/utils/global_variables.dart';
+
+class SplashScreen extends StatefulWidget {
+  static const routeName = '/splash-view';
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  void triggerSplashScreen(BuildContext context) async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => SplashScreenPush(),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    triggerSplashScreen(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: backgroundColor,
+          ),
+        ),
+        backgroundColor: backgroundColor,
+        body: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Not Instagram',
+                style: titleTextStyle,
+              ),
+              Text(
+                'By Kyoto.',
+                style: subTitleTextStyle.copyWith(height: .5),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

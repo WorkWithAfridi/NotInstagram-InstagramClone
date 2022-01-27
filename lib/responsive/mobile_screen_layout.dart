@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/screens/explore_screen.dart';
-import 'package:not_instagram/screens/profile_screen.dart';
+import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -22,16 +22,12 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   void initState() {
     // TODO: implement initState
-    getData();
     super.initState();
-  }
 
+    getData();
+  }
   void getData() async {
     _page = 0;
-    addData() async {
-      UserProvider _userProvider = Provider.of(context, listen: false);
-      await _userProvider.refreshUser();
-    }
 
     pageController = PageController();
 
@@ -41,6 +37,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         .get();
 
     userName = (documentSnapshot.data() as Map<String, dynamic>)['username'];
+
+    // await Provider.of<UserProvider>(context,
+    //     listen: false)
+    //     .refreshUser();
     // print(documentSnapshot.data());
   }
 
@@ -121,15 +121,15 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
               icon:
-              // Icon(Icons.person),
+              Icon(Icons.person),
 
-              _user.photoUrl == null
-                  ? Icon(Icons.person)
-                  : CircleAvatar(
-                      backgroundColor: backgroundColor,
-                      backgroundImage: NetworkImage(_user.photoUrl),
-                      radius: 13,
-                    ),
+              // _user.photoUrl == null
+              //     ? Icon(Icons.person)
+              //     : CircleAvatar(
+              //         backgroundColor: backgroundColor,
+              //         backgroundImage: NetworkImage(_user.photoUrl),
+              //         radius: 13,
+              //       ),
               label: 'Account',
               backgroundColor: Colors.pink),
         ],

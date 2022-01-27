@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/screens/comments_screen.dart';
+import 'package:not_instagram/screens/user_profile_screen.dart';
+import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/like_animation.dart';
@@ -52,7 +57,7 @@ class _PostCardState extends State<PostCard> {
       height: MediaQuery.of(context).size.height * .6,
       width: double.infinity,
       child: Card(
-        color: Color(0xff181818),
+        color: backgroundColor,
         elevation: 10,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -64,21 +69,59 @@ class _PostCardState extends State<PostCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black12,
-                          backgroundImage:
-                              NetworkImage(widget.snap['profilePhotoUrl']),
+                  GestureDetector(
+                    onTap: () async {
+                      String postUserId = widget.snap['uid'];
+                      var snapshot = (await FirebaseFirestore.instance
+                          .collection('users')
+                          .where(
+                            'uid',
+                            isEqualTo: postUserId,
+                          )
+                          .get());
+                      print(snapshot.docs[0]['username']);
+
+                      if (snapshot.docs[0]['uid'] == user.userId) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserProfileScreen(),
+                          ),
+                        );
+                      } else {
+                        User tempUser = User.name(
+                          email: snapshot.docs[0]['email'],
+                          userName: snapshot.docs[0]['username'],
+                          userId: snapshot.docs[0]['uid'],
+                          bio: snapshot.docs[0]['bio'],
+                          photoUrl: snapshot.docs[0]['photoUrl'],
+                          followers: [],
+                          following: [],
+                        );
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                VisitorProfileScreen(user: tempUser),
+                          ),
+                        );
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.black12,
+                            backgroundImage:
+                                NetworkImage(widget.snap['profilePhotoUrl']),
+                          ),
                         ),
-                      ),
-                      Text(
-                        widget.snap['username'],
-                        style: headerTextStyle,
-                      )
-                    ],
+                        Text(
+                          widget.snap['username'],
+                          style: headerTextStyle,
+                        )
+                      ],
+                    ),
                   ),
                   IconButton(
                       onPressed: () {
@@ -185,7 +228,7 @@ class _PostCardState extends State<PostCard> {
                         );
                       },
                       icon: Icon(
-                        Icons.comment_outlined,
+                        FontAwesomeIcons.commentDots,
                         color: Colors.white,
                       ),
                     ),
@@ -231,18 +274,27 @@ class _PostCardState extends State<PostCard> {
                           style: subHeaderTextStyle,
                         )
                       : Container(),
-                  Text(widget.snap['username'], style: headerTextStyle,),
-                  Text(DateFormat.yMMMd().format(
-                    DateTime.parse(
-                      widget.snap['datePublished'],
+                  Text(
+                    widget.snap['username'],
+                    style: headerTextStyle,
+                  ),
+                  Text(
+                    DateFormat.yMMMd().format(
+                      DateTime.parse(
+                        widget.snap['datePublished'],
+                      ),
                     ),
-                  ), style: subHeaderNotHighlightedTextStyle,),
-                  widget.snap['description'].toString().isNotEmpty? Text(
-                    '${widget.snap['description']}',
-                    maxLines: 2,
-                    style: headerTextStyle.copyWith(fontWeight: FontWeight.w400, fontSize: 15),
-                    overflow: TextOverflow.ellipsis,
-                  ) : Container(),
+                    style: subHeaderNotHighlightedTextStyle,
+                  ),
+                  widget.snap['description'].toString().isNotEmpty
+                      ? Text(
+                          '${widget.snap['description']}',
+                          maxLines: 2,
+                          style: headerTextStyle.copyWith(
+                              fontWeight: FontWeight.w400, fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : Container(),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(

@@ -7,19 +7,50 @@ import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class UserProfileScreen extends StatefulWidget {
+  const UserProfileScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
+class _UserProfileScreenState extends State<UserProfileScreen>
     with TickerProviderStateMixin {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  var postSnap = null;
+
+  void getData() async {
+    Provider.of<UserProvider>(context, listen: false).refreshUser();
+    User _user = Provider.of<UserProvider>(context, listen: false).user;
+    postSnap = await FirebaseFirestore.instance
+        .collection('posts')
+        .where(
+          'uid',
+          isEqualTo: _user.userId,
+        )
+        .get();
+
+    print(_user.following);
+    setState(() {
+      print('setting state');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 2, vsync: this);
+    Provider.of<UserProvider>(context, listen: false).refreshUser();
     User _user = Provider.of<UserProvider>(context, listen: false).user;
+    print(_user.followers.length);
+    print(_user.userId);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -66,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '0',
+                              postSnap == null ? '0' : postSnap.size.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
                             SizedBox(
@@ -218,7 +249,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ),
                     Container(
-                      color: Colors.yellow,
+                      // color: Colors.yellow,
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No bookmarks found',
+                        style: subTitleTextStyle,
+                      ),
                     ),
                   ],
                 ),

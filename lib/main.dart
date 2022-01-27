@@ -8,6 +8,7 @@ import 'package:not_instagram/responsive/responsive_layout_screen.dart';
 import 'package:not_instagram/responsive/web_screen_layout.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/signup_screen.dart';
+import 'package:not_instagram/screens/splash_screen.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -44,29 +45,32 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.pink,
         ),
         //check if user is already logged in or not
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const ResponsiveLayout(
-                  mobileScreenLayout: MobileScreenLayout(),
-                  webScreenLayout: WebScreenLayout(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
-                );
-              }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return const LoginScreen();
-          },
-        ),
+        home: SplashScreen()
+
+
+        // StreamBuilder(
+        //   stream: FirebaseAuth.instance.authStateChanges(),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.active) {
+        //       if (snapshot.hasData) {
+        //         return const ResponsiveLayout(
+        //           mobileScreenLayout: MobileScreenLayout(),
+        //           webScreenLayout: WebScreenLayout(),
+        //         );
+        //       } else if (snapshot.hasError) {
+        //         return Center(
+        //           child: Text('${snapshot.error}'),
+        //         );
+        //       }
+        //     }
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     }
+        //     return const LoginScreen();
+        //   },
+        // ),
 
         // const
       ),

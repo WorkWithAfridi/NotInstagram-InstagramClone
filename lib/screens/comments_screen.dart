@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
+import 'package:not_instagram/screens/user_profile_screen.dart';
+import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/comment_card.dart';
@@ -32,7 +34,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comments', style: headerTextStyle,),
+        title: Text(
+          'Comments',
+          style: headerTextStyle,
+        ),
         centerTitle: false,
         backgroundColor: backgroundColor,
         elevation: 6,
@@ -54,7 +59,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
                         stream: FirebaseFirestore.instance
                             .collection('posts')
                             .doc(widget.snap['postId'])
-                            .collection('comments').orderBy('datePublished', descending: true)
+                            .collection('comments')
+                            .orderBy('datePublished', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -117,11 +123,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
                             uid: user.userId,
                             name: user.userName,
                             profilePic: user.photoUrl);
-                        commentTextEditingController.text='';
+                        commentTextEditingController.text = '';
                         print(res);
                         showSnackbar(context, res);
                       },
-                      icon: Icon(Icons.send, color: Colors.white,)),
+                      icon: Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      )),
                 ],
               ),
             )
