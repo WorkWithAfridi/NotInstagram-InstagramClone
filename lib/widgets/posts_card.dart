@@ -58,7 +58,7 @@ class _PostCardState extends State<PostCard> {
       width: double.infinity,
       child: Card(
         color: backgroundColor,
-        elevation: 10,
+        elevation: 0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,13 +72,13 @@ class _PostCardState extends State<PostCard> {
                   GestureDetector(
                     onTap: () async {
                       String postUserId = widget.snap['uid'];
-                      var snapshot = (await FirebaseFirestore.instance
+                      var snapshot = await FirebaseFirestore.instance
                           .collection('users')
                           .where(
                             'uid',
                             isEqualTo: postUserId,
                           )
-                          .get());
+                          .get();
                       print(snapshot.docs[0]['username']);
 
                       if (snapshot.docs[0]['uid'] == user.userId) {
@@ -178,10 +178,13 @@ class _PostCardState extends State<PostCard> {
                     //   isLikeAnimating = true;
                     // });
                   },
-                  child: Image.network(
-                    widget.snap['postPhotoUrl'],
-                    fit: BoxFit.cover,
-                    alignment: FractionalOffset.center,
+                  child: Hero(
+                    tag: widget.snap['postPhotoUrl'],
+                    child: Image.network(
+                      widget.snap['postPhotoUrl'],
+                      fit: BoxFit.cover,
+                      alignment: FractionalOffset.center,
+                    ),
                   ),
                 ),
               ),
@@ -199,6 +202,7 @@ class _PostCardState extends State<PostCard> {
                       onPressed: () async {
                         await FireStoreMethods().likePost(widget.snap['postId'],
                             user.userId, widget.snap['likes']);
+                        setState(() {});
                       },
                       icon: LikeAnimation(
                         isAnimating: widget.snap['likes'].contains(user.userId),

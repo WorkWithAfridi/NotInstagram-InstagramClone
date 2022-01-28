@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
+import 'detailedImage_screen.dart';
+
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({
     Key? key,
@@ -233,10 +235,27 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                             crossAxisCount: 3,
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
-                              return Image.network(
-                                (snapshot.data! as dynamic).docs[index]
-                                    ['postPhotoUrl'],
-                                fit: BoxFit.cover,
+                              return GestureDetector(
+                                onTap: (){
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailedImageScreen(
+                                            postId: (snapshot.data! as dynamic)
+                                                .docs[index]['postPhotoUrl'],
+                                          ),
+                                    ),
+                                  );
+                                },
+                                child: Hero(
+                                  tag: (snapshot.data! as dynamic).docs[index]
+                                  ['postPhotoUrl'],
+                                  child: Image.network(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['postPhotoUrl'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               );
                             },
                             staggeredTileBuilder: (index) =>

@@ -18,7 +18,7 @@ class MyFeedScreen extends StatelessWidget {
           style: titleTextStyle.copyWith(fontSize: 20),
         ),
         backgroundColor: backgroundColor,
-        // elevation: 6,
+        elevation: 0,
         actions: [
           IconButton(
             onPressed: () {},
@@ -67,31 +67,33 @@ class MyFeedScreen extends StatelessWidget {
       ),
       backgroundColor: backgroundColor,
       body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('posts')
-                .orderBy('datePublished', descending: true)
-                .snapshots(),
-            builder: (context,
-                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('posts')
+              .orderBy('datePublished', descending: true)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: PostCard(
+                    snap: snapshot.data!.docs[index],
+                  ),
                 );
-              }
-              return ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: PostCard(
-                        snap: snapshot.data!.docs[index],
-                      ),
-                    );
-                  });
-            },
-          )),
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

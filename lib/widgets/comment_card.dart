@@ -22,7 +22,7 @@ class _CommentCardState extends State<CommentCard> {
     final User user = Provider.of<UserProvider>(context).user;
     return Card(
       color: backgroundColor,
-      elevation: 10,
+      elevation: 0,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
         child: Row(

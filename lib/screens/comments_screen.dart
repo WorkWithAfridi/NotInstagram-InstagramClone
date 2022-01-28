@@ -40,7 +40,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         ),
         centerTitle: false,
         backgroundColor: backgroundColor,
-        elevation: 6,
+        elevation:0,
       ),
       backgroundColor: backgroundColor,
       body: Container(
@@ -88,49 +88,55 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 ),
               ),
             ),
+            Divider(color: Colors.white.withOpacity(.4),),
             Container(
               height: kToolbarHeight,
               // color: Colors.black87,
               padding: EdgeInsets.symmetric(horizontal: 10),
               width: MediaQuery.of(context).size.width,
-              child: Row(
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      user.photoUrl,
-                    ),
-                    radius: 18,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          user.photoUrl,
+                        ),
+                        radius: 18,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: CustomTextField(
+                              textEditingController: commentTextEditingController,
+                              hintText: 'Comment as ${user.userName}',
+                              textInputType: TextInputType.text),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      IconButton(
+                          onPressed: () async {
+                            String res = await FireStoreMethods().postComment(
+                                postId: widget.snap['postId'],
+                                text: commentTextEditingController.text,
+                                uid: user.userId,
+                                name: user.userName,
+                                profilePic: user.photoUrl);
+                            commentTextEditingController.text = '';
+                            print(res);
+                            showSnackbar(context, res);
+                          },
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                          )),
+                    ],
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: CustomTextField(
-                          textEditingController: commentTextEditingController,
-                          hintText: 'Comment as ${user.userName}',
-                          textInputType: TextInputType.text),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  IconButton(
-                      onPressed: () async {
-                        String res = await FireStoreMethods().postComment(
-                            postId: widget.snap['postId'],
-                            text: commentTextEditingController.text,
-                            uid: user.userId,
-                            name: user.userName,
-                            profilePic: user.photoUrl);
-                        commentTextEditingController.text = '';
-                        print(res);
-                        showSnackbar(context, res);
-                      },
-                      icon: Icon(
-                        Icons.send,
-                        color: Colors.white,
-                      )),
+                  SizedBox(height: 2,)
                 ],
               ),
             )

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/screens/detailedImage_screen.dart';
 import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -101,7 +102,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                               UserProfileScreen(),
                                         ),
                                       );
-                                      return ;
+                                      return;
                                     }
 
                                     // DocumentSnapshot documentSnapshot = (await FirebaseFirestore.instance.collection('users').where('uid', isEqualTo: (snapshot.data! as dynamic).docs[0]
@@ -173,10 +174,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               itemCount:
                                   (snapshot.data! as dynamic).docs.length,
                               itemBuilder: (context, index) {
-                                return Image.network(
-                                  (snapshot.data! as dynamic).docs[index]
-                                      ['postPhotoUrl'],
-                                  fit: BoxFit.cover,
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailedImageScreen(
+                                          postId: (snapshot.data! as dynamic)
+                                              .docs[index]['postPhotoUrl'],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: (snapshot.data! as dynamic).docs[index]
+                                        ['postPhotoUrl'],
+                                    child: Image.network(
+                                      (snapshot.data! as dynamic).docs[index]
+                                          ['postPhotoUrl'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 );
                               },
                               staggeredTileBuilder: (index) =>
