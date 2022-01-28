@@ -34,6 +34,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primaryColor: Colors.pink,
+          splashColor: Colors.pink,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.pink
+          )
+      ),
       home: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(0),

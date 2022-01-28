@@ -74,6 +74,7 @@ class MyFeedScreen extends StatelessWidget {
               .collection('posts')
               .orderBy('datePublished', descending: true)
               .snapshots(),
+
           builder: (context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

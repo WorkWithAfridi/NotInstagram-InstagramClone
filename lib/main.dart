@@ -40,9 +40,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Not Instagram',
-        theme: ThemeData.light().copyWith(
-          // scaffoldBackgroundColor: mobileBackgroundColor,
+        theme: ThemeData(
           primaryColor: Colors.pink,
+          splashColor: Colors.pink,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: Colors.pink
+          )
         ),
         //check if user is already logged in or not
         home: SplashScreen()

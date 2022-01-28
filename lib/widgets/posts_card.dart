@@ -273,10 +273,15 @@ class _PostCardState extends State<PostCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   widget.snap['likes'].length > 0
-                      ? Text(
-                          '${widget.snap['likes'].length} like/s.',
-                          style: subHeaderTextStyle,
-                        )
+                      ? (widget.snap['likes'].length > 1
+                          ? Text(
+                              '${widget.snap['likes'].length} likes.',
+                              style: subHeaderTextStyle,
+                            )
+                          : Text(
+                              '${widget.snap['likes'].length} like.',
+                              style: subHeaderTextStyle,
+                            ))
                       : Container(),
                   Text(
                     widget.snap['username'],
