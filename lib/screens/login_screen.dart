@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:not_instagram/model/user.dart';
@@ -43,152 +44,253 @@ class _LoginScreenState extends State<LoginScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               'English (United Kingdom)',
               style: subHeaderNotHighlightedTextStyle,
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .15,
+            ),
             Expanded(
               child: Container(
-                // color: Colors.yellow,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Hii, welcome to',
-                      style: titleTextStyle.copyWith(fontSize: 16),
-                    ),
-                    Text(
-                      'Not Instagram.',
-                      style: titleTextStyle.copyWith(fontSize: 30),
-                    ),
-                    Text(
-                      'Definitely not an Instagram clone!',
-                      style: subTitleTextStyle,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    CustomTextField(
-                        textEditingController: _emailTextController,
-                        hintText: 'Phone number, email address or username',
-                        textInputType: TextInputType.emailAddress),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextField(
-                        textEditingController: _passwordTextController,
-                        hintText: 'Password',
-                        isPass: true,
-                        textInputType: TextInputType.emailAddress),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _isLoading
-                        ? CircularProgressIndicator(
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 40,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (_emailTextController.text.isNotEmpty &&
-                                    _passwordTextController
-                                        .text.isNotEmpty) {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  String res = await AuthMethods()
-                                      .logInUser(
-                                          email: _emailTextController.text,
-                                          password:
-                                              _passwordTextController.text,
-                                          context: context);
-
-                                  if (res == 'success') {
-                                    await Provider.of<UserProvider>(context,
-                                            listen: false)
-                                        .refreshUser();
-
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                    Navigator.of(context)
-                                        .pushAndRemoveUntil(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ResponsiveLayout(
-                                                mobileScreenLayout:
-                                                    MobileScreenLayout(),
-                                                webScreenLayout:
-                                                    WebScreenLayout(),
-                                              ),
-                                            ),
-                                            ModalRoute.withName('/'));
-                                  }
-                                } else {
-                                  showSnackbar(context,
-                                      'Credentials cannot be left empty!!');
-                                }
-                              },
-                              child: Text(
-                                'Log in',
-                                style: headerTextStyle,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).primaryColor),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        // color: Colors.yellow,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Hii, welcome to',
+                              style: titleTextStyle.copyWith(fontSize: 16),
                             ),
-                          ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Forgotten your login details?',
-                            style: subHeaderNotHighlightedTextStyle),
-                        Text(' Get help with logging in.',
-                            style: subHeaderTextStyle),
-                      ],
-                    ),
-                  ],
+                            Text(
+                              'Not Instagram.',
+                              style: titleTextStyle.copyWith(fontSize: 30),
+                            ),
+                            Text(
+                              'Definitely not an Instagram clone!',
+                              style: subTitleTextStyle,
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            CustomTextField(
+                                textEditingController: _emailTextController,
+                                hintText:
+                                    'Phone number, email address or username',
+                                textInputType: TextInputType.emailAddress),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            CustomTextField(
+                                textEditingController: _passwordTextController,
+                                hintText: 'Password',
+                                isPass: true,
+                                textInputType: TextInputType.emailAddress),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            _isLoading
+                                ? CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor,
+                                  )
+                                : Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 40,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        if (_emailTextController
+                                                .text.isNotEmpty &&
+                                            _passwordTextController
+                                                .text.isNotEmpty) {
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+                                          String res = await AuthMethods()
+                                              .logInUser(
+                                                  email:
+                                                      _emailTextController.text,
+                                                  password:
+                                                      _passwordTextController
+                                                          .text,
+                                                  context: context);
+
+                                          if (res == 'success') {
+                                            await Provider.of<UserProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .refreshUser();
+
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                            Navigator.of(context)
+                                                .pushAndRemoveUntil(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ResponsiveLayout(
+                                                  mobileScreenLayout:
+                                                      MobileScreenLayout(),
+                                                  webScreenLayout:
+                                                      WebScreenLayout(),
+                                                ),
+                                              ),
+                                              ModalRoute.withName('/'),
+                                            );
+                                          }
+                                        } else {
+                                          showSnackbar(context,
+                                              'Credentials cannot be left empty!!');
+                                        }
+                                      },
+                                      child: Text(
+                                        'Log in',
+                                        style: headerTextStyle,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Forgotten your login details?',
+                                    style: subHeaderNotHighlightedTextStyle),
+                                Text(' Get help with logging in.',
+                                    style: subHeaderTextStyle),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Divider(
+                                color: Colors.white.withOpacity(.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  showSnackbar(context,
+                                      'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: Icon(
+                                          FontAwesomeIcons.google,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        'Sign in with Google.',
+                                        style: headerTextStyle.copyWith(
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.white.withOpacity(.9)),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 40,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  showSnackbar(context,
+                                      'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10.0),
+                                        child: Icon(
+                                          FontAwesomeIcons.facebook,
+                                          // color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        'Sign in with Facebook.',
+                                        style: headerTextStyle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.blueAccent),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account? ",
-                      style: subHeaderNotHighlightedTextStyle,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => SignupScreen(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        'Sign Up',
-                        style: subHeaderTextStyle,
-                      ),
-                    ),
-                  ],
+                Text(
+                  "Don't have an account? ",
+                  style: subHeaderNotHighlightedTextStyle,
                 ),
-                SizedBox(
-                  height: 10,
-                )
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => SignupScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: subHeaderTextStyle,
+                  ),
+                ),
               ],
             ),
+            SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
