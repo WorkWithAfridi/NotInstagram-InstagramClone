@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
+
+    //if web
     await Firebase.initializeApp(
         options: const FirebaseOptions(
       apiKey: 'AIzaSyAAKFAzdkGFPnhFC06uXR6d9QvkT7lwMTU',
