@@ -193,7 +193,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _isLoading ? LinearProgressIndicator() : Container(),
+                    _isLoading ? LinearProgressIndicator(
+                      color: Colors.pink,
+                    ) : Container(),
                     Container(
                       height: MediaQuery.of(context).size.height * .5,
                       decoration: BoxDecoration(

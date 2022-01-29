@@ -50,6 +50,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _emailTextController.text = _user.email;
   }
 
+  bool showLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +74,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         actions: [
           IconButton(
             onPressed: () async {
+              setState(() {
+                showLoading = true;
+              });
               print('Updating user profile');
 
               print(_user.userName);
@@ -88,6 +93,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               await Provider.of<UserProvider>(context, listen: false)
                   .refreshUser();
+
+              var temp = await FirebaseFirestore.instance
+                  .collection('posts')
+                  .where('uid', isEqualTo: _user.userId)
+                  .get();
+              print(temp.size);
+              _user = Provider.of<UserProvider>(context, listen: false).user;
+
+              for (int i = 0; i < temp.size; i++) {
+                await FirebaseFirestore.instance
+                    .collection('posts')
+                    .doc(temp.docs[i]['postId'])
+                    .update({'username': _user.userName});
+              }
 
               Navigator.of(context).pop();
             },
@@ -107,6 +126,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
+            showLoading ? LinearProgressIndicator(color: Colors.pink,) : Container(),
             Expanded(
               child: Container(
                 // color: Colors.red.withOpacity(.3),
