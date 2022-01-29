@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
@@ -52,11 +53,18 @@ class _SignupScreenState extends State<SignupScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            elevation: 0,
-            backgroundColor: mobileBackgroundColor,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: backgroundColor,
+          leading: IconButton(
+            onPressed: (){
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
         ),
         backgroundColor: backgroundColor,
@@ -69,151 +77,255 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                        'Sign up to',
-                        style: titleTextStyle.copyWith(fontSize: 16),
-                      ),
-                      Text(
-                        'Not Instagram.',
-                        style: titleTextStyle.copyWith(fontSize: 30),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Stack(
-                        children: [
-                          _image != null
-                              ? CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage: MemoryImage(_image!),
-                                )
-                              : CircleAvatar(
-                                  radius: 64,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(64),
-                                    child: Image.asset(
-                                      'assets/default_profile_pic.png',
-                                      fit: BoxFit.fitWidth,
+                child: Container(
+                  // color: Colors.red.withOpacity(.3),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // SizedBox(
+                        //   height: 25,
+                        // ),
+                        Text(
+                          'Sign up to',
+                          style: titleTextStyle.copyWith(fontSize: 16),
+                        ),
+                        Text(
+                          'Not Instagram.',
+                          style: titleTextStyle.copyWith(fontSize: 30),
+                        ),
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height * .05,
+                        // ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Stack(
+                                children: [
+                                  _image != null
+                                      ? CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage: MemoryImage(_image!),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 40,
+                                          backgroundColor: backgroundColor,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            child: Image.asset(
+                                              'assets/defaultProPic.png',
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                        ),
+                                  Positioned(
+                                    bottom: -15,
+                                    left: 40,
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        Uint8List? image = await pickImage(
+                                            ImageSource.gallery);
+                                        if (image != null) {
+                                          setState(() {
+                                            _image = image;
+                                          });
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  child: CustomTextField(
+                                      textEditingController:
+                                          _userNameTextController,
+                                      hintText: 'Enter your user name here.',
+                                      textInputType:
+                                          TextInputType.emailAddress),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                            textEditingController: _emailTextController,
+                            hintText: 'Enter your email here.',
+                            textInputType: TextInputType.emailAddress),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                            textEditingController: _passwordTextController,
+                            hintText: 'Enter your password here.',
+                            isPass: true,
+                            textInputType: TextInputType.emailAddress),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomTextField(
+                            textEditingController: _bioTextController,
+                            hintText: 'Enter your bio here.',
+                            textInputType: TextInputType.emailAddress),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        _isLoading
+                            ? CircularProgressIndicator(
+                                color: Theme.of(context).primaryColor,
+                              )
+                            : Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    if (_image != null &&
+                                        _emailTextController.text.isNotEmpty &&
+                                        _passwordTextController
+                                            .text.isNotEmpty &&
+                                        _userNameTextController
+                                            .text.isNotEmpty &&
+                                        _bioTextController.text.isNotEmpty) {
+                                      String res =
+                                          await AuthMethods().signUpUser(
+                                        email: _emailTextController.text,
+                                        password: _passwordTextController.text,
+                                        userName: _userNameTextController.text,
+                                        bio: _bioTextController.text,
+                                        file: _image!,
+                                      );
+                                      if (res == 'success') {
+                                        await Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .refreshUser();
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ResponsiveLayout(
+                                              mobileScreenLayout:
+                                                  MobileScreenLayout(),
+                                              webScreenLayout:
+                                                  WebScreenLayout(),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      showSnackbar(context, "Invalid input.");
+                                    }
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  },
+                                  child: Text('Sign up'),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Divider(
+                            color: Colors.white.withOpacity(.5),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              showSnackbar(context,
+                                  'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.google,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),
-                          Positioned(
-                            bottom: -10,
-                            left: 80,
-                            child: IconButton(
-                              onPressed: () async {
-                                Uint8List? image =
-                                    await pickImage(ImageSource.gallery);
-                                if (image != null) {
-                                  setState(() {
-                                    _image = image;
-                                  });
-                                }
-                              },
-                              icon: Icon(
-                                Icons.add_a_photo,
-                                color: Colors.white,
-                              ),
+                                Expanded(
+                                  child: Text(
+                                    'Sign up with Google.',
+                                    style: headerTextStyle.copyWith(
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      CustomTextField(
-                          textEditingController: _emailTextController,
-                          hintText: 'Enter your email here.',
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                          textEditingController: _passwordTextController,
-                          hintText: 'Enter your password here.',
-                          isPass: true,
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                          textEditingController: _bioTextController,
-                          hintText: 'Enter your bio here.',
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      CustomTextField(
-                          textEditingController: _userNameTextController,
-                          hintText: 'Enter your user name here.',
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      _isLoading
-                          ? CircularProgressIndicator(
-                              color: Theme.of(context).primaryColor,
-                            )
-                          : Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  if (_image != null &&
-                                      _emailTextController.text.isNotEmpty &&
-                                      _passwordTextController.text.isNotEmpty &&
-                                      _userNameTextController.text.isNotEmpty &&
-                                      _bioTextController.text.isNotEmpty) {
-                                    String res = await AuthMethods().signUpUser(
-                                      email: _emailTextController.text,
-                                      password: _passwordTextController.text,
-                                      userName: _userNameTextController.text,
-                                      bio: _bioTextController.text,
-                                      file: _image!,
-                                    );
-                                    if (res == 'success') {
-                                      await Provider.of<UserProvider>(context,
-                                              listen: false)
-                                          .refreshUser();
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ResponsiveLayout(
-                                            mobileScreenLayout:
-                                                MobileScreenLayout(),
-                                            webScreenLayout: WebScreenLayout(),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  } else {
-                                    showSnackbar(context, "Invalid input.");
-                                  }
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                },
-                                child: Text('Sign up'),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Theme.of(context).primaryColor),
-                              ),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.white.withOpacity(.9)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              showSnackbar(context,
+                                  'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Icon(
+                                      FontAwesomeIcons.facebook,
+                                      // color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    'Sign up with Facebook.',
+                                    style: headerTextStyle,
+                                  ),
+                                ),
+                              ],
                             ),
-                    ],
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.blueAccent),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

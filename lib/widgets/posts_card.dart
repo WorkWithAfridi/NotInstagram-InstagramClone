@@ -75,9 +75,9 @@ class _PostCardState extends State<PostCard> {
                       var snapshot = await FirebaseFirestore.instance
                           .collection('users')
                           .where(
-                            'uid',
-                            isEqualTo: postUserId,
-                          )
+                        'uid',
+                        isEqualTo: postUserId,
+                      )
                           .get();
                       print(snapshot.docs[0]['username']);
 
@@ -113,7 +113,7 @@ class _PostCardState extends State<PostCard> {
                           child: CircleAvatar(
                             backgroundColor: Colors.black12,
                             backgroundImage:
-                                NetworkImage(widget.snap['profilePhotoUrl']),
+                            NetworkImage(widget.snap['profilePhotoUrl']),
                           ),
                         ),
                         Text(
@@ -137,22 +137,22 @@ class _PostCardState extends State<PostCard> {
                               ]
                                   .map(
                                     (e) => InkWell(
-                                      onTap: () async {
-                                        if (e == 'Delete') {
-                                          String res = await FireStoreMethods()
-                                              .deletePost(widget.snap['postId'],
-                                                  context);
-                                          showSnackbar(context, res);
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 16),
-                                        child: Text(e),
-                                      ),
-                                    ),
-                                  )
+                                  onTap: () async {
+                                    if (e == 'Delete') {
+                                      String res = await FireStoreMethods()
+                                          .deletePost(widget.snap['postId'],
+                                          context);
+                                      showSnackbar(context, res);
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 12, horizontal: 16),
+                                    child: Text(e),
+                                  ),
+                                ),
+                              )
                                   .toList(),
                             ),
                           ),
@@ -274,14 +274,14 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   widget.snap['likes'].length > 0
                       ? (widget.snap['likes'].length > 1
-                          ? Text(
-                              '${widget.snap['likes'].length} likes.',
-                              style: subHeaderTextStyle,
-                            )
-                          : Text(
-                              '${widget.snap['likes'].length} like.',
-                              style: subHeaderTextStyle,
-                            ))
+                      ? Text(
+                    '${widget.snap['likes'].length} likes.',
+                    style: subHeaderTextStyle,
+                  )
+                      : Text(
+                    '${widget.snap['likes'].length} like.',
+                    style: subHeaderTextStyle,
+                  ))
                       : Container(),
                   Text(
                     widget.snap['username'],
@@ -297,12 +297,12 @@ class _PostCardState extends State<PostCard> {
                   ),
                   widget.snap['description'].toString().isNotEmpty
                       ? Text(
-                          '${widget.snap['description']}',
-                          maxLines: 2,
-                          style: headerTextStyle.copyWith(
-                              fontWeight: FontWeight.w400, fontSize: 15),
-                          overflow: TextOverflow.ellipsis,
-                        )
+                    '${widget.snap['description']}',
+                    maxLines: 2,
+                    style: headerTextStyle.copyWith(
+                        fontWeight: FontWeight.w400, fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                  )
                       : Container(),
                   GestureDetector(
                     onTap: () {
@@ -316,9 +316,9 @@ class _PostCardState extends State<PostCard> {
                     },
                     child: noOfComments > 0
                         ? Text(
-                            'View all ${noOfComments} comments...',
-                            style: subHeaderNotHighlightedTextStyle,
-                          )
+                      'View all ${noOfComments} comments...',
+                      style: subHeaderNotHighlightedTextStyle,
+                    )
                         : Container(),
                   ),
                   SizedBox(

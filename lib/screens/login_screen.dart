@@ -53,13 +53,17 @@ class _LoginScreenState extends State<LoginScreen> {
               'English (United Kingdom)',
               style: subHeaderNotHighlightedTextStyle,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .15,
-            ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * .15,
+            // ),
             Expanded(
               child: Container(
+                alignment: Alignment.center,
                 child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         // color: Colors.yellow,
@@ -124,10 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   context: context);
 
                                           if (res == 'success') {
-                                            await Provider.of<UserProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .refreshUser();
+                                            // await Provider.of<UserProvider>(
+                                            //         context,
+                                            //         listen: false)
+                                            //     .refreshUser();
 
                                             setState(() {
                                               _isLoading = false;
@@ -176,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 10,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
                               child: Divider(
                                 color: Colors.white.withOpacity(.5),
                               ),
@@ -217,7 +222,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.white.withOpacity(.9)),
-
                               ),
                             ),
                             SizedBox(
@@ -264,6 +268,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -170,6 +170,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               );
                             }
                             return StaggeredGridView.countBuilder(
+                              physics: BouncingScrollPhysics(),
                               crossAxisCount: 3,
                               itemCount:
                                   (snapshot.data! as dynamic).docs.length,

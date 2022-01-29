@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/screens/edit_profile_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -175,7 +176,13 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditProfileScreen(),
+                          ),
+                        );
+                      },
                       child: Text(
                         'Edit Profile',
                         style: subHeaderTextStyle,
@@ -236,20 +243,19 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailedImageScreen(
-                                            postId: (snapshot.data! as dynamic)
-                                                .docs[index]['postPhotoUrl'],
-                                          ),
+                                      builder: (context) => DetailedImageScreen(
+                                        postId: (snapshot.data! as dynamic)
+                                            .docs[index]['postPhotoUrl'],
+                                      ),
                                     ),
                                   );
                                 },
                                 child: Hero(
                                   tag: (snapshot.data! as dynamic).docs[index]
-                                  ['postPhotoUrl'],
+                                      ['postPhotoUrl'],
                                   child: Image.network(
                                     (snapshot.data! as dynamic).docs[index]
                                         ['postPhotoUrl'],

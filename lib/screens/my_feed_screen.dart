@@ -83,12 +83,11 @@ class MyFeedScreen extends StatelessWidget {
               );
             }
             return ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return Container(
-                  child: PostCard(
-                    snap: snapshot.data!.docs[index],
-                  ),
+                return PostCard(
+                  snap: snapshot.data!.docs[index],
                 );
               },
             );
