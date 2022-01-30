@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/screens/chat_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,10 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
     User _user = Provider.of<UserProvider>(context, listen: false).user;
     isFollowing = widget.user.followers
         .contains(FirebaseAuth.FirebaseAuth.instance.currentUser!.uid);
+
+
+    print(widget.user.followers);
+    print(_user.userId);
     print(isFollowing);
 
     setState(() {
@@ -247,7 +252,10 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                           child: Container(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () async {},
+                              onPressed: () async {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ChatScreen(user2: widget.user,)));
+                              },
                               child: Text(
                                 'Send message',
                                 style: subHeaderTextStyle,
@@ -271,7 +279,9 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                                     .doc(widget.user.userId)
                                     .get();
                                 List following =
-                                    (snap.data()! as dynamic)['following'];
+                                    (snap.data()! as dynamic)['followers'];
+
+                                print(following);
 
                                 if (!following.contains(FirebaseAuth
                                     .FirebaseAuth.instance.currentUser!.uid)) {

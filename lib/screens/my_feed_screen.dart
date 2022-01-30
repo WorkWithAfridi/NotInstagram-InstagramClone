@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:not_instagram/screens/login_screen.dart';
+import 'package:not_instagram/screens/messanger_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 
@@ -21,7 +22,10 @@ class MyFeedScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MessangerScreen()));
+            },
             icon: Icon(FontAwesomeIcons.comment),
           ),
           IconButton(
@@ -74,7 +78,6 @@ class MyFeedScreen extends StatelessWidget {
               .collection('posts')
               .orderBy('datePublished', descending: true)
               .snapshots(),
-
           builder: (context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
