@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-import 'detailedImage_screen.dart';
+import 'detailed_post_screen.dart';
 
 class VisitorProfileScreen extends StatefulWidget {
   final User user;

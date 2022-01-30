@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
-import 'package:not_instagram/screens/detailedImage_screen.dart';
+import 'package:not_instagram/screens/detailed_post_screen.dart';
 import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';

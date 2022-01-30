@@ -8,6 +8,7 @@ import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/screens/comments_screen.dart';
+import 'package:not_instagram/screens/edit_post_screen.dart';
 import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -75,9 +76,9 @@ class _PostCardState extends State<PostCard> {
                       var snapshot = await FirebaseFirestore.instance
                           .collection('users')
                           .where(
-                        'uid',
-                        isEqualTo: postUserId,
-                      )
+                            'uid',
+                            isEqualTo: postUserId,
+                          )
                           .get();
                       print(snapshot.docs[0]['username']);
 
@@ -113,7 +114,7 @@ class _PostCardState extends State<PostCard> {
                           child: CircleAvatar(
                             backgroundColor: Colors.black12,
                             backgroundImage:
-                            NetworkImage(widget.snap['profilePhotoUrl']),
+                                NetworkImage(widget.snap['profilePhotoUrl']),
                           ),
                         ),
                         Text(
@@ -131,29 +132,70 @@ class _PostCardState extends State<PostCard> {
                             child: ListView(
                               padding: EdgeInsets.symmetric(vertical: 16),
                               shrinkWrap: true,
-                              children: [
-                                'Delete',
-                                'Edit',
-                              ]
-                                  .map(
-                                    (e) => InkWell(
-                                  onTap: () async {
-                                    if (e == 'Delete') {
-                                      String res = await FireStoreMethods()
-                                          .deletePost(widget.snap['postId'],
-                                          context);
-                                      showSnackbar(context, res);
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 12, horizontal: 16),
-                                    child: Text(e),
-                                  ),
-                                ),
-                              )
-                                  .toList(),
+                              children: widget.snap['uid'] == user.userId
+                                  ? [
+                                      'Delete',
+                                      'Edit',
+                                    ]
+                                      .map(
+                                        (e) => InkWell(
+                                          onTap: () async {
+                                            if (e == 'Delete') {
+                                              String res =
+                                                  await FireStoreMethods()
+                                                      .deletePost(
+                                                          widget.snap['postId'],
+                                                          context);
+                                              showSnackbar(context, res);
+                                              Navigator.pop(context);
+                                            }
+                                            if (e == 'Edit') {
+                                              if (widget.snap['uid'] ==
+                                                  user.userId) {
+                                                Navigator.of(context).pop();
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPostScreen(
+                                                      snap: widget.snap,
+                                                    ),
+                                                  ),
+                                                );
+                                              } else {
+                                                Navigator.of(context).pop();
+                                                showSnackbar(context,
+                                                    'You are not the owner of this post!');
+                                              }
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: Text(e),
+                                          ),
+                                        ),
+                                      )
+                                      .toList()
+                                  : [
+                                      'Report',
+                                    ]
+                                      .map(
+                                        (e) => InkWell(
+                                          onTap: () async {
+                                            if (e == 'Report') {
+                                              Navigator.of(context).pop();
+                                              showSnackbar(context,
+                                                  'Post has been reported!');
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 12, horizontal: 16),
+                                            child: Text(e),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
                             ),
                           ),
                         );
@@ -274,14 +316,14 @@ class _PostCardState extends State<PostCard> {
                 children: [
                   widget.snap['likes'].length > 0
                       ? (widget.snap['likes'].length > 1
-                      ? Text(
-                    '${widget.snap['likes'].length} likes.',
-                    style: subHeaderTextStyle,
-                  )
-                      : Text(
-                    '${widget.snap['likes'].length} like.',
-                    style: subHeaderTextStyle,
-                  ))
+                          ? Text(
+                              '${widget.snap['likes'].length} likes.',
+                              style: subHeaderTextStyle,
+                            )
+                          : Text(
+                              '${widget.snap['likes'].length} like.',
+                              style: subHeaderTextStyle,
+                            ))
                       : Container(),
                   Text(
                     widget.snap['username'],
@@ -297,12 +339,12 @@ class _PostCardState extends State<PostCard> {
                   ),
                   widget.snap['description'].toString().isNotEmpty
                       ? Text(
-                    '${widget.snap['description']}',
-                    maxLines: 2,
-                    style: headerTextStyle.copyWith(
-                        fontWeight: FontWeight.w400, fontSize: 15),
-                    overflow: TextOverflow.ellipsis,
-                  )
+                          '${widget.snap['description']}',
+                          maxLines: 2,
+                          style: headerTextStyle.copyWith(
+                              fontWeight: FontWeight.w400, fontSize: 15),
+                          overflow: TextOverflow.ellipsis,
+                        )
                       : Container(),
                   GestureDetector(
                     onTap: () {
@@ -316,9 +358,9 @@ class _PostCardState extends State<PostCard> {
                     },
                     child: noOfComments > 0
                         ? Text(
-                      'View all ${noOfComments} comments...',
-                      style: subHeaderNotHighlightedTextStyle,
-                    )
+                            'View all ${noOfComments} comments...',
+                            style: subHeaderNotHighlightedTextStyle,
+                          )
                         : Container(),
                   ),
                   SizedBox(

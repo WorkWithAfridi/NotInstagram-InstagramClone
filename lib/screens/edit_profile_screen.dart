@@ -120,16 +120,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       backgroundColor: backgroundColor,
       body: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             showLoading ? LinearProgressIndicator(color: Colors.pink,) : Container(),
             Expanded(
               child: Container(
-                // color: Colors.red.withOpacity(.3),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
