@@ -327,6 +327,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,

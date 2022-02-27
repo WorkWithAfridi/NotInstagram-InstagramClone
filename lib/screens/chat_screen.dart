@@ -240,7 +240,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                             await FirebaseFirestore.instance
                                 .collection('chats')
-                                .doc(widget.user2.userId)
+                                .doc(chatId)
                                 .collection('messages')
                                 .doc(chatId)
                                 .set({

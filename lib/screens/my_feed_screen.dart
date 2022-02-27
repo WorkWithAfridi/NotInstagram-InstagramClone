@@ -2,14 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/messanger_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
+import 'package:not_instagram/widgets/story_tab.dart';
 
-class MyFeedScreen extends StatelessWidget {
+class MyFeedScreen extends StatefulWidget {
   const MyFeedScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MyFeedScreen> createState() => _MyFeedScreenState();
+}
+
+class _MyFeedScreenState extends State<MyFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,14 +92,33 @@ class MyFeedScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                return PostCard(
-                  snap: snapshot.data!.docs[index],
-                );
+            return LiquidPullToRefresh(
+              onRefresh: () async {
+                await Future.delayed(Duration(seconds: 1));
+                setState(() {});
               },
+              color: backgroundColor,
+              showChildOpacityTransition: false,
+              backgroundColor: Colors.white,
+              height: 100,
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    StoryTab(),
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return PostCard(
+                          snap: snapshot.data!.docs[index],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
             );
           },
         ),

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:not_instagram/model/posts.dart';
+import 'package:not_instagram/model/stories.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/storage_methods.dart';
@@ -39,6 +40,48 @@ class FireStoreMethods {
       );
 
       _firebaseFirestore.collection('posts').doc(postId).set(post.toJson());
+      res = 'success';
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  //upload Story
+  Future<String> uploadStory(
+    Uint8List file,
+    String uid,
+    String userName,
+    String profilePictureUrl,
+  ) async {
+    String res = 'Some Error occurred.';
+    try {
+      String photoUrl = await StorageMethods()
+          .uploadImageToStorage(childName: 'stories', file: file, isPost: true);
+
+      String storyId = Uuid().v1();
+
+      // Posts post = Posts.name(
+      //   description: description,
+      //   userName: userName,
+      //   userId: uid,
+      //   postId: storyId,
+      //   profilePhotoUrl: profilePictureUrl,
+      //   postPhotoUrl: photoUrl,
+      //   likes: [],
+      //   datePublished: DateTime.now().toString(),
+      // );
+
+      Stories story = Stories.name(
+        userName: userName,
+        userId: uid,
+        storyId: storyId,
+        profilePhotoUrl: profilePictureUrl,
+        storyPhotoUrl: photoUrl,
+        datePublished: DateTime.now().toString(),
+      );
+
+      _firebaseFirestore.collection('stories').doc(storyId).set(story.toJson());
       res = 'success';
     } catch (e) {
       res = e.toString();
@@ -99,17 +142,18 @@ class FireStoreMethods {
   Future<String> deletePost(String postId, BuildContext context) async {
     String res = 'An error occurred.';
     try {
-      DocumentSnapshot documentSnapshot = await _firebaseFirestore.collection('posts').doc(postId).get();
-      String postUid= (documentSnapshot.data() as Map<String, dynamic>)['uid'];
+      DocumentSnapshot documentSnapshot =
+          await _firebaseFirestore.collection('posts').doc(postId).get();
+      String postUid = (documentSnapshot.data() as Map<String, dynamic>)['uid'];
       User _user = Provider.of<UserProvider>(context, listen: false).user;
       // print(_user.userId);
       // print(postUid);
       // print(postUid.toString()==_user.userId.toString());
-      if(postUid==_user.userId){
+      if (postUid == _user.userId) {
         await _firebaseFirestore.collection('posts').doc(postId).delete();
-        res='Post Deleted.';
-      }else{
-        res='You are not the owner of this post';
+        res = 'Post Deleted.';
+      } else {
+        res = 'You are not the owner of this post';
       }
     } catch (e) {
       print(e.toString());

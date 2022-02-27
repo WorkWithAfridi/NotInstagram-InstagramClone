@@ -11,14 +11,14 @@ import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
-class AddPostScreen extends StatefulWidget {
-  const AddPostScreen({Key? key}) : super(key: key);
+class AddStoryScreen extends StatefulWidget {
+  const AddStoryScreen({Key? key}) : super(key: key);
 
   @override
-  _AddPostScreenState createState() => _AddPostScreenState();
+  _AddStoryScreenState createState() => _AddStoryScreenState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
+class _AddStoryScreenState extends State<AddStoryScreen> {
   Uint8List? _file;
 
   _selectImage(BuildContext context) {
@@ -80,24 +80,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final model.User user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      appBar:
-          // _file == null
-          //     ? PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0))
-          //     :
-          AppBar(
-        leading: _file == null
-            ? Container()
-            : IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  setState(() {
-                    _file = null;
-                  });
-                },
-              ),
+      appBar: AppBar(
         backgroundColor: backgroundColor,
-        title: _file == null ? Text('Upload', style: headerTextStyle,) : Text('Post To', style: headerTextStyle,),
-        centerTitle: _file == null ? true : false,
+        elevation: 0,
+        title: Text(
+          'Add to Story',
+          style: headerTextStyle,
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.clear_outlined,
+          ),
+          onPressed: () {
+            if (_file == null) Navigator.of(context).pop();
+            setState(() {
+              _file = null;
+            });
+          },
+        ),
         actions: [
           _file == null
               ? Text('')
@@ -111,14 +111,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     String profileImage = user.photoUrl;
 
                     try {
-                      String res = await FireStoreMethods().uploadPost(
-                          _file!,
-                          _descriptionController.text,
-                          uid,
-                          userName,
-                          user.photoUrl);
+                      String res = await FireStoreMethods()
+                          .uploadStory(_file!, uid, userName, profileImage);
                       if (res == 'success') {
                         showSnackbar(context, 'Posted');
+                        setState(() {
+                          _isLoading = false;
+                          _file = null;
+                        });
+                        // await Future.delayed(Duration(seconds: 1));
+                        Navigator.of(context).pop();
                       } else {
                         showSnackbar(context, res);
                       }
@@ -143,9 +145,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
       backgroundColor: Colors.black,
       body: _file == null
           ? Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        color: backgroundColor,
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              color: backgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,7 +182,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     height: 15,
                   ),
                   Text(
-                    'Click here to save a memory',
+                    'Click here to share a story',
                     style: headerTextStyle,
                   ),
                   SizedBox(
@@ -241,45 +243,47 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _isLoading ? LinearProgressIndicator(
-                      color: Colors.pink,
-                    ) : Container(),
+                    _isLoading
+                        ? LinearProgressIndicator(
+                            color: Colors.pink,
+                          )
+                        : Container(),
                     Container(
-                      height: MediaQuery.of(context).size.height * .5,
+                      height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           alignment: FractionalOffset.topCenter,
                           image: MemoryImage(_file!),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(user.photoUrl),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: CustomTextField(
-                                  textEditingController: _descriptionController,
-                                  hintText: 'Enter a caption...',
-                                  textInputType: TextInputType.text))
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    )
+                    // SizedBox(
+                    //   height: 15,
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 10),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       CircleAvatar(
+                    //         backgroundImage: NetworkImage(user.photoUrl),
+                    //       ),
+                    //       SizedBox(
+                    //         width: 10,
+                    //       ),
+                    //       Expanded(
+                    //           child: CustomTextField(
+                    //               textEditingController: _descriptionController,
+                    //               hintText: 'Enter a caption...',
+                    //               textInputType: TextInputType.text))
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 15,
+                    // )
                   ],
                 ),
               ),

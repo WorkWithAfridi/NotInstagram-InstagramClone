@@ -121,7 +121,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                       photoUrl: (snapshot.data! as dynamic)
                                           .docs[index]['photoUrl'],
                                       followers: [],
-                                      following: [],
+                                      following: [], chatRooms: [],
                                     );
 
                                     // tempUser

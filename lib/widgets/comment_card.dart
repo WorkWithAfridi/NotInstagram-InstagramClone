@@ -53,7 +53,7 @@ class _CommentCardState extends State<CommentCard> {
                     bio: snapshot.docs[0]['bio'],
                     photoUrl: snapshot.docs[0]['photoUrl'],
                     followers: [],
-                    following: [],
+                    following: [], chatRooms: [],
                   );
 
                   Navigator.of(context).push(
@@ -104,7 +104,7 @@ class _CommentCardState extends State<CommentCard> {
                             bio: snapshot.docs[0]['bio'],
                             photoUrl: snapshot.docs[0]['photoUrl'],
                             followers: [],
-                            following: [],
+                            following: [], chatRooms: [],
                           );
 
                           Navigator.of(context).push(

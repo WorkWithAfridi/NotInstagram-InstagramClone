@@ -3,7 +3,7 @@ import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
 
 class UserProvider with ChangeNotifier {
-  late User _user = User.name(email: 'email', userName: 'userName', userId: 'userId', bio: 'bio', photoUrl: 'photoUrl', followers: [], following: []);
+  late User _user = User.name(email: 'email', userName: 'userName', userId: 'userId', bio: 'bio', photoUrl: 'photoUrl', followers: [], following: [], chatRooms: []);
   final AuthMethods _authMethods = AuthMethods();
 
   User get user => _user;

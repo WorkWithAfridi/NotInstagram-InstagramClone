@@ -52,7 +52,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Insta Message',
+          'Not Insta Messages',
           style: headerTextStyle,
         ),
         centerTitle: false,

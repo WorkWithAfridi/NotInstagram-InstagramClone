@@ -96,7 +96,7 @@ class _PostCardState extends State<PostCard> {
                           bio: snapshot.docs[0]['bio'],
                           photoUrl: snapshot.docs[0]['photoUrl'],
                           followers: [],
-                          following: [],
+                          following: [], chatRooms: [],
                         );
 
                         Navigator.of(context).push(

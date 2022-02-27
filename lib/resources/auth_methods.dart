@@ -46,7 +46,7 @@ class AuthMethods {
             bio: bio,
             followers: [],
             following: [],
-            photoUrl: photoUrl);
+            photoUrl: photoUrl, chatRooms: []);
 
 
         await _firestore

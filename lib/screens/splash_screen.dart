@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void triggerSplashScreen(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await Future.delayed(const Duration(seconds: 2));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => SplashScreenPush(),
@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Text(
                 'By Kyoto.',
-                style: subTitleTextStyle.copyWith(height: .5),
+                style: titleTextStyle.copyWith(fontSize: 15,height: 1, color: Colors.red),
               ),
             ],
           ),
