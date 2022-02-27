@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/screens/post_story_screen.dart';
+import 'package:not_instagram/screens/view_story_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +41,8 @@ class _StoryTabState extends State<StoryTab> {
     return isLoading
         ? LinearProgressIndicator()
         : Column(
-          children: [
-            Container(
+            children: [
+              Container(
                 height: 80,
                 width: MediaQuery.of(context).size.width,
                 // color: Colors.yellow,
@@ -59,7 +60,7 @@ class _StoryTabState extends State<StoryTab> {
                           );
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(left: 7.0),
+                          padding: EdgeInsets.only(left: 15.0),
                           child: Container(
                             width: 70,
                             height: double.infinity,
@@ -112,7 +113,8 @@ class _StoryTabState extends State<StoryTab> {
                                 Text(
                                   'Your story',
                                   style: headerTextStyle.copyWith(
-                                      fontSize: 15, fontWeight: FontWeight.normal),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal),
                                 )
                               ],
                             ),
@@ -120,98 +122,137 @@ class _StoryTabState extends State<StoryTab> {
                         ),
                       ),
                       StreamBuilder(
-                        stream: FirebaseFirestore.instance.collection('stories').orderBy('datePublished', descending: true).snapshots(),
-                        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.only(left: 7.0),
-                                child: Container(
-                                  width: 70,
-                                  height: double.infinity,
-                                  // color: Colors.pink,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            // color: Colors.pink,
-                                            borderRadius: BorderRadius.circular(65),
-                                            gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.orange.withOpacity(.8),
-                                                  Colors.orangeAccent.withOpacity(.8),
-                                                  Colors.red.withOpacity(.8),
-                                                  Colors.redAccent.withOpacity(.8),
-                                                  //add more colors for gradient
-                                                ],
-                                                begin: Alignment
-                                                    .topLeft, //begin of the gradient color
-                                                end: Alignment
-                                                    .bottomRight, //end of the gradient color
-                                                stops: [
-                                                  0,
-                                                  0.2,
-                                                  0.5,
-                                                  0.8
-                                                ] //stops for individual color
-                                                //set the stops number equal to numbers of color
-                                                ),
-                                          ),
-                                          child: Stack(
-                                            children: [
-                                              Center(
-                                                child: Container(
-                                                  height: 60,
-                                                  width: 60,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(65),
-                                                    child: Image.network(
-                                                      snapshot.data!.docs[index]['postPhotoUrl'],
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                          stream: FirebaseFirestore.instance
+                              .collection('stories')
+                              .orderBy('datePublished', descending: true)
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => ViewStory(
+                                          snap: snapshot.data!.docs[index],
+                                          user: user,
                                         ),
                                       ),
-                                      Text(
-                                        snapshot.data!.docs[index]['username'],
-                                        style: headerTextStyle.copyWith(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal),
-                                      )
-                                    ],
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 7.0,
+                                        right: index ==
+                                                snapshot.data!.docs.length - 1
+                                            ? 15
+                                            : 0),
+                                    child: Container(
+                                      width: 70,
+                                      height: double.infinity,
+                                      // color: Colors.pink,
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: 65,
+                                              width: 65,
+                                              decoration: BoxDecoration(
+                                                // color: Colors.pink,
+                                                borderRadius:
+                                                    BorderRadius.circular(65),
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.orange
+                                                          .withOpacity(.8),
+                                                      Colors.orangeAccent
+                                                          .withOpacity(.8),
+                                                      Colors.red
+                                                          .withOpacity(.8),
+                                                      Colors.redAccent
+                                                          .withOpacity(.8),
+                                                      //add more colors for gradient
+                                                    ],
+                                                    begin: Alignment
+                                                        .topLeft, //begin of the gradient color
+                                                    end: Alignment
+                                                        .bottomRight, //end of the gradient color
+                                                    stops: [
+                                                      0,
+                                                      0.2,
+                                                      0.5,
+                                                      0.8
+                                                    ] //stops for individual color
+                                                    //set the stops number equal to numbers of color
+                                                    ),
+                                              ),
+                                              child: Stack(
+                                                children: [
+                                                  Center(
+                                                    child: Container(
+                                                      height: 60,
+                                                      width: 60,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(65),
+                                                        child: Hero(
+                                                          tag: snapshot.data!
+                                                                  .docs[index]
+                                                              ['postPhotoUrl'],
+                                                          child: Image.network(
+                                                            snapshot.data!
+                                                                    .docs[index]
+                                                                [
+                                                                'postPhotoUrl'],
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            snapshot.data!.docs[index]
+                                                ['username'],
+                                            style: headerTextStyle.copyWith(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      ),
+                                );
+                              },
+                            );
+                          }),
                     ],
                   ),
                 ),
               ),
-            SizedBox(height: 10,),
-            Divider(
-              height: .5,
-              color: Colors.white.withOpacity(.2),
-            ),
-          ],
-        );
+              SizedBox(
+                height: 10,
+              ),
+              Divider(
+                height: .5,
+                color: Colors.white.withOpacity(.2),
+              ),
+            ],
+          );
   }
 }

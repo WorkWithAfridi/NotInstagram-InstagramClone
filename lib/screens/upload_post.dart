@@ -96,7 +96,15 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 },
               ),
         backgroundColor: backgroundColor,
-        title: _file == null ? Text('Upload', style: headerTextStyle,) : Text('Post To', style: headerTextStyle,),
+        title: _file == null
+            ? Text(
+                'Upload',
+                style: headerTextStyle,
+              )
+            : Text(
+                'Post To',
+                style: headerTextStyle,
+              ),
         centerTitle: _file == null ? true : false,
         actions: [
           _file == null
@@ -143,9 +151,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
       backgroundColor: Colors.black,
       body: _file == null
           ? Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        color: backgroundColor,
+              height: MediaQuery.of(context).size.height,
+              width: double.infinity,
+              color: backgroundColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -241,9 +249,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    _isLoading ? LinearProgressIndicator(
-                      color: Colors.pink,
-                    ) : Container(),
+                    _isLoading
+                        ? LinearProgressIndicator(
+                            color: Colors.pink,
+                          )
+                        : Container(),
                     Container(
                       height: MediaQuery.of(context).size.height * .5,
                       decoration: BoxDecoration(
@@ -270,10 +280,11 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             width: 10,
                           ),
                           Expanded(
-                              child: CustomTextField(
-                                  textEditingController: _descriptionController,
-                                  hintText: 'Enter a caption...',
-                                  textInputType: TextInputType.text))
+                            child: CustomTextField(
+                                textEditingController: _descriptionController,
+                                hintText: 'Enter a caption...',
+                                textInputType: TextInputType.text),
+                          )
                         ],
                       ),
                     ),

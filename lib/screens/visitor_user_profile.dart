@@ -396,7 +396,8 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                       ),
                     ),
                     Container(
-                      color: Colors.yellow,
+                      color: backgroundColor,
+                      child: Center(child: Text('Work in progress...',style: headerTextStyle,),),
                     ),
                   ],
                 ),
