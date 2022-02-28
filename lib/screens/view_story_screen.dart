@@ -5,9 +5,16 @@ import 'package:not_instagram/utils/global_variables.dart';
 import '../widgets/text_field_input.dart';
 
 class ViewStory extends StatefulWidget {
+  final parentSnap;
   final snap;
   final user;
-  const ViewStory({Key? key, required this.snap, required this.user})
+  final indexPosition;
+  const ViewStory(
+      {Key? key,
+      required this.snap,
+      required this.user,
+      required this.parentSnap,
+      required this.indexPosition})
       : super(key: key);
 
   @override
@@ -16,6 +23,17 @@ class ViewStory extends StatefulWidget {
 
 class _ViewStoryState extends State<ViewStory> {
   TextEditingController _messageTEC = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    totalStories = widget.parentSnap.docs.length;
+    currentIndex = widget.indexPosition;
+  }
+
+  int totalStories = 0;
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +50,9 @@ class _ViewStoryState extends State<ViewStory> {
           children: [
             SizedBox.expand(
               child: Hero(
-                tag: widget.snap['postPhotoUrl'],
+                tag: widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
                 child: Image.network(
-                  widget.snap['postPhotoUrl'],
+                  widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
                   fit: BoxFit.cover,
                 ),
               ),
@@ -53,6 +71,10 @@ class _ViewStoryState extends State<ViewStory> {
                   SizedBox(
                     height: 20,
                   ),
+                  getTimerBar(),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     height: 50,
                     padding: EdgeInsets.only(left: 15),
@@ -64,7 +86,8 @@ class _ViewStoryState extends State<ViewStory> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(45),
                             child: Image.network(
-                              widget.snap['profilePhotoUrl'],
+                              widget.parentSnap.docs[currentIndex]
+                                  ['profilePhotoUrl'],
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -78,13 +101,15 @@ class _ViewStoryState extends State<ViewStory> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.snap['username'],
+                                widget.parentSnap.docs[currentIndex]
+                                    ['username'],
                                 style: titleTextStyle.copyWith(fontSize: 20),
                               ),
                               Text(
                                 DateFormat.yMMMd().format(
                                   DateTime.parse(
-                                    widget.snap['datePublished'],
+                                    widget.parentSnap.docs[currentIndex]
+                                        ['datePublished'],
                                   ),
                                 ),
                                 style: subHeaderNotHighlightedTextStyle,
@@ -139,6 +164,63 @@ class _ViewStoryState extends State<ViewStory> {
           ],
         ),
       ),
+    );
+  }
+
+  int counter = 0;
+  Stream<int> getTimer() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 40));
+      counter++;
+      yield counter;
+    }
+  }
+
+  Padding getTimerBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: StreamBuilder(
+          stream: getTimer(),
+          initialData: 0,
+          builder: (context, snapshot) {
+            if (int.parse(snapshot.data.toString()) == 99) {
+              Future.delayed(Duration(milliseconds: 40)).then((value) {
+                if (currentIndex < totalStories) {
+                  currentIndex++;
+                  print(currentIndex);
+                  if (currentIndex == totalStories)
+                    Navigator.of(context).pop();
+                  else
+                    setState(() {
+                      counter = 0;
+                    });
+                } else {
+                  print(currentIndex);
+                  print(totalStories);
+                  Navigator.of(context).pop();
+                }
+              });
+            }
+            return Stack(
+              children: [
+                Container(
+                  height: 3,
+                  decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(.1),
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+                Container(
+                  height: 3,
+                  width: MediaQuery.of(context).size.width *
+                      int.parse(snapshot.data.toString()) /
+                      100,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

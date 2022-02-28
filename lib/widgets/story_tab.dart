@@ -147,6 +147,8 @@ class _StoryTabState extends State<StoryTab> {
                                         builder: (context) => ViewStory(
                                           snap: snapshot.data!.docs[index],
                                           user: user,
+                                          parentSnap: snapshot.data!,
+                                          indexPosition: index    ,
                                         ),
                                       ),
                                     );
