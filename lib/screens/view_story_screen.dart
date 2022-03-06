@@ -57,10 +57,18 @@ class _ViewStoryState extends State<ViewStory> {
                 ),
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.black54,
+            GestureDetector(
+              onTap: () {
+                counter = 98;
+              },
+              // onVerticalDragDown: (_) {
+              //   Navigator.pop(context);
+              // },
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black54,
+              ),
             ),
             Positioned(
               top: 0,
@@ -103,7 +111,8 @@ class _ViewStoryState extends State<ViewStory> {
                               Text(
                                 widget.parentSnap.docs[currentIndex]
                                     ['username'],
-                                style: titleTextStyle.copyWith(fontSize: 20),
+                                style:
+                                    subHeaderTextStyle.copyWith(fontSize: 20),
                               ),
                               Text(
                                 DateFormat.yMMMd().format(

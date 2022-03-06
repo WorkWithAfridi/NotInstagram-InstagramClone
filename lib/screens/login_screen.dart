@@ -53,9 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
               'English (United Kingdom)',
               style: subHeaderNotHighlightedTextStyle,
             ),
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height * .15,
-            // ),
+            SizedBox(
+              height: 10,
+            ),
             Expanded(
               child: Container(
                 alignment: Alignment.center,

@@ -33,7 +33,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               child: Text('Take a Photo'),
               onPressed: () async {
                 Navigator.of(context).pop();
-                Uint8List file = await pickImage(ImageSource.camera);
+                Uint8List file = await pickImage(ImageSource.camera, );
                 setState(() {
                   _file = file;
                 });
