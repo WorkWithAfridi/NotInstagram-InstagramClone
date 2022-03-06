@@ -93,6 +93,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         backgroundColor: backgroundColor,
         elevation: 6,
         enableFeedback: false,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         iconSize: 25,
         items: [
           BottomNavigationBarItem(

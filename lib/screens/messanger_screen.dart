@@ -72,6 +72,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text('Work in progress', style: subHeaderTextStyle,)
                       // StreamBuilder(
                       //   stream: FirebaseFirestore.instance
                       //       .collection('chats')
