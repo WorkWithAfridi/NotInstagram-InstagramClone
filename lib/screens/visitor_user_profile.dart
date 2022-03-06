@@ -36,7 +36,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
   bool isFollowing = false;
 
   void getData() async {
-    print(widget.user.userId);
+    // print(widget.user.userId);
     var snap = await FirebaseFirestore.instance
         .collection('users')
         .doc(widget.user.userId)
@@ -56,13 +56,13 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
     isFollowing = widget.user.followers
         .contains(FirebaseAuth.FirebaseAuth.instance.currentUser!.uid);
 
-
-    print(widget.user.followers);
-    print(_user.userId);
-    print(isFollowing);
+    //
+    // print(widget.user.followers);
+    // print(_user.userId);
+    // print(isFollowing);
 
     setState(() {
-      print('setting state');
+      // print('setting state');
     });
   }
 
@@ -366,6 +366,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                           }
                           return StaggeredGridView.countBuilder(
                             crossAxisCount: 3,
+                            physics: BouncingScrollPhysics(),
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(

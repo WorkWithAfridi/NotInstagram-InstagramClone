@@ -240,6 +240,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                           }
                           return StaggeredGridView.countBuilder(
                             crossAxisCount: 3,
+                            physics: BouncingScrollPhysics(),
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(

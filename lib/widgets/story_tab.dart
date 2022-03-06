@@ -231,6 +231,8 @@ class _StoryTabState extends State<StoryTab> {
                                           Text(
                                             snapshot.data!.docs[index]
                                                 ['username'],
+                                            maxLines: 1,
+                                            textAlign: TextAlign.center,
                                             style: headerTextStyle.copyWith(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.normal),

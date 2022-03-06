@@ -29,9 +29,43 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MessangerScreen()));
+            onPressed: () async {
+              //
+              // DocumentSnapshot snap = await FirebaseFirestore.instance
+              //     .collection('users')
+              //     .doc(pLvwl0h0BDh5eAlhSjjmhNOmadv1)
+              //     .get();
+              // List following = (snap.data()! as dynamic)['followers'];
+
+              print('Starting');
+
+              List userList = [];
+              for (int i = 0; i < 497; i++) {
+                // userList.add('TempUser${i}');
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc('pLvwl0h0BDh5eAlhSjjmhNOmadv1')
+                    .update(
+                  {
+                    'followers': FieldValue.arrayUnion(['TempUser${i+503}'])
+                  },
+                );
+                print('Adding user - TempUser${i+503}');
+              }
+
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc('pLvwl0h0BDh5eAlhSjjmhNOmadv1')
+                  .update(
+                {
+                  'followers': FieldValue.arrayUnion([...userList])
+                },
+              );
+
+              print('success');
+
+              // Navigator.of(context).push(
+              //     MaterialPageRoute(builder: (context) => MessangerScreen()));
             },
             icon: Icon(FontAwesomeIcons.comment),
           ),
