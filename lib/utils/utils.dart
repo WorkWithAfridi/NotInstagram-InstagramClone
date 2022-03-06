@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 pickImage(ImageSource source) async {
@@ -8,7 +11,17 @@ pickImage(ImageSource source) async {
     imageQuality: 20,
   );
   if (_file != null) {
-    return await _file.readAsBytes();
+    File? croppedImage = await ImageCropper().cropImage(
+      sourcePath: _file.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      maxHeight: 500,
+      aspectRatioPresets: [CropAspectRatioPreset.square],
+    );
+    print('---------------------');
+    print(croppedImage.runtimeType);
+
+    // return await _file.readAsBytes();
+    return croppedImage!.readAsBytes();
   }
   print('No image selected');
 }

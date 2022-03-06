@@ -49,6 +49,7 @@ dependencies:
   flutter_staggered_grid_view: any
   staggered_grid_view_flutter: any
   liquid_pull_to_refresh: any
+  image_cropper: any
 
 dev_dependencies:
   flutter_test:

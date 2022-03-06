@@ -41,7 +41,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         )
         .get();
 
-    print(_user.following);
+    // print(_user.following);
     setState(() {
       print('setting state');
     });

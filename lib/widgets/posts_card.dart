@@ -55,7 +55,7 @@ class _PostCardState extends State<PostCard> {
     return Container(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
       // color: Colors.black38,
-      height: MediaQuery.of(context).size.height * .6,
+      height: 500,
       width: double.infinity,
       child: Card(
         color: backgroundColor,
