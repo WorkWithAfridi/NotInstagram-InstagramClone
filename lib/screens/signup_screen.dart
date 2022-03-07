@@ -2,16 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
 import 'package:not_instagram/responsive/mobile_screen_layout.dart';
-import 'package:not_instagram/responsive/responsive_layout_screen.dart';
-import 'package:not_instagram/responsive/web_screen_layout.dart';
 import 'package:not_instagram/screens/login_screen.dart';
-import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
@@ -218,13 +213,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                             .refreshUser();
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ResponsiveLayout(
-                                              mobileScreenLayout:
-                                                  MobileScreenLayout(),
-                                              webScreenLayout:
-                                                  WebScreenLayout(),
-                                            ),
+                                            builder: (context) => const MobileScreenLayout()
                                           ),
                                         );
                                       }

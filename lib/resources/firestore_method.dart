@@ -156,7 +156,6 @@ class FireStoreMethods {
         res = 'You are not the owner of this post';
       }
     } catch (e) {
-      print(e.toString());
     }
     return res;
   }

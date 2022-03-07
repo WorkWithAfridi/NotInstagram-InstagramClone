@@ -15,7 +15,7 @@ class DetailedImageScreen extends StatefulWidget {
 }
 
 class _DetailedImageScreenState extends State<DetailedImageScreen> {
-  var snapshot = null;
+  var snapshot;
 
   @override
   void initState() {
@@ -49,10 +49,10 @@ class _DetailedImageScreenState extends State<DetailedImageScreen> {
       ),
       backgroundColor: backgroundColor,
       body: snapshot == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Container(
+          : SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
@@ -60,15 +60,9 @@ class _DetailedImageScreenState extends State<DetailedImageScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PostCard(snap: snapshot.docs[0]),
-                    // Container(
-                    //   height: MediaQuery.of(context).size.height * .6,
-                    //   width: MediaQuery.of(context).size.width,
-                    //   child: Image.network(
-                    //     snapshot.docs[0]['postPhotoUrl'],
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // )
+                    PostCard(
+                      snap: snapshot.docs[0],
+                    ),
                   ],
                 ),
               ),

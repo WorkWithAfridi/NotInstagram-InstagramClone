@@ -61,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               Text(
                 'By Kyoto.',
-                style:subHeaderTextStyle.copyWith(fontSize: 15,height: .5, color: Color(0xffE40303)),
+                style:subHeaderTextStyle.copyWith(fontSize: 15,height: .5, color: const Color(0xffE40303)),
               ),
             ],
           ),

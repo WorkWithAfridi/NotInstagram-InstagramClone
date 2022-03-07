@@ -33,7 +33,7 @@ class CustomTextField extends StatelessWidget {
         enabledBorder: inputBorder,
         fillColor: Colors.white10,
         filled: true,
-        contentPadding: EdgeInsets.all(8),
+        contentPadding: const EdgeInsets.all(8),
       ),
       keyboardType: textInputType,
       obscureText: isPass,

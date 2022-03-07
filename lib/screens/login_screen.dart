@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:not_instagram/model/user.dart';
-import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
 import 'package:not_instagram/responsive/mobile_screen_layout.dart';
-import 'package:not_instagram/responsive/responsive_layout_screen.dart';
-import 'package:not_instagram/responsive/web_screen_layout.dart';
 import 'package:not_instagram/screens/signup_screen.dart';
-import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -139,13 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Navigator.of(context)
                                                 .pushAndRemoveUntil(
                                               MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ResponsiveLayout(
-                                                  mobileScreenLayout:
-                                                      MobileScreenLayout(),
-                                                  webScreenLayout:
-                                                      WebScreenLayout(),
-                                                ),
+                                                builder: (context) => const MobileScreenLayout(),
                                               ),
                                               ModalRoute.withName('/'),
                                             );

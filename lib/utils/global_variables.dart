@@ -9,18 +9,18 @@ import 'package:not_instagram/screens/my_feed_screen.dart';
 const webScreenSize = 600;
 
 var homeScreenPages = [
-  MyFeedScreen(),
-  ExploreScreen(),
-  AddPostScreen(),
-  LikesScreen(),
-  UserProfileScreen()
+  const MyFeedScreen(),
+  const ExploreScreen(),
+  const AddPostScreen(),
+  const LikesScreen(),
+  const UserProfileScreen()
 ];
 
-Color backgroundColor=Color(0xff111111) ;
+Color backgroundColor=const Color(0xff111111) ;
 Color liftedBackgroundColor=Colors.white;
 
 final TextStyle headerTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: const TextStyle(color: Colors.white, fontSize: 17,));
-final TextStyle subHeaderTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: TextStyle(color: Colors.white, fontSize: 14,));
-final TextStyle subHeaderNotHighlightedTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: TextStyle(color: Colors.white54, fontSize: 14,));
-final TextStyle titleTextStyle = GoogleFonts.getFont('Sedgwick Ave', textStyle: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w900));
-final TextStyle subTitleTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: TextStyle(color: Colors.white54, fontSize: 16,));
+final TextStyle subHeaderTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: const TextStyle(color: Colors.white, fontSize: 14,));
+final TextStyle subHeaderNotHighlightedTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: const TextStyle(color: Colors.white54, fontSize: 14,));
+final TextStyle titleTextStyle = GoogleFonts.getFont('Sedgwick Ave', textStyle: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w900));
+final TextStyle subTitleTextStyle = GoogleFonts.getFont('Ubuntu Condensed', textStyle: const TextStyle(color: Colors.white54, fontSize: 16,));

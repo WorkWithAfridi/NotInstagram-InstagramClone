@@ -24,7 +24,7 @@ class _CommentCardState extends State<CommentCard> {
       color: backgroundColor,
       elevation: 0,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
         child: Row(
           children: [
             GestureDetector(
@@ -37,12 +37,11 @@ class _CommentCardState extends State<CommentCard> {
                       isEqualTo: postUserId,
                     )
                     .get());
-                print(snapshot.docs[0]['username']);
 
                 if (snapshot.docs[0]['uid'] == user.userId) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => UserProfileScreen(),
+                      builder: (context) => const UserProfileScreen(),
                     ),
                   );
                 } else {
@@ -53,7 +52,8 @@ class _CommentCardState extends State<CommentCard> {
                     bio: snapshot.docs[0]['bio'],
                     photoUrl: snapshot.docs[0]['photoUrl'],
                     followers: [],
-                    following: [], chatRooms: [],
+                    following: [],
+                    chatRooms: [],
                   );
 
                   Navigator.of(context).push(
@@ -73,7 +73,7 @@ class _CommentCardState extends State<CommentCard> {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,16 +84,15 @@ class _CommentCardState extends State<CommentCard> {
                         var snapshot = (await FirebaseFirestore.instance
                             .collection('users')
                             .where(
-                          'uid',
-                          isEqualTo: postUserId,
-                        )
+                              'uid',
+                              isEqualTo: postUserId,
+                            )
                             .get());
-                        print(snapshot.docs[0]['username']);
 
                         if (snapshot.docs[0]['uid'] == user.userId) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => UserProfileScreen(),
+                              builder: (context) => const UserProfileScreen(),
                             ),
                           );
                         } else {
@@ -104,7 +103,8 @@ class _CommentCardState extends State<CommentCard> {
                             bio: snapshot.docs[0]['bio'],
                             photoUrl: snapshot.docs[0]['photoUrl'],
                             followers: [],
-                            following: [], chatRooms: [],
+                            following: [],
+                            chatRooms: [],
                           );
 
                           Navigator.of(context).push(
@@ -132,11 +132,11 @@ class _CommentCardState extends State<CommentCard> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 4),
+                      padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                          '${DateFormat.yMMMd().format(
+                          DateFormat.yMMMd().format(
                             widget.snap['datePublished'].toDate(),
-                          )}',
+                          ),
                           style: subHeaderNotHighlightedTextStyle),
                     )
                   ],
@@ -145,7 +145,7 @@ class _CommentCardState extends State<CommentCard> {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.favorite,
                 color: Colors.white,
               ),

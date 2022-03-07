@@ -25,18 +25,18 @@ class EditPostScreen extends StatefulWidget {
 
 class _EditPostScreenState extends State<EditPostScreen> {
   Uint8List? _file;
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   _selectImage(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: Text('Post a memory'),
+          title: const Text('Post a memory'),
           children: [
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Take a Photo'),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: const Text('Take a Photo'),
               onPressed: () async {
                 Navigator.of(context).pop();
                 Uint8List file = await pickImage(ImageSource.camera);
@@ -46,8 +46,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
               },
             ),
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Choose from Gallery'),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: const Text('Choose from Gallery'),
               onPressed: () async {
                 try {
                   Navigator.of(context).pop();
@@ -59,8 +59,8 @@ class _EditPostScreenState extends State<EditPostScreen> {
               },
             ),
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Cancel'),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: const Text('Cancel'),
               onPressed: () async {
                 Navigator.of(context).pop();
               },
@@ -71,8 +71,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     );
   }
 
-  TextEditingController _descriptionController = TextEditingController();
-  bool _isLoading = false;
+  final TextEditingController _descriptionController = TextEditingController();
 
   bool isLikeAnimating = false;
   int noOfComments = 0;
@@ -113,179 +112,179 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final model.User user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-        appBar:
-            // _file == null
-            //     ? PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0))
-            //     :
-            AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          backgroundColor: backgroundColor,
-          elevation: 0,
-          title: Text(
-            'Edit post.',
-            style: headerTextStyle.copyWith(fontSize: 20),
-          ),
-          centerTitle: false,
-          actions: [
-            IconButton(
-              onPressed: () async {
-                setState(() {
-                  showLoading = true;
-                });
-                await FirebaseFirestore.instance
-                    .collection('posts')
-                    .doc(widget.snap['postId'])
-                    .update({'description': _textEditingController.text})
-                    .then((value) => print('updated'))
-                    .catchError((error) => print('Update Failed: $error'));
-                setState(() {
-                  showLoading = false;
-                });
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                Icons.check,
-                color: Colors.pink,
-              ),
-            ),
-          ],
+      appBar:
+          AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         backgroundColor: backgroundColor,
-        body: Container(
-          // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
-          // color: Colors.black38,
-          height: MediaQuery.of(context).size.height * .6,
-          width: double.infinity,
-          child: Card(
-            color: backgroundColor,
-            elevation: 0,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                showLoading
-                    ? LinearProgressIndicator(
-                        color: Colors.pink,
-                      )
-                    : Container(),
-                Container(
-                  height: 60,
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {},
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.black12,
-                                backgroundImage: NetworkImage(
-                                    widget.snap['profilePhotoUrl']),
-                              ),
+        elevation: 0,
+        title: Text(
+          'Edit post.',
+          style: headerTextStyle.copyWith(fontSize: 20),
+        ),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              setState(
+                () {
+                  showLoading = true;
+                },
+              );
+              await FirebaseFirestore.instance
+                  .collection('posts')
+                  .doc(widget.snap['postId'])
+                  .update({'description': _textEditingController.text})
+                  .then((value) => print('updated'))
+                  .catchError((error) => print('Update Failed: $error'));
+              setState(() {
+                showLoading = false;
+              });
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(
+              Icons.check,
+              color: Colors.pink,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: backgroundColor,
+      body: SizedBox(
+        // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
+        // color: Colors.black38,
+        height: MediaQuery.of(context).size.height * .6,
+        width: double.infinity,
+        child: Card(
+          color: backgroundColor,
+          elevation: 0,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              showLoading
+                  ? const LinearProgressIndicator(
+                      color: Colors.pink,
+                    )
+                  : Container(),
+              Container(
+                height: 60,
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {},
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black12,
+                              backgroundImage:
+                                  NetworkImage(widget.snap['profilePhotoUrl']),
                             ),
-                            Text(
-                              widget.snap['username'],
-                              style: headerTextStyle,
-                            )
-                          ],
-                        ),
+                          ),
+                          Text(
+                            widget.snap['username'],
+                            style: headerTextStyle,
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: Container(
-                    color: Colors.black26,
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: GestureDetector(
-                      onDoubleTap: () async {
-                        // await FireStoreMethods().likePost(
-                        //     widget.snap['postId'], user.userId, widget.snap['likes']);
-                        // setState(() {
-                        //   isLikeAnimating = true;
-                        // });
-                      },
-                      child: Hero(
-                        tag: widget.snap['postPhotoUrl'],
-                        child: Image.network(
-                          widget.snap['postPhotoUrl'],
-                          fit: BoxFit.cover,
-                          alignment: FractionalOffset.center,
-                        ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.black26,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: GestureDetector(
+                    onDoubleTap: () async {
+                      // await FireStoreMethods().likePost(
+                      //     widget.snap['postId'], user.userId, widget.snap['likes']);
+                      // setState(() {
+                      //   isLikeAnimating = true;
+                      // });
+                    },
+                    child: Hero(
+                      tag: widget.snap['postPhotoUrl'],
+                      child: Image.network(
+                        widget.snap['postPhotoUrl'],
+                        fit: BoxFit.cover,
+                        alignment: FractionalOffset.center,
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  // height: 100,
-                  // color: Colors.purple,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        widget.snap['username'],
-                        style: headerTextStyle,
-                      ),
-                      Text(
-                        DateFormat.yMMMd().format(
-                          DateTime.parse(
-                            widget.snap['datePublished'],
-                          ),
+              ),
+              Container(
+                // height: 100,
+                // color: Colors.purple,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.snap['username'],
+                      style: headerTextStyle,
+                    ),
+                    Text(
+                      DateFormat.yMMMd().format(
+                        DateTime.parse(
+                          widget.snap['datePublished'],
                         ),
-                        style: subHeaderNotHighlightedTextStyle,
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      CustomTextField(
-                        textEditingController: _textEditingController,
-                        hintText: 'Enter your post description here.',
-                        textInputType: TextInputType.text,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.of(context).push(
-                      //       MaterialPageRoute(
-                      //         builder: (context) => CommentsScreen(
-                      //           snap: widget.snap,
-                      //         ),
-                      //       ),
-                      //     );
-                      //   },
-                      //   child: noOfComments > 0
-                      //       ? Text(
-                      //           'View all ${noOfComments} comments...',
-                      //           style: subHeaderNotHighlightedTextStyle,
-                      //         )
-                      //       : Container(),
-                      // ),
-                      // SizedBox(
-                      //   height: 10,
-                      // )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                      style: subHeaderNotHighlightedTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    CustomTextField(
+                      textEditingController: _textEditingController,
+                      hintText: 'Enter your post description here.',
+                      textInputType: TextInputType.text,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => CommentsScreen(
+                    //           snap: widget.snap,
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: noOfComments > 0
+                    //       ? Text(
+                    //           'View all ${noOfComments} comments...',
+                    //           style: subHeaderNotHighlightedTextStyle,
+                    //         )
+                    //       : Container(),
+                    // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // )
+                  ],
+                ),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

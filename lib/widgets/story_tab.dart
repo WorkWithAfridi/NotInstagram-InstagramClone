@@ -1,8 +1,5 @@
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/screens/post_story_screen.dart';
 import 'package:not_instagram/screens/view_story_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -10,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../model/user.dart';
 import '../providers/user_provider.dart';
-import '../utils/utils.dart';
 
 class StoryTab extends StatefulWidget {
   const StoryTab({Key? key}) : super(key: key);
@@ -29,7 +25,7 @@ class _StoryTabState extends State<StoryTab> {
   }
 
   void getData() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 4));
     setState(() {
       isLoading = false;
     });
@@ -39,29 +35,29 @@ class _StoryTabState extends State<StoryTab> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).user;
     return isLoading
-        ? LinearProgressIndicator()
+        ? const LinearProgressIndicator()
         : Column(
             children: [
-              Container(
+              SizedBox(
                 height: 80,
                 width: MediaQuery.of(context).size.width,
                 // color: Colors.yellow,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Row(
                     children: [
                       GestureDetector(
                         onTap: () async {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => AddStoryScreen(),
+                              builder: (context) => const AddStoryScreen(),
                             ),
                           );
                         },
                         child: Padding(
-                          padding: EdgeInsets.only(left: 15.0),
-                          child: Container(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: SizedBox(
                             width: 70,
                             height: double.infinity,
                             // color: Colors.pink,
@@ -100,7 +96,7 @@ class _StoryTabState extends State<StoryTab> {
                                                   BorderRadius.circular(20),
                                               color: Colors.pink,
                                             ),
-                                            child: Icon(
+                                            child: const Icon(
                                               Icons.add,
                                               size: 20,
                                             ),
@@ -122,134 +118,133 @@ class _StoryTabState extends State<StoryTab> {
                         ),
                       ),
                       StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('stories')
-                              .orderBy('datePublished', descending: true)
-                              .snapshots(),
-                          builder: (context,
-                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                                  snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => ViewStory(
-                                          snap: snapshot.data!.docs[index],
-                                          user: user,
-                                          parentSnap: snapshot.data!,
-                                          indexPosition: index    ,
-                                        ),
+                        stream: FirebaseFirestore.instance
+                            .collection('stories')
+                            .orderBy('datePublished', descending: true)
+                            .snapshots(),
+                        builder: (context,
+                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => ViewStory(
+                                        snap: snapshot.data!.docs[index],
+                                        user: user,
+                                        parentSnap: snapshot.data!,
+                                        indexPosition: index,
                                       ),
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 7.0,
-                                        right: index ==
-                                                snapshot.data!.docs.length - 1
-                                            ? 15
-                                            : 0),
-                                    child: Container(
-                                      width: 70,
-                                      height: double.infinity,
-                                      // color: Colors.pink,
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              height: 65,
-                                              width: 65,
-                                              decoration: BoxDecoration(
-                                                // color: Colors.pink,
-                                                borderRadius:
-                                                    BorderRadius.circular(65),
-                                                gradient: LinearGradient(
-                                                    colors: [
-                                                      Colors.orange
-                                                          .withOpacity(.8),
-                                                      Colors.orangeAccent
-                                                          .withOpacity(.8),
-                                                      Colors.red
-                                                          .withOpacity(.8),
-                                                      Colors.redAccent
-                                                          .withOpacity(.8),
-                                                      //add more colors for gradient
-                                                    ],
-                                                    begin: Alignment
-                                                        .topLeft, //begin of the gradient color
-                                                    end: Alignment
-                                                        .bottomRight, //end of the gradient color
-                                                    stops: [
-                                                      0,
-                                                      0.2,
-                                                      0.5,
-                                                      0.8
-                                                    ] //stops for individual color
-                                                    //set the stops number equal to numbers of color
-                                                    ),
-                                              ),
-                                              child: Stack(
-                                                children: [
-                                                  Center(
-                                                    child: Container(
-                                                      height: 60,
-                                                      width: 60,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(65),
-                                                        child: Hero(
-                                                          tag: snapshot.data!
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 7.0,
+                                      right: index ==
+                                              snapshot.data!.docs.length - 1
+                                          ? 15
+                                          : 0),
+                                  child: SizedBox(
+                                    width: 70,
+                                    height: double.infinity,
+                                    // color: Colors.pink,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 65,
+                                            width: 65,
+                                            decoration: BoxDecoration(
+                                              // color: Colors.pink,
+                                              borderRadius:
+                                                  BorderRadius.circular(65),
+                                              gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.orange
+                                                        .withOpacity(.8),
+                                                    Colors.orangeAccent
+                                                        .withOpacity(.8),
+                                                    Colors.red.withOpacity(.8),
+                                                    Colors.redAccent
+                                                        .withOpacity(.8),
+                                                    //add more colors for gradient
+                                                  ],
+                                                  begin: Alignment
+                                                      .topLeft, //begin of the gradient color
+                                                  end: Alignment
+                                                      .bottomRight, //end of the gradient color
+                                                  stops: const [
+                                                    0,
+                                                    0.2,
+                                                    0.5,
+                                                    0.8
+                                                  ] //stops for individual color
+                                                  //set the stops number equal to numbers of color
+                                                  ),
+                                            ),
+                                            child: Stack(
+                                              children: [
+                                                Center(
+                                                  child: Container(
+                                                    height: 60,
+                                                    width: 60,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              65),
+                                                      child: Hero(
+                                                        tag: snapshot.data!
+                                                                .docs[index]
+                                                            ['postPhotoUrl'],
+                                                        child: Image.network(
+                                                          snapshot.data!
                                                                   .docs[index]
                                                               ['postPhotoUrl'],
-                                                          child: Image.network(
-                                                            snapshot.data!
-                                                                    .docs[index]
-                                                                [
-                                                                'postPhotoUrl'],
-                                                            fit: BoxFit.cover,
-                                                          ),
+                                                          fit: BoxFit.cover,
                                                         ),
                                                       ),
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            snapshot.data!.docs[index]
-                                                ['username'],
-                                            maxLines: 1,
-                                            textAlign: TextAlign.center,
-                                            style: headerTextStyle.copyWith(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.normal),
-                                          )
-                                        ],
-                                      ),
+                                        ),
+                                        Text(
+                                          snapshot.data!.docs[index]
+                                              ['username'],
+                                          maxLines: 1,
+                                          textAlign: TextAlign.center,
+                                          style: headerTextStyle.copyWith(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          }),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Divider(

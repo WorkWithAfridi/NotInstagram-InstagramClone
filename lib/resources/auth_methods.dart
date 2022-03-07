@@ -59,10 +59,11 @@ class AuthMethods {
     } on FirebaseAuthException catch (err) {
       if (err.code == 'invalid-email') res = "The email is badly formatted.";
       if (err.code == 'weak-password') res = "Weak Password.";
-      if (err.code == 'email-already-in-use')
+      if (err.code == 'email-already-in-use') {
         res = "Email already linked with an account.";
-      else
+      } else {
         res = err.code;
+      }
     } catch (err) {
       res = err.toString();
     }

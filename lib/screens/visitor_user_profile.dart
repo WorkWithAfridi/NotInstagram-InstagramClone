@@ -55,15 +55,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
     User _user = Provider.of<UserProvider>(context, listen: false).user;
     isFollowing = widget.user.followers
         .contains(FirebaseAuth.FirebaseAuth.instance.currentUser!.uid);
-
-    //
-    // print(widget.user.followers);
-    // print(_user.userId);
-    // print(isFollowing);
-
-    setState(() {
-      // print('setting state');
-    });
+    setState(() {});
   }
 
   @override
@@ -78,8 +70,8 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
         elevation: 0,
         backgroundColor: backgroundColor,
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.add_circle)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
         ],
       ),
       backgroundColor: backgroundColor,
@@ -103,7 +95,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                     ),
                     radius: 40,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Expanded(
@@ -118,7 +110,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                               postSnap == null ? '0' : postSnap.size.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -135,7 +127,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                               widget.user.followers.length.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -152,7 +144,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                               widget.user.following.length.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -181,18 +173,18 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                 style: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 17),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: isFollowing
                   ? Row(
                       children: [
                         Flexible(
                           flex: 1,
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () async {
@@ -203,9 +195,6 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                                     .get();
                                 List followers =
                                     (snap.data()! as dynamic)['followers'];
-
-                                print('0-00000000000000000000');
-                                print(followers.length);
 
                                 if (followers.contains(FirebaseAuth
                                     .FirebaseAuth.instance.currentUser!.uid)) {
@@ -244,7 +233,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Flexible(
@@ -254,7 +243,9 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                             child: ElevatedButton(
                               onPressed: () async {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => ChatScreen(user2: widget.user,)));
+                                    builder: (context) => ChatScreen(
+                                          user2: widget.user,
+                                        )));
                               },
                               child: Text(
                                 'Send message',
@@ -281,8 +272,6 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                                 List following =
                                     (snap.data()! as dynamic)['followers'];
 
-                                print(following);
-
                                 if (!following.contains(FirebaseAuth
                                     .FirebaseAuth.instance.currentUser!.uid)) {
                                   await FirebaseFirestore.instance
@@ -299,27 +288,22 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                                       .collection('users')
                                       .doc(FirebaseAuth.FirebaseAuth.instance
                                           .currentUser!.uid)
-                                      .update({
-                                    'following': FieldValue.arrayUnion(
-                                        [widget.user.userId])
-                                  });
+                                      .update(
+                                    {
+                                      'following': FieldValue.arrayUnion(
+                                          [widget.user.userId])
+                                    },
+                                  );
                                 }
                               } catch (e) {
                                 showSnackbar(context, e.toString());
                               }
-                              setState(() {
-                                isFollowing = true;
-                                getData();
-                              });
-                              // var snap = await FirebaseFirestore.instance
-                              //     .collection('posts')
-                              //     .where(
-                              //       'uid',
-                              //       isEqualTo: widget.user.userId,
-                              //     )
-                              //     .get();
-                              //
-                              // print(snap.size);
+                              setState(
+                                () {
+                                  isFollowing = true;
+                                  getData();
+                                },
+                              );
                             },
                             child: Text(
                               'Follow',
@@ -333,7 +317,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                     ),
             ),
             TabBar(
-              tabs: [
+              tabs: const [
                 Tab(
                   icon: Icon(Icons.grid_3x3),
                 ),
@@ -348,57 +332,59 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    Container(
-                      // color: Colors.red,
-                      child: FutureBuilder(
-                        future: FirebaseFirestore.instance
-                            .collection('posts')
-                            .where(
-                              'uid',
-                              isEqualTo: widget.user.userId,
-                            )
-                            .get(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return StaggeredGridView.countBuilder(
-                            crossAxisCount: 3,
-                            physics: BouncingScrollPhysics(),
-                            itemCount: (snapshot.data! as dynamic).docs.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailedImageScreen(
-                                        postId: (snapshot.data! as dynamic)
-                                            .docs[index]['postPhotoUrl'],
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Image.network(
-                                  (snapshot.data! as dynamic).docs[index]
-                                      ['postPhotoUrl'],
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
-                            staggeredTileBuilder: (index) =>
-                                StaggeredTile.count((index % 7 == 0) ? 2 : 1,
-                                    (index % 7 == 0) ? 2 : 1),
-                            mainAxisSpacing: 4,
-                            crossAxisSpacing: 4,
+                    FutureBuilder(
+                      future: FirebaseFirestore.instance
+                          .collection('posts')
+                          .where(
+                            'uid',
+                            isEqualTo: widget.user.userId,
+                          )
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
-                        },
-                      ),
+                        }
+                        return StaggeredGridView.countBuilder(
+                          crossAxisCount: 3,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: (snapshot.data! as dynamic).docs.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailedImageScreen(
+                                      postId: (snapshot.data! as dynamic)
+                                          .docs[index]['postPhotoUrl'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Image.network(
+                                (snapshot.data! as dynamic).docs[index]
+                                    ['postPhotoUrl'],
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                          staggeredTileBuilder: (index) => StaggeredTile.count(
+                              (index % 7 == 0) ? 2 : 1,
+                              (index % 7 == 0) ? 2 : 1),
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                        );
+                      },
                     ),
                     Container(
                       color: backgroundColor,
-                      child: Center(child: Text('Work in progress...',style: headerTextStyle,),),
+                      child: Center(
+                        child: Text(
+                          'Work in progress...',
+                          style: headerTextStyle,
+                        ),
+                      ),
                     ),
                   ],
                 ),

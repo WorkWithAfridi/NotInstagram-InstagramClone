@@ -44,144 +44,142 @@ class _ChatScreenState extends State<ChatScreen> {
         elevation: 0,
       ),
       backgroundColor: backgroundColor,
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // StreamBuilder(
-                      //   stream: FirebaseFirestore.instance
-                      //       .collection('chats')
-                      //       .doc(widget.user2.userId)
-                      //       .collection(user.userId).orderBy('datePublished', descending: false)
-                      //       .snapshots(),
-                      //   builder: (BuildContext context,
-                      //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                      //           snapshot) {
-                      //     if (snapshot.connectionState ==
-                      //         ConnectionState.waiting) {
-                      //       return Center(
-                      //         child: CircularProgressIndicator(),
-                      //       );
-                      //     }
-                      //     print('New length');
-                      //     print(snapshot.data!.docs.length);
-                      //     return ListView.builder(
-                      //         shrinkWrap: true,
-                      //         physics: BouncingScrollPhysics(),
-                      //         itemCount: snapshot.data!.docs.length,
-                      //         itemBuilder: (context, index) {
-                      //           return Card(
-                      //             color: Colors.pink.withOpacity(.7),
-                      //             elevation: 5,
-                      //             child: Container(
-                      //               padding: EdgeInsets.symmetric(
-                      //                   vertical: 18, horizontal: 10),
-                      //               child: Row(
-                      //                 // mainAxisAlignment: MainAxisAlignment.start,
-                      //                 // crossAxisAlignment: CrossAxisAlignment.start,
-                      //                 children: [
-                      //                   snapshot.data!
-                      //                       .docs[index]
-                      //                   ['userId'] == user.userId? Container():  GestureDetector(
-                      //                     onTap: () async {},
-                      //                     child: CircleAvatar(
-                      //                       backgroundImage: NetworkImage(
-                      //                         snapshot.data!.docs[index]
-                      //                             ['profilePic'],
-                      //                       ),
-                      //                       radius: 18,
-                      //                     ),
-                      //                   ),
-                      //                   Expanded(
-                      //                     child: Padding(
-                      //                       padding: EdgeInsets.only(left: 10),
-                      //                       child: Column(
-                      //                         crossAxisAlignment:
-                      //                             CrossAxisAlignment.start,
-                      //                         mainAxisAlignment:
-                      //                             MainAxisAlignment.center,
-                      //                         children: [
-                      //                           GestureDetector(
-                      //                             onTap: () async {},
-                      //                             child: Text(
-                      //                               snapshot.data!.docs[index]
-                      //                                   ['name'],
-                      //                               style: headerTextStyle.copyWith(color: Colors.white.withOpacity(.9)),
-                      //                             ),
-                      //                           ),
-                      //                           RichText(
-                      //                             text: TextSpan(
-                      //                               children: [
-                      //                                 TextSpan(
-                      //                                   text: snapshot.data!
-                      //                                           .docs[index]
-                      //                                       ['chatMessage'],
-                      //                                   style: headerTextStyle
-                      //                                       .copyWith(
-                      //                                           fontWeight:
-                      //                                               FontWeight
-                      //                                                   .w400,
-                      //                                           fontSize: 15),
-                      //                                 ),
-                      //                               ],
-                      //                             ),
-                      //                           ),
-                      //                           Padding(
-                      //                             padding:
-                      //                                 EdgeInsets.only(top: 4),
-                      //                             child: Text(
-                      //                                 '${DateFormat.yMMMd().format(
-                      //                                   (snapshot.data!.docs[
-                      //                                                   index][
-                      //                                               'datePublished']
-                      //                                           as Timestamp)
-                      //                                       .toDate(),
-                      //                                 )}',
-                      //                                 style:
-                      //                                     subHeaderNotHighlightedTextStyle),
-                      //                           ),
-                      //                           // Divider( color: Colors.white.withOpacity(.4),)
-                      //                         ],
-                      //                       ),
-                      //                     ),
-                      //                   ),
-                      //
-                      //                   snapshot.data!
-                      //                       .docs[index]
-                      //                   ['userId'] == user.userId?   GestureDetector(
-                      //                     onTap: () async {},
-                      //                     child: CircleAvatar(
-                      //                       backgroundImage: NetworkImage(
-                      //                         snapshot.data!.docs[index]
-                      //                         ['profilePic'],
-                      //                       ),
-                      //                       radius: 18,
-                      //                     ),
-                      //                   ) : Container(),
-                      //                 ],
-                      //               ),
-                      //             ),
-                      //           );
-                      //
-                      //           //   Container(
-                      //           //   child: Text(
-                      //           //     snapshot.data!.docs[index]['chatMessage'],
-                      //           //     style: headerTextStyle,
-                      //           //   ),
-                      //           // );
-                      //         });
-                      //   },
-                      // )
-                    ],
-                  ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // StreamBuilder(
+                    //   stream: FirebaseFirestore.instance
+                    //       .collection('chats')
+                    //       .doc(widget.user2.userId)
+                    //       .collection(user.userId).orderBy('datePublished', descending: false)
+                    //       .snapshots(),
+                    //   builder: (BuildContext context,
+                    //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                    //           snapshot) {
+                    //     if (snapshot.connectionState ==
+                    //         ConnectionState.waiting) {
+                    //       return Center(
+                    //         child: CircularProgressIndicator(),
+                    //       );
+                    //     }
+                    //     print('New length');
+                    //     print(snapshot.data!.docs.length);
+                    //     return ListView.builder(
+                    //         shrinkWrap: true,
+                    //         physics: BouncingScrollPhysics(),
+                    //         itemCount: snapshot.data!.docs.length,
+                    //         itemBuilder: (context, index) {
+                    //           return Card(
+                    //             color: Colors.pink.withOpacity(.7),
+                    //             elevation: 5,
+                    //             child: Container(
+                    //               padding: EdgeInsets.symmetric(
+                    //                   vertical: 18, horizontal: 10),
+                    //               child: Row(
+                    //                 // mainAxisAlignment: MainAxisAlignment.start,
+                    //                 // crossAxisAlignment: CrossAxisAlignment.start,
+                    //                 children: [
+                    //                   snapshot.data!
+                    //                       .docs[index]
+                    //                   ['userId'] == user.userId? Container():  GestureDetector(
+                    //                     onTap: () async {},
+                    //                     child: CircleAvatar(
+                    //                       backgroundImage: NetworkImage(
+                    //                         snapshot.data!.docs[index]
+                    //                             ['profilePic'],
+                    //                       ),
+                    //                       radius: 18,
+                    //                     ),
+                    //                   ),
+                    //                   Expanded(
+                    //                     child: Padding(
+                    //                       padding: EdgeInsets.only(left: 10),
+                    //                       child: Column(
+                    //                         crossAxisAlignment:
+                    //                             CrossAxisAlignment.start,
+                    //                         mainAxisAlignment:
+                    //                             MainAxisAlignment.center,
+                    //                         children: [
+                    //                           GestureDetector(
+                    //                             onTap: () async {},
+                    //                             child: Text(
+                    //                               snapshot.data!.docs[index]
+                    //                                   ['name'],
+                    //                               style: headerTextStyle.copyWith(color: Colors.white.withOpacity(.9)),
+                    //                             ),
+                    //                           ),
+                    //                           RichText(
+                    //                             text: TextSpan(
+                    //                               children: [
+                    //                                 TextSpan(
+                    //                                   text: snapshot.data!
+                    //                                           .docs[index]
+                    //                                       ['chatMessage'],
+                    //                                   style: headerTextStyle
+                    //                                       .copyWith(
+                    //                                           fontWeight:
+                    //                                               FontWeight
+                    //                                                   .w400,
+                    //                                           fontSize: 15),
+                    //                                 ),
+                    //                               ],
+                    //                             ),
+                    //                           ),
+                    //                           Padding(
+                    //                             padding:
+                    //                                 EdgeInsets.only(top: 4),
+                    //                             child: Text(
+                    //                                 '${DateFormat.yMMMd().format(
+                    //                                   (snapshot.data!.docs[
+                    //                                                   index][
+                    //                                               'datePublished']
+                    //                                           as Timestamp)
+                    //                                       .toDate(),
+                    //                                 )}',
+                    //                                 style:
+                    //                                     subHeaderNotHighlightedTextStyle),
+                    //                           ),
+                    //                           // Divider( color: Colors.white.withOpacity(.4),)
+                    //                         ],
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //
+                    //                   snapshot.data!
+                    //                       .docs[index]
+                    //                   ['userId'] == user.userId?   GestureDetector(
+                    //                     onTap: () async {},
+                    //                     child: CircleAvatar(
+                    //                       backgroundImage: NetworkImage(
+                    //                         snapshot.data!.docs[index]
+                    //                         ['profilePic'],
+                    //                       ),
+                    //                       radius: 18,
+                    //                     ),
+                    //                   ) : Container(),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           );
+                    //
+                    //           //   Container(
+                    //           //   child: Text(
+                    //           //     snapshot.data!.docs[index]['chatMessage'],
+                    //           //     style: headerTextStyle,
+                    //           //   ),
+                    //           // );
+                    //         });
+                    //   },
+                    // )
+                  ],
                 ),
               ),
             ),
@@ -191,7 +189,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Container(
               height: kToolbarHeight,
               // color: Colors.black87,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
@@ -203,62 +201,58 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         radius: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
-                        child: Container(
-                          child: CustomTextField(
-                              textEditingController: chatTextEditingController,
-                              hintText: 'Send a message...',
-                              textInputType: TextInputType.text),
-                        ),
+                        child: CustomTextField(
+                            textEditingController: chatTextEditingController,
+                            hintText: 'Send a message...',
+                            textInputType: TextInputType.text),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       IconButton(
-                          onPressed: () async {
-                            String chatId = Uuid().v1();
+                        onPressed: () async {
+                          String chatId = Uuid().v1();
 
-                            // await FirebaseFirestore.instance
-                            //     .collection('chats')
-                            //     .doc(widget.user2.userId)
-                            //     .collection(user.userId)
-                            //     .doc(chatId)
-                            //     .set({
-                            //   'profilePic': user.photoUrl,
-                            //   'name': user.userName,
-                            //   'chatId': chatId,
-                            //   'chatMessage': chatTextEditingController.text,
-                            //   'datePublished': DateTime.now(),
-                            //   'userId': user.userId
-                            // });
+                          // await FirebaseFirestore.instance
+                          //     .collection('chats')
+                          //     .doc(widget.user2.userId)
+                          //     .collection(user.userId)
+                          //     .doc(chatId)
+                          //     .set({
+                          //   'profilePic': user.photoUrl,
+                          //   'name': user.userName,
+                          //   'chatId': chatId,
+                          //   'chatMessage': chatTextEditingController.text,
+                          //   'datePublished': DateTime.now(),
+                          //   'userId': user.userId
+                          // });
 
-
-
-
-                            await FirebaseFirestore.instance
-                                .collection('chats')
-                                .doc(chatId)
-                                .collection('messages')
-                                .doc(chatId)
-                                .set({
-                              'profilePic': user.photoUrl,
-                              'name': user.userName,
-                              'chatId': chatId,
-                              'chatMessage': chatTextEditingController.text,
-                              'datePublished': DateTime.now(),
-                              'userId': user.userId
-                            });
-                          },
-                          icon: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          )),
+                          await FirebaseFirestore.instance
+                              .collection('chats')
+                              .doc(chatId)
+                              .collection('messages')
+                              .doc(chatId)
+                              .set({
+                            'profilePic': user.photoUrl,
+                            'name': user.userName,
+                            'chatId': chatId,
+                            'chatMessage': chatTextEditingController.text,
+                            'datePublished': DateTime.now(),
+                            'userId': user.userId
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 2,
                   )
                 ],

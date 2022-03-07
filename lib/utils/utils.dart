@@ -13,14 +13,10 @@ pickImage(ImageSource source) async {
   if (_file != null) {
     File? croppedImage = await ImageCropper().cropImage(
       sourcePath: _file.path,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
       maxHeight: 500,
       aspectRatioPresets: [CropAspectRatioPreset.square],
     );
-    print('---------------------');
-    print(croppedImage.runtimeType);
-
-    // return await _file.readAsBytes();
     return croppedImage!.readAsBytes();
   }
   print('No image selected');

@@ -40,7 +40,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         ),
         centerTitle: false,
         backgroundColor: backgroundColor,
-        elevation:0,
+        elevation: 0,
       ),
       backgroundColor: backgroundColor,
       body: Container(
@@ -49,50 +49,50 @@ class _CommentsScreenState extends State<CommentsScreen> {
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('posts')
-                            .doc(widget.snap['postId'])
-                            .collection('comments')
-                            .orderBy('datePublished', descending: true)
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container(
-                              height: MediaQuery.of(context).size.height,
-                              width: MediaQuery.of(context).size.width,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                            itemBuilder: (context, index) => CommentCard(
-                              snap: (snapshot.data! as dynamic).docs[index],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('posts')
+                          .doc(widget.snap['postId'])
+                          .collection('comments')
+                          .orderBy('datePublished', descending: true)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                            itemCount: (snapshot.data! as dynamic).docs.length,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
                           );
-                        },
-                      )
-                    ],
-                  ),
+                        }
+                        return ListView.builder(
+                          itemBuilder: (context, index) => CommentCard(
+                            snap: (snapshot.data! as dynamic).docs[index],
+                          ),
+                          itemCount: (snapshot.data! as dynamic).docs.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                        );
+                      },
+                    )
+                  ],
                 ),
               ),
             ),
-            Divider(color: Colors.white.withOpacity(.4),),
+            Divider(
+              color: Colors.white.withOpacity(.4),
+            ),
             Container(
               height: kToolbarHeight,
               // color: Colors.black87,
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
@@ -104,39 +104,48 @@ class _CommentsScreenState extends State<CommentsScreen> {
                         ),
                         radius: 18,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
                         child: Container(
                           child: CustomTextField(
-                              textEditingController: commentTextEditingController,
+                              textEditingController:
+                                  commentTextEditingController,
                               hintText: 'Comment as ${user.userName}',
                               textInputType: TextInputType.text),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       IconButton(
-                          onPressed: () async {
-                            String res = await FireStoreMethods().postComment(
-                                postId: widget.snap['postId'],
-                                text: commentTextEditingController.text,
-                                uid: user.userId,
-                                name: user.userName,
-                                profilePic: user.photoUrl);
+                        onPressed: () async {
+                          String res = await FireStoreMethods().postComment(
+                              postId: widget.snap['postId'],
+                              text: commentTextEditingController.text,
+                              uid: user.userId,
+                              name: user.userName,
+                              profilePic: user.photoUrl);
+                          if (res == 'Comment posted') {
                             commentTextEditingController.text = '';
-                            print(res);
-                            showSnackbar(context, res);
-                          },
-                          icon: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          )),
+                          } else {
+                            showSnackbar(
+                              context,
+                              "Sorry couldn't post your comment. :(",
+                            );
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 2,)
+                  const SizedBox(
+                    height: 2,
+                  )
                 ],
               ),
             )

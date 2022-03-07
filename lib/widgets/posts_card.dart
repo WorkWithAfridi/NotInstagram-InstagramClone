@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +11,6 @@ import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/like_animation.dart';
 import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
@@ -52,7 +49,7 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).user;
-    return Container(
+    return SizedBox(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
       // color: Colors.black38,
       height: 500,
@@ -66,9 +63,10 @@ class _PostCardState extends State<PostCard> {
           children: [
             Container(
               height: 60,
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () async {
@@ -80,12 +78,11 @@ class _PostCardState extends State<PostCard> {
                             isEqualTo: postUserId,
                           )
                           .get();
-                      print(snapshot.docs[0]['username']);
 
                       if (snapshot.docs[0]['uid'] == user.userId) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => UserProfileScreen(),
+                            builder: (context) => const UserProfileScreen(),
                           ),
                         );
                       } else {
@@ -96,7 +93,8 @@ class _PostCardState extends State<PostCard> {
                           bio: snapshot.docs[0]['bio'],
                           photoUrl: snapshot.docs[0]['photoUrl'],
                           followers: [],
-                          following: [], chatRooms: [],
+                          following: [],
+                          chatRooms: [],
                         );
 
                         Navigator.of(context).push(
@@ -125,85 +123,86 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                            child: ListView(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              shrinkWrap: true,
-                              children: widget.snap['uid'] == user.userId
-                                  ? [
-                                      'Delete',
-                                      'Edit',
-                                    ]
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: () async {
-                                            if (e == 'Delete') {
-                                              String res =
-                                                  await FireStoreMethods()
-                                                      .deletePost(
-                                                          widget.snap['postId'],
-                                                          context);
-                                              showSnackbar(context, res);
-                                              Navigator.pop(context);
-                                            }
-                                            if (e == 'Edit') {
-                                              if (widget.snap['uid'] ==
-                                                  user.userId) {
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditPostScreen(
-                                                      snap: widget.snap,
-                                                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: ListView(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shrinkWrap: true,
+                            children: widget.snap['uid'] == user.userId
+                                ? [
+                                    'Delete',
+                                    'Edit',
+                                  ]
+                                    .map(
+                                      (e) => InkWell(
+                                        onTap: () async {
+                                          if (e == 'Delete') {
+                                            String res =
+                                                await FireStoreMethods()
+                                                    .deletePost(
+                                                        widget.snap['postId'],
+                                                        context);
+                                            showSnackbar(context, res);
+                                            Navigator.pop(context);
+                                          }
+                                          if (e == 'Edit') {
+                                            if (widget.snap['uid'] ==
+                                                user.userId) {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditPostScreen(
+                                                    snap: widget.snap,
                                                   ),
-                                                );
-                                              } else {
-                                                Navigator.of(context).pop();
-                                                showSnackbar(context,
-                                                    'You are not the owner of this post!');
-                                              }
-                                            }
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12, horizontal: 16),
-                                            child: Text(e),
-                                          ),
-                                        ),
-                                      )
-                                      .toList()
-                                  : [
-                                      'Report',
-                                    ]
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: () async {
-                                            if (e == 'Report') {
+                                                ),
+                                              );
+                                            } else {
                                               Navigator.of(context).pop();
                                               showSnackbar(context,
-                                                  'Post has been reported!');
+                                                  'You are not the owner of this post!');
                                             }
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 12, horizontal: 16),
-                                            child: Text(e),
-                                          ),
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 16),
+                                          child: Text(e),
                                         ),
-                                      )
-                                      .toList(),
-                            ),
+                                      ),
+                                    )
+                                    .toList()
+                                : [
+                                    'Report',
+                                  ]
+                                    .map(
+                                      (e) => InkWell(
+                                        onTap: () async {
+                                          if (e == 'Report') {
+                                            Navigator.of(context).pop();
+                                            showSnackbar(context,
+                                                'Post has been reported!');
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 16),
+                                          child: Text(e),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
                           ),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.more_vert,
-                        color: Colors.white,
-                      ))
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -212,55 +211,43 @@ class _PostCardState extends State<PostCard> {
                 color: Colors.black26,
                 width: double.infinity,
                 height: double.infinity,
-                child: GestureDetector(
-                  onDoubleTap: () async {
-                    // await FireStoreMethods().likePost(
-                    //     widget.snap['postId'], user.userId, widget.snap['likes']);
-                    // setState(() {
-                    //   isLikeAnimating = true;
-                    // });
-                  },
-                  child: Hero(
-                    tag: widget.snap['postPhotoUrl'],
-                    child: Image.network(
-                      widget.snap['postPhotoUrl'],
-                      fit: BoxFit.cover,
-                      alignment: FractionalOffset.center,
-                    ),
+                child: Hero(
+                  tag: widget.snap['postPhotoUrl'],
+                  child: Image.network(
+                    widget.snap['postPhotoUrl'],
+                    fit: BoxFit.cover,
+                    alignment: FractionalOffset.center,
                   ),
                 ),
               ),
             ),
             Container(
               height: 40,
-              padding: EdgeInsets.symmetric(horizontal: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               // color: Colors.purple,
               child: Row(
                 children: [
-                  Container(
+                  SizedBox(
                     width: 40,
                     // color: Colors.blue,
                     child: IconButton(
-                      onPressed: () async {
-                        await FireStoreMethods().likePost(widget.snap['postId'],
-                            user.userId, widget.snap['likes']);
-                        setState(() {});
-                      },
-                      icon: LikeAnimation(
-                        isAnimating: widget.snap['likes'].contains(user.userId),
-                        smallLike: true,
-                        child: Icon(
+                        onPressed: () async {
+                          await FireStoreMethods().likePost(
+                              widget.snap['postId'],
+                              user.userId,
+                              widget.snap['likes']);
+                          setState(() {});
+                        },
+                        icon: Icon(
                           widget.snap['likes'].contains(user.userId)
                               ? Icons.favorite
                               : Icons.favorite_border,
                           color: widget.snap['likes'].contains(user.userId)
                               ? Colors.red
                               : Colors.white,
-                        ),
-                      ),
-                    ),
+                        )),
                   ),
-                  Container(
+                  SizedBox(
                     width: 40,
                     // color: Colors.green,
                     child: IconButton(
@@ -273,18 +260,18 @@ class _PostCardState extends State<PostCard> {
                           ),
                         );
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         FontAwesomeIcons.commentDots,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 40,
                     // color: Colors.red,
                     child: IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.send,
                         color: Colors.white,
                       ),
@@ -293,10 +280,10 @@ class _PostCardState extends State<PostCard> {
                   Expanded(
                     child: Container(
                       alignment: Alignment.centerRight,
-                      padding: EdgeInsets.symmetric(horizontal: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
                       child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.bookmark_add_outlined,
                           color: Colors.white,
                         ),
@@ -309,7 +296,7 @@ class _PostCardState extends State<PostCard> {
             Container(
               // height: 100,
               // color: Colors.purple,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,14 +315,6 @@ class _PostCardState extends State<PostCard> {
                   Text(
                     widget.snap['username'],
                     style: headerTextStyle,
-                  ),
-                  Text(
-                    DateFormat.yMMMd().format(
-                      DateTime.parse(
-                        widget.snap['datePublished'],
-                      ),
-                    ),
-                    style: subHeaderNotHighlightedTextStyle,
                   ),
                   widget.snap['description'].toString().isNotEmpty
                       ? Text(
@@ -358,12 +337,20 @@ class _PostCardState extends State<PostCard> {
                     },
                     child: noOfComments > 0
                         ? Text(
-                            'View all ${noOfComments} comments...',
+                            'View all $noOfComments comments...',
                             style: subHeaderNotHighlightedTextStyle,
                           )
                         : Container(),
                   ),
-                  SizedBox(
+                  Text(
+                    DateFormat.yMMMd().format(
+                      DateTime.parse(
+                        widget.snap['datePublished'],
+                      ),
+                    ),
+                    style: subHeaderNotHighlightedTextStyle,
+                  ),
+                  const SizedBox(
                     height: 10,
                   )
                 ],

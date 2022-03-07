@@ -37,11 +37,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         .get();
 
     userName = (documentSnapshot.data() as Map<String, dynamic>)['username'];
-
-    // await Provider.of<UserProvider>(context,
-    //     listen: false)
-    //     .refreshUser();
-    // print(documentSnapshot.data());
   }
 
   late PageController pageController;
@@ -60,13 +55,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(0),
+        preferredSize: const Size.fromHeight(0),
         child: AppBar(
           backgroundColor: backgroundColor,
           elevation: 0,
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child:
@@ -78,7 +73,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           // physics: BouncingScrollPhysics(),
           controller: pageController,
           onPageChanged: (value) {
-            print(value);
             setState(() {
               _page = value;
             });
@@ -96,7 +90,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         iconSize: 25,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
