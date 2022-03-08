@@ -252,6 +252,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                     ),
                     CustomTextField(
                       textEditingController: _textEditingController,
+                      maxLines: 4,
                       hintText: 'Enter your post description here.',
                       textInputType: TextInputType.text,
                     ),

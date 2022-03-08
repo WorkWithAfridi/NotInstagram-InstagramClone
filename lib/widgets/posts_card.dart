@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +127,10 @@ class _PostCardState extends State<PostCard> {
                     onPressed: () {
                       showDialog(
                         context: context,
+                        barrierColor: Colors.black54,
                         builder: (context) => Dialog(
+                          elevation: 6,
+                          backgroundColor: backgroundColor,
                           child: ListView(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shrinkWrap: true,
@@ -169,7 +173,10 @@ class _PostCardState extends State<PostCard> {
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12, horizontal: 16),
-                                          child: Text(e),
+                                          child: Text(
+                                            e,
+                                            style: subHeaderTextStyle,
+                                          ),
                                         ),
                                       ),
                                     )
@@ -181,15 +188,26 @@ class _PostCardState extends State<PostCard> {
                                       (e) => InkWell(
                                         onTap: () async {
                                           if (e == 'Report') {
+                                            print(widget.snap['postId']);
+                                            String res =
+                                                await FireStoreMethods()
+                                                    .reportPost(
+                                                        widget.snap['postId'],
+                                                        widget.snap['uid'],
+                                                        widget
+                                                            .snap['username']);
+
                                             Navigator.of(context).pop();
-                                            showSnackbar(context,
-                                                'Post has been reported!');
+                                            showSnackbar(context, res);
                                           }
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 12, horizontal: 16),
-                                          child: Text(e),
+                                          child: Text(
+                                            e,
+                                            style: subHeaderTextStyle,
+                                          ),
                                         ),
                                       ),
                                     )

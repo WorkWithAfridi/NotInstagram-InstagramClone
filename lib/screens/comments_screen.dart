@@ -112,6 +112,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           child: CustomTextField(
                               textEditingController:
                                   commentTextEditingController,
+                              maxLines: 1,
                               hintText: 'Comment as ${user.userName}',
                               textInputType: TextInputType.text),
                         ),

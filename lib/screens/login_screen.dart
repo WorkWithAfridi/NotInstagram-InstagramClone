@@ -80,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             CustomTextField(
                                 textEditingController: _emailTextController,
+                                maxLines: 1,
                                 hintText:
                                     'Phone number, email address or username',
                                 textInputType: TextInputType.emailAddress),
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             CustomTextField(
                                 textEditingController: _passwordTextController,
                                 hintText: 'Password',
+                                maxLines: 1,
                                 isPass: true,
                                 textInputType: TextInputType.emailAddress),
                             SizedBox(
@@ -125,13 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                             //         listen: false)
                                             //     .refreshUser();
 
-                                            setState(() {
-                                              _isLoading = false;
-                                            });
                                             Navigator.of(context)
                                                 .pushAndRemoveUntil(
                                               MaterialPageRoute(
-                                                builder: (context) => const MobileScreenLayout(),
+                                                builder: (context) =>
+                                                    const MobileScreenLayout(),
                                               ),
                                               ModalRoute.withName('/'),
                                             );

@@ -208,6 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         child: CustomTextField(
                             textEditingController: chatTextEditingController,
                             hintText: 'Send a message...',
+                            maxLines: 1,
                             textInputType: TextInputType.text),
                       ),
                       const SizedBox(

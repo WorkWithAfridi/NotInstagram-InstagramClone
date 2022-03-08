@@ -186,6 +186,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       CustomTextField(
                           textEditingController: _userNameTextController,
+                          maxLines: 1,
                           hintText: 'Enter your user name here.',
                           textInputType: TextInputType.emailAddress),
                       SizedBox(
@@ -193,6 +194,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       CustomTextField(
                           textEditingController: _emailTextController,
+                          maxLines: 1,
                           hintText: 'Enter your email here.',
                           textInputType: TextInputType.emailAddress),
                       SizedBox(
@@ -201,6 +203,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       CustomTextField(
                           textEditingController: _bioTextController,
                           hintText: 'Enter your bio here.',
+                          maxLines: 4,
                           textInputType: TextInputType.emailAddress),
                       SizedBox(
                         height: 10,

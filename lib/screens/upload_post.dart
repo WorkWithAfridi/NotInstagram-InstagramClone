@@ -282,6 +282,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           Expanded(
                             child: CustomTextField(
                                 textEditingController: _descriptionController,
+                                maxLines: 4,
                                 hintText: 'Enter a caption...',
                                 textInputType: TextInputType.text),
                           )

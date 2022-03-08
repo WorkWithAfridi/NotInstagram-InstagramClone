@@ -26,6 +26,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
     getData();
   }
+
   void getData() async {
     _page = 0;
 
@@ -37,6 +38,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         .get();
 
     userName = (documentSnapshot.data() as Map<String, dynamic>)['username'];
+
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    userProvider.refreshUser();
   }
 
   late PageController pageController;
@@ -116,8 +121,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               label: 'Likes',
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
-              icon:
-              Icon(Icons.person),
+              icon: Icon(Icons.person),
 
               // _user.photoUrl == null
               //     ? Icon(Icons.person)

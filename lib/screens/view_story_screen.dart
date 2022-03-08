@@ -157,6 +157,7 @@ class _ViewStoryState extends State<ViewStory> {
                         ),
                         Expanded(
                           child: CustomTextField(
+                              maxLines: 1,
                               textEditingController: _messageTEC,
                               hintText: 'Send a message...',
                               textInputType: TextInputType.text),

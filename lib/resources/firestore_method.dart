@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:not_instagram/model/posts.dart';
 import 'package:not_instagram/model/stories.dart';
@@ -155,7 +157,54 @@ class FireStoreMethods {
       } else {
         res = 'You are not the owner of this post';
       }
+    } catch (e) {}
+    return res;
+  }
+
+  Future<String> reportPost(String postId, String uid, String username) async {
+    String res = 'An error occurred. Please try again.';
+    // StreamSubscription<DocumentSnapshot> streamSubscription;
+    // DocumentReference documentReference =
+    //     _firebaseFirestore.doc('reported_post/$postId');
+    // _firebaseFirestore.collection('reported_posts').get();
+    // print('1');
+    // streamSubscription =
+    //     await documentReference.snapshots().listen((dataSnapshot) async {
+    //   // To check if collection has document;
+    //   if (dataSnapshot.exists) {
+    //     res = 'Post has already been reported. :)';
+    //   } else {
+    //     // try {
+    //     await _firebaseFirestore.collection('reported_posts').doc(postId).set(
+    //       {
+    //         'userId': uid,
+    //         'postId': postId,
+    //         'username': username,
+    //       },
+    //     );
+    //     res = 'Post has been reported to Kyoto. Thank you. :)';
+    //     // } catch (e) {
+    //     //   print(e);
+    //     // }
+    //   }
+    // });
+    // bool containsPost = await _firebaseFirestore
+    //     .collection('reported_posts')
+    //     .doc(postId)
+    //     .snapshots()
+    //     .contains(postId);
+    // print(containsPost);
+    try {
+      await _firebaseFirestore.collection('reported_posts').doc(postId).set(
+        {
+          'userId': uid,
+          'postId': postId,
+          'username': username,
+        },
+      );
+      res = 'Post has been reported. Thank you.';
     } catch (e) {
+      res = 'An error occurred. Please try again later. :)';
     }
     return res;
   }

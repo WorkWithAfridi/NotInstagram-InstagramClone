@@ -73,7 +73,10 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
             onPressed: () {
               showDialog(
                 context: context,
+                barrierColor: Colors.black54,
                 builder: (context) => Dialog(
+                  elevation: 6,
+                  backgroundColor: backgroundColor,
                   child: ListView(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shrinkWrap: true,
@@ -97,7 +100,10 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
                             child: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 12, horizontal: 16),
-                              child: Text(option),
+                              child: Text(
+                                option,
+                                style: subHeaderTextStyle,
+                              ),
                             ),
                           ),
                         )

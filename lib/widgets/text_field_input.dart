@@ -6,13 +6,14 @@ class CustomTextField extends StatelessWidget {
   final bool isPass;
   final String hintText;
   final TextInputType textInputType;
+  final int maxLines;
 
   const CustomTextField(
       {Key? key,
       required this.textEditingController,
       this.isPass = false,
       required this.hintText,
-      required this.textInputType})
+      required this.textInputType, required this.maxLines})
       : super(key: key);
 
   @override
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
       style: subHeaderTextStyle.copyWith(fontSize: 16),
       cursorColor: Colors.white54,
       controller: textEditingController,
+      maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 15),

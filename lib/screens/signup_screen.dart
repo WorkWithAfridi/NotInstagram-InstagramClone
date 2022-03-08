@@ -149,6 +149,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       textEditingController:
                                           _userNameTextController,
                                       hintText: 'Enter your user name here.',
+                                      maxLines: 1,
                                       textInputType:
                                           TextInputType.emailAddress),
                                 ),
@@ -161,6 +162,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         CustomTextField(
                             textEditingController: _emailTextController,
+                            maxLines: 1,
                             hintText: 'Enter your email here.',
                             textInputType: TextInputType.emailAddress),
                         SizedBox(
@@ -168,6 +170,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         CustomTextField(
                             textEditingController: _passwordTextController,
+                            maxLines: 1,
                             hintText: 'Enter your password here.',
                             isPass: true,
                             textInputType: TextInputType.emailAddress),
@@ -176,6 +179,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         CustomTextField(
                             textEditingController: _bioTextController,
+                            maxLines: 4,
                             hintText: 'Enter your bio here.',
                             textInputType: TextInputType.emailAddress),
                         SizedBox(
