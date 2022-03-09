@@ -250,7 +250,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                     const SizedBox(
                       height: 5,
                     ),
-                    CustomTextField(
+                    getTextField(
                       textEditingController: _textEditingController,
                       maxLines: 4,
                       hintText: 'Enter your post description here.',

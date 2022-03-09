@@ -109,7 +109,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       ),
                       Expanded(
                         child: Container(
-                          child: CustomTextField(
+                          child: getTextField(
                               textEditingController:
                                   commentTextEditingController,
                               maxLines: 1,

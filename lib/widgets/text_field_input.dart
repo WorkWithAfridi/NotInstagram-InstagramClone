@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 
-class CustomTextField extends StatelessWidget {
+class getTextField extends StatelessWidget {
   final TextEditingController textEditingController;
   final bool isPass;
   final String hintText;
   final TextInputType textInputType;
   final int maxLines;
 
-  const CustomTextField(
+  const getTextField(
       {Key? key,
       required this.textEditingController,
       this.isPass = false,

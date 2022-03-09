@@ -12,6 +12,8 @@ import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/layout_constraints.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -20,85 +22,70 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _bioTextController = TextEditingController();
-  final TextEditingController _userNameTextController = TextEditingController();
+  final TextEditingController emailTEC = TextEditingController();
+  final TextEditingController passwordTEC = TextEditingController();
+  final TextEditingController bioTEC = TextEditingController();
+  final TextEditingController usernameTEC = TextEditingController();
   Uint8List? _image;
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _emailTextController.dispose();
-    _passwordTextController.dispose();
-    _bioTextController.dispose();
-    _userNameTextController.dispose();
+    emailTEC.dispose();
+    passwordTEC.dispose();
+    bioTEC.dispose();
+    usernameTEC.dispose();
     super.dispose();
   }
 
-  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ),
-        );
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: backgroundColor,
-          leading: IconButton(
-            onPressed: (){
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
-                ),
-              );
-            },
-            icon: Icon(Icons.arrow_back, color: Colors.white,),
-          ),
-        ),
-        backgroundColor: backgroundColor,
-        body: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  // color: Colors.red.withOpacity(.3),
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // SizedBox(
-                        //   height: 25,
-                        // ),
-                        Text(
-                          'Sign up to',
-                          style: titleTextStyle.copyWith(fontSize: 16),
-                        ),
-                        Text(
-                          'Not Instagram.',
-                          style: titleTextStyle.copyWith(fontSize: 30),
-                        ),
-                        // SizedBox(
-                        //   height: MediaQuery.of(context).size.height * .05,
-                        // ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      body: Container(
+        height: getHeight(context),
+        width: getWidth(context),
+        child: Stack(
+          children: [
+            Container(
+              height: getHeight(context),
+              width: getWidth(context),
+              child: Image.asset(
+                'assets/signup_bg.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              height: getHeight(context),
+              width: getWidth(context),
+              color: Colors.black.withOpacity(.85),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 25),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .15,
+                          ),
+                          Text(
+                            'Not Instagram',
+                            style: titleTextStyle.copyWith(fontSize: 30),
+                          ),
+                          Text(
+                            "It's not Instagram but it's better.",
+                            style: subHeaderNotHighlightedTextStyle,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
                             children: [
                               Stack(
                                 children: [
@@ -115,7 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                 BorderRadius.circular(40),
                                             child: Image.asset(
                                               'assets/defaultProPic.png',
-                                              fit: BoxFit.fitHeight,
+                                              fit: BoxFit.fitWidth,
                                             ),
                                           ),
                                         ),
@@ -134,7 +121,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       },
                                       icon: Icon(
                                         Icons.add_a_photo,
-                                        color: Colors.white,
+                                        color: Colors.pink,
                                       ),
                                     ),
                                   )
@@ -143,211 +130,176 @@ class _SignupScreenState extends State<SignupScreen> {
                               SizedBox(
                                 width: 15,
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: CustomTextField(
-                                      textEditingController:
-                                          _userNameTextController,
-                                      hintText: 'Enter your user name here.',
-                                      maxLines: 1,
-                                      textInputType:
-                                          TextInputType.emailAddress),
-                                ),
+                              Text(
+                                'Create a \nnew account',
+                                style: titleTextStyle.copyWith(fontSize: 25),
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                            textEditingController: _emailTextController,
+                          SizedBox(
+                            height: 30,
+                          ),
+                          getTextField(
+                            textEditingController: usernameTEC,
+                            hintText: 'Username',
+                            textInputType: TextInputType.emailAddress,
                             maxLines: 1,
-                            hintText: 'Enter your email here.',
-                            textInputType: TextInputType.emailAddress),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                            textEditingController: _passwordTextController,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          getTextField(
+                            textEditingController: emailTEC,
+                            hintText: 'Email',
+                            textInputType: TextInputType.emailAddress,
                             maxLines: 1,
-                            hintText: 'Enter your password here.',
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          getTextField(
+                            textEditingController: passwordTEC,
+                            hintText: 'Password',
+                            textInputType: TextInputType.emailAddress,
+                            maxLines: 1,
                             isPass: true,
-                            textInputType: TextInputType.emailAddress),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextField(
-                            textEditingController: _bioTextController,
-                            maxLines: 4,
-                            hintText: 'Enter your bio here.',
-                            textInputType: TextInputType.emailAddress),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        _isLoading
-                            ? CircularProgressIndicator(
-                                color: Theme.of(context).primaryColor,
-                              )
-                            : Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    setState(() {
-                                      _isLoading = true;
-                                    });
-                                    if (_image != null &&
-                                        _emailTextController.text.isNotEmpty &&
-                                        _passwordTextController
-                                            .text.isNotEmpty &&
-                                        _userNameTextController
-                                            .text.isNotEmpty &&
-                                        _bioTextController.text.isNotEmpty) {
-                                      String res =
-                                          await AuthMethods().signUpUser(
-                                        email: _emailTextController.text,
-                                        password: _passwordTextController.text,
-                                        userName: _userNameTextController.text,
-                                        bio: _bioTextController.text,
-                                        file: _image!,
-                                      );
-                                      if (res == 'success') {
-                                        await Provider.of<UserProvider>(context,
-                                                listen: false)
-                                            .refreshUser();
-                                        Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                            builder: (context) => const MobileScreenLayout()
-                                          ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          getTextField(
+                            textEditingController: bioTEC,
+                            hintText: 'Bio',
+                            textInputType: TextInputType.text,
+                            maxLines: 3,
+                            isPass: false,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          _isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                )
+                              : Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      if (_image != null &&
+                                          emailTEC.text.isNotEmpty &&
+                                          passwordTEC.text.isNotEmpty &&
+                                          usernameTEC.text.isNotEmpty &&
+                                          bioTEC.text.isNotEmpty) {
+                                        String res =
+                                            await AuthMethods().signUpUser(
+                                          email: emailTEC.text,
+                                          password: passwordTEC.text,
+                                          userName: usernameTEC.text,
+                                          bio: bioTEC.text,
+                                          file: _image!,
                                         );
+                                        if (res == 'success') {
+                                          await Provider.of<UserProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .refreshUser();
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const MobileScreenLayout()),
+                                          );
+                                        }
+                                      } else {
+                                        showSnackbar(context, "Invalid input.");
                                       }
-                                    } else {
-                                      showSnackbar(context, "Invalid input.");
-                                    }
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  },
-                                  child: Text('Sign up'),
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context).primaryColor),
-                                ),
-                              ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Divider(
-                            color: Colors.white.withOpacity(.5),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              showSnackbar(context,
-                                  'Ahhh nah, it doesnot work! Gotta code it in. :)');
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      FontAwesomeIcons.google,
-                                      color: Colors.black,
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                    },
+                                    child: Text(
+                                      'Login',
+                                      style: headerTextStyle,
                                     ),
+                                    style: ElevatedButton.styleFrom(
+                                        primary:
+                                            Theme.of(context).primaryColor),
                                   ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    'Sign up with Google.',
-                                    style: headerTextStyle.copyWith(
-                                        color: Colors.black),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.white.withOpacity(.9)),
+
+                          SizedBox(
+                            height: 30,
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              showSnackbar(context,
-                                  'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                          Text(
+                            "Already have an account? ",
+                            style: subHeaderNotHighlightedTextStyle,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
                             },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: Icon(
-                                      FontAwesomeIcons.facebook,
-                                      // color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    'Sign up with Facebook.',
-                                    style: headerTextStyle,
-                                  ),
-                                ),
-                              ],
+                            child: Text(
+                              'Login',
+                              style: subHeaderTextStyle.copyWith(fontSize: 20),
                             ),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.blueAccent),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 25,
+                          ),
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
+                          // Text(
+                          //   'Forgotten your login details?',
+                          //   style: getDefaultTextStyle.copyWith(fontSize: 10),
+                          // ),
+                          // Text(' Get help with logging in.',
+                          //     style: getDefaultTextStyle),
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account? ",
-                    style: subHeaderNotHighlightedTextStyle,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                      );
-                    },
-                    child: Text("Log in", style: subHeaderTextStyle),
-                  ),
+                  // Container(
+                  //   child: Column(
+                  //     children: [
+                  //     ],
+                  //   ),
+                  // )
                 ],
               ),
-              SizedBox(
-                height: 10,
-              )
-            ],
-          ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              height: 125,
+              width: getWidth(context),
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

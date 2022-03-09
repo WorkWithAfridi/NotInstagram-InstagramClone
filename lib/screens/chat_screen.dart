@@ -205,7 +205,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         width: 10,
                       ),
                       Expanded(
-                        child: CustomTextField(
+                        child: getTextField(
                             textEditingController: chatTextEditingController,
                             hintText: 'Send a message...',
                             maxLines: 1,

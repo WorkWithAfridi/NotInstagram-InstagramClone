@@ -74,6 +74,7 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
               showDialog(
                 context: context,
                 barrierColor: Colors.black54,
+
                 builder: (context) => Dialog(
                   elevation: 6,
                   backgroundColor: backgroundColor,

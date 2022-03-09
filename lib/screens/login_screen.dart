@@ -29,261 +29,277 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: Container(
-        alignment: Alignment.center,
-        // color: Colors.red,
-        padding: const EdgeInsets.only(left: 30, right: 30, top: 70),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'English (United Kingdom)',
-              style: subHeaderNotHighlightedTextStyle,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // color: Colors.yellow,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Hii, welcome to',
-                              style: titleTextStyle.copyWith(fontSize: 16),
-                            ),
-                            Text(
-                              'Not Instagram.',
-                              style: titleTextStyle.copyWith(fontSize: 30),
-                            ),
-                            Text(
-                              'Definitely not an Instagram clone!',
-                              style: subTitleTextStyle,
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            CustomTextField(
-                                textEditingController: _emailTextController,
-                                maxLines: 1,
-                                hintText:
-                                    'Phone number, email address or username',
-                                textInputType: TextInputType.emailAddress),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomTextField(
-                                textEditingController: _passwordTextController,
-                                hintText: 'Password',
-                                maxLines: 1,
-                                isPass: true,
-                                textInputType: TextInputType.emailAddress),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            _isLoading
-                                ? CircularProgressIndicator(
-                                    color: Theme.of(context).primaryColor,
-                                  )
-                                : Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 40,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        if (_emailTextController
-                                                .text.isNotEmpty &&
-                                            _passwordTextController
-                                                .text.isNotEmpty) {
-                                          setState(() {
-                                            _isLoading = true;
-                                          });
-                                          String res = await AuthMethods()
-                                              .logInUser(
-                                                  email:
-                                                      _emailTextController.text,
-                                                  password:
-                                                      _passwordTextController
-                                                          .text,
-                                                  context: context);
-
-                                          if (res == 'success') {
-                                            // await Provider.of<UserProvider>(
-                                            //         context,
-                                            //         listen: false)
-                                            //     .refreshUser();
-
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const MobileScreenLayout(),
-                                              ),
-                                              ModalRoute.withName('/'),
-                                            );
-                                          }
-                                        } else {
-                                          showSnackbar(context,
-                                              'Credentials cannot be left empty!!');
-                                        }
-                                      },
-                                      child: Text(
-                                        'Log in',
-                                        style: headerTextStyle,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                          primary:
-                                              Theme.of(context).primaryColor),
-                                    ),
-                                  ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Forgotten your login details?',
-                                    style: subHeaderNotHighlightedTextStyle),
-                                Text(' Get help with logging in.',
-                                    style: subHeaderTextStyle),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 25.0),
-                              child: Divider(
-                                color: Colors.white.withOpacity(.5),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 40,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  showSnackbar(context,
-                                      'Ahhh nah, it doesnot work! Gotta code it in. :)');
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Flexible(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: 10.0),
-                                        child: Icon(
-                                          FontAwesomeIcons.google,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        'Sign in with Google.',
-                                        style: headerTextStyle.copyWith(
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.white.withOpacity(.9)),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 40,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  showSnackbar(context,
-                                      'Ahhh nah, it doesnot work! Gotta code it in. :)');
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Flexible(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: 10.0),
-                                        child: Icon(
-                                          FontAwesomeIcons.facebook,
-                                          // color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        'Sign in with Facebook.',
-                                        style: headerTextStyle,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blueAccent),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset('assets/login_bg.png', fit: BoxFit.cover,),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.black.withOpacity(.85),
+          ),
+          Container(
+            alignment: Alignment.center,
+            // color: Colors.red,
+            padding: const EdgeInsets.only(left: 30, right: 30, top: 60),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Don't have an account? ",
-                  style: subHeaderNotHighlightedTextStyle,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => SignupScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: subHeaderTextStyle,
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // Text(
+                //   'English (United Kingdom)',
+                //   style: subHeaderNotHighlightedTextStyle,
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    // color: Colors.blue,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          // color: Colors.yellow,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Not Instagram',
+                                style: titleTextStyle.copyWith(fontSize: 30),
+                              ),
+                              Text(
+                                "It's not Instagram but it's better.",
+                                style: subHeaderNotHighlightedTextStyle,
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                              getTextField(
+                                  textEditingController: _emailTextController,
+                                  maxLines: 1,
+                                  hintText:
+                                      'Phone number, email address or username',
+                                  textInputType: TextInputType.emailAddress),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              getTextField(
+                                  textEditingController:
+                                      _passwordTextController,
+                                  hintText: 'Password',
+                                  maxLines: 1,
+                                  isPass: true,
+                                  textInputType: TextInputType.emailAddress),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              _isLoading
+                                  ? CircularProgressIndicator(
+                                      color: Theme.of(context).primaryColor,
+                                    )
+                                  : Container(
+                                      width:
+                                          MediaQuery.of(context).size.width,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          if (_emailTextController
+                                                  .text.isNotEmpty &&
+                                              _passwordTextController
+                                                  .text.isNotEmpty) {
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                            String res = await AuthMethods()
+                                                .logInUser(
+                                                    email:
+                                                        _emailTextController
+                                                            .text,
+                                                    password:
+                                                        _passwordTextController
+                                                            .text,
+                                                    context: context);
+
+                                            if (res == 'success') {
+                                              // await Provider.of<UserProvider>(
+                                              //         context,
+                                              //         listen: false)
+                                              //     .refreshUser();
+
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const MobileScreenLayout(),
+                                                ),
+                                                ModalRoute.withName('/'),
+                                              );
+                                            }
+                                          } else {
+                                            showSnackbar(context,
+                                                'Credentials cannot be left empty!!');
+                                          }
+                                        },
+                                        child: Text(
+                                          'Login',
+                                          style: headerTextStyle,
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Theme.of(context)
+                                                .primaryColor),
+                                      ),
+                                    ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Forgotten your login details?',
+                                      style:
+                                          subHeaderNotHighlightedTextStyle),
+                                  Text(' Get help with logging in.',
+                                      style: subHeaderTextStyle),
+                                ],
+                              ),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(
+                              //       horizontal: 25.0),
+                              //   child: Divider(
+                              //     color: Colors.white.withOpacity(.5),
+                              //   ),
+                              // ),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // SizedBox(
+                              //   width: MediaQuery.of(context).size.width,
+                              //   height: 40,
+                              //   child: ElevatedButton(
+                              //     onPressed: () async {
+                              //       showSnackbar(context,
+                              //           'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                              //     },
+                              //     child: Row(
+                              //       mainAxisAlignment:
+                              //           MainAxisAlignment.center,
+                              //       children: [
+                              //         const Flexible(
+                              //           flex: 1,
+                              //           child: Padding(
+                              //             padding:
+                              //                 EdgeInsets.only(right: 10.0),
+                              //             child: Icon(
+                              //               FontAwesomeIcons.google,
+                              //               color: Colors.black,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         Expanded(
+                              //           child: Text(
+                              //             'Sign in with Google.',
+                              //             style: headerTextStyle.copyWith(
+                              //                 color: Colors.black),
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     style: ElevatedButton.styleFrom(
+                              //         primary: Colors.white.withOpacity(.9)),
+                              //   ),
+                              // ),
+                              // const SizedBox(
+                              //   height: 10,
+                              // ),
+                              // Container(
+                              //   width: MediaQuery.of(context).size.width,
+                              //   height: 40,
+                              //   child: ElevatedButton(
+                              //     onPressed: () async {
+                              //       showSnackbar(context,
+                              //           'Ahhh nah, it doesnot work! Gotta code it in. :)');
+                              //     },
+                              //     child: Row(
+                              //       mainAxisAlignment:
+                              //           MainAxisAlignment.center,
+                              //       children: [
+                              //         const Flexible(
+                              //           flex: 1,
+                              //           child: Padding(
+                              //             padding:
+                              //                 EdgeInsets.only(right: 10.0),
+                              //             child: Icon(
+                              //               FontAwesomeIcons.facebook,
+                              //               // color: Colors.black,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //         Expanded(
+                              //           child: Text(
+                              //             'Sign in with Facebook.',
+                              //             style: headerTextStyle,
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //     style: ElevatedButton.styleFrom(
+                              //         primary: Colors.blueAccent),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: subHeaderNotHighlightedTextStyle,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => SignupScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style: subHeaderTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                )
               ],
             ),
-            const SizedBox(
-              height: 10,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

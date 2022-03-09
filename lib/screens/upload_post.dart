@@ -24,13 +24,22 @@ class _AddPostScreenState extends State<AddPostScreen> {
   _selectImage(BuildContext context) {
     return showDialog(
       context: context,
+      barrierColor: Colors.black54,
       builder: (context) {
         return SimpleDialog(
-          title: Text('Post a memory'),
+          elevation: 6,
+          backgroundColor: backgroundColor,
+          title: Text(
+            'Post a memory',
+            style: subHeaderTextStyle.copyWith(fontSize: 25),
+          ),
           children: [
             SimpleDialogOption(
               padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Take a Photo'),
+              child: Text(
+                'Take a Photo',
+                style: subHeaderTextStyle,
+              ),
               onPressed: () async {
                 Navigator.of(context).pop();
                 Uint8List file = await pickImage(ImageSource.camera);
@@ -41,7 +50,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             SimpleDialogOption(
               padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Choose from Gallery'),
+              child: Text(
+                'Choose from Gallery',
+                style: subHeaderTextStyle,
+              ),
               onPressed: () async {
                 try {
                   Navigator.of(context).pop();
@@ -54,7 +66,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
             ),
             SimpleDialogOption(
               padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: subHeaderTextStyle,
+              ),
               onPressed: () async {
                 Navigator.of(context).pop();
               },
@@ -250,7 +265,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 child: Column(
                   children: [
                     _isLoading
-                        ? LinearProgressIndicator(
+                        ? const LinearProgressIndicator(
                             color: Colors.pink,
                           )
                         : Container(),
@@ -280,7 +295,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             width: 10,
                           ),
                           Expanded(
-                            child: CustomTextField(
+                            child: getTextField(
                                 textEditingController: _descriptionController,
                                 maxLines: 4,
                                 hintText: 'Enter a caption...',
