@@ -32,20 +32,20 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         alignment: Alignment.center,
         // color: Colors.red,
-        padding: EdgeInsets.only(left: 30, right: 30, top: 70),
+        padding: const EdgeInsets.only(left: 30, right: 30, top: 70),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               'English (United Kingdom)',
               style: subHeaderNotHighlightedTextStyle,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Definitely not an Instagram clone!',
                               style: subTitleTextStyle,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25,
                             ),
                             CustomTextField(
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText:
                                     'Phone number, email address or username',
                                 textInputType: TextInputType.emailAddress),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             CustomTextField(
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 maxLines: 1,
                                 isPass: true,
                                 textInputType: TextInputType.emailAddress),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             _isLoading
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Theme.of(context).primaryColor),
                                     ),
                                   ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -162,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: subHeaderTextStyle),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
@@ -172,10 +172,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.white.withOpacity(.5),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width,
                               height: 40,
                               child: ElevatedButton(
@@ -186,11 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Flexible(
+                                    const Flexible(
                                       flex: 1,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0),
                                         child: Icon(
                                           FontAwesomeIcons.google,
                                           color: Colors.black,
@@ -210,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     primary: Colors.white.withOpacity(.9)),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
@@ -224,11 +223,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Flexible(
+                                    const Flexible(
                                       flex: 1,
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10.0),
+                                        padding: EdgeInsets.only(right: 10.0),
                                         child: Icon(
                                           FontAwesomeIcons.facebook,
                                           // color: Colors.black,
@@ -255,7 +253,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -281,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             )
           ],
