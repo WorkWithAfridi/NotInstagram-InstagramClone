@@ -1,0 +1,199 @@
+[33mcommit 4913ad606e2927f1d098d00e1b5634e21c8a9aa8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Wed Mar 9 11:04:21 2022 +0600
+
+    UI Update
+
+[33mcommit cab8a77151d0ceb438f9d03ec6f25f8768f18998[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Wed Mar 9 09:09:42 2022 +0600
+
+    Code optimization
+
+[33mcommit f5a33aaadffe3d37b54f391467f7147d10e0aff6[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Tue Mar 8 13:06:07 2022 +0600
+
+    WIP
+
+[33mcommit df79a7129b902d0769537b410b32d26ae11f5cfd[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Mon Mar 7 19:52:24 2022 +0600
+
+    Code Optimization
+
+[33mcommit a34b907fb8c72072b527f163a28aae6ca68cf32d[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Mar 6 14:48:48 2022 +0600
+
+    Wip
+
+[33mcommit 7c616221109065f0f90e5c2e7added6f6bbaa6c7[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Mar 6 14:31:08 2022 +0600
+
+    Wip
+
+[33mcommit 1e47290183ff9d0e9e526b91494ff443e2047131[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Mar 6 13:47:50 2022 +0600
+
+    Added image compression algo
+
+[33mcommit 7d618cd9c5c5a3fe081b163676ce2744f9c52331[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Mar 6 13:20:30 2022 +0600
+
+    WIP
+
+[33mcommit 6b832614905830c11174c252a07fd1a7210cdfc0[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Mon Feb 28 18:08:32 2022 +0600
+
+    Added Timer and auto swipe feature in Story page
+
+[33mcommit 5b7e9e6eeda8dfedda6bc4d606a2400226ddd49a[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Feb 27 18:23:14 2022 +0600
+
+    Stories WIP
+
+[33mcommit 67fef0cf200169a61c6ba02bdd821ebc74250000[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Feb 27 17:36:45 2022 +0600
+
+    Implemented funtions to add and view stories from my feed screen
+
+[33mcommit 3670c569b94e270f73ec81e0fcc7bd607f149023[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Jan 30 13:03:44 2022 +0600
+
+    Work in progress for chatting facility
+
+[33mcommit 0f341fe505f1fdbefbf707958558b0ed4e72f71d[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Jan 30 10:21:22 2022 +0600
+
+    Added facilities to edit and update post descriptions.
+
+[33mcommit c5609a0e086a3e58ed6c7ec4d2b03f4836f2993e[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 29 21:38:48 2022 +0600
+
+    Added finctionalities to directly change username everywhere once, user name has been updated from the edit user screen
+
+[33mcommit 73ce71790c25d5b50bde8cd9c6b9d2117fc9de14[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 29 21:22:35 2022 +0600
+
+    Added functionalities to update user name and bio
+
+[33mcommit a7780a7c9d083c904a382ecb7aad0b8423e36011[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 29 19:01:40 2022 +0600
+
+    Read Me file updated.
+
+[33mcommit 442ce8220c8fd1f4e8ffa8a7e5979bc7ff2195dc[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 29 19:00:02 2022 +0600
+
+    Updated Read Me
+
+[33mcommit da458b1cc35b3696e36aaedad5c0784e54c3f711[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 28 21:50:50 2022 +0600
+
+    Added buttons to sign in with google and facebook/
+
+[33mcommit f537a9c494785d369d0f5f396aebac3e1399c364[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 28 21:25:35 2022 +0600
+
+    UI Update
+
+[33mcommit 4a57035cb894809d55652924d1fb0f102abeab59[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 28 14:27:18 2022 +0600
+
+    Ready for demo
+
+[33mcommit 3a89b494145b3c4b53f7d52feccf01bd44765bdb[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Thu Jan 27 16:19:33 2022 +0600
+
+    Work in progress
+
+[33mcommit 4a1187a0735f918e88720787f2609bf11cb68cdf[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Tue Jan 25 16:57:17 2022 +0600
+
+    Added profile screen and made some uip updates
+
+[33mcommit 365882dd7fe3388846012db5545442541a5fc771[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Tue Jan 25 13:15:55 2022 +0600
+
+    Implemented Explore section and made some UI update"
+    "
+    .
+
+[33mcommit 8c48225dc6cedd373214968b5b25f8ab1831faa7[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Mon Jan 24 19:42:23 2022 +0600
+
+    Work in progress
+
+[33mcommit ad60c0cbbfcce981a0fda36054626363d3a92e85[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Mon Jan 24 13:55:17 2022 +0600
+
+    Work in progress
+
+[33mcommit c430e3f4f9a69203bf119f0ba7761353104f21c3[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Jan 23 02:39:20 2022 +0600
+
+    Dynamic like button implemented
+
+[33mcommit f2742dcbb9fbc38b0e731204366c461ab38ab707[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sun Jan 23 02:35:05 2022 +0600
+
+    Connected the my_feed page with the backend firebase controllers and implemented like counter
+
+[33mcommit c571610b64c48e9c95f35a697608d50336b4aa5f[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 22 13:37:59 2022 +0600
+
+    Added Custom instagram like post cards
+
+[33mcommit 33a137999cd71ef118595695a913e60a1782855e[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Sat Jan 22 12:52:56 2022 +0600
+
+    Added methods and functions to add and upload images to the firebase storage database
+
+[33mcommit 0bd615919d8b7b2659daa3980a3806b7fadd9676[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 21 23:46:07 2022 +0600
+
+    UI Update
+
+[33mcommit 63f6123bc3ff62aa73f5c2a13c81b8964e950ba5[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 21 23:28:03 2022 +0600
+
+    Implemented provider
+
+[33mcommit a0706a7456de116a9115b423334bcdf87dc153a0[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Fri Jan 21 01:29:42 2022 +0600
+
+    Implemented login and sign in verification methods
+
+[33mcommit d429da31616b5e6dd87cd5c7a9d58171976ee7ae[m
+Author: Khondakar Afridi <khondakarafridi35@gmail.com>
+Date:   Thu Jan 20 21:27:14 2022 +0600
+
+    Pushing to github

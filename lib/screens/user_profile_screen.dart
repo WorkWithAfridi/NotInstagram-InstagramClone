@@ -52,8 +52,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
     TabController _tabController = TabController(length: 2, vsync: this);
     Provider.of<UserProvider>(context, listen: false).refreshUser();
     User _user = Provider.of<UserProvider>(context, listen: false).user;
-    print(_user.followers.length);
-    print(_user.userId);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,8 +61,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         elevation: 0,
         backgroundColor: backgroundColor,
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.add_circle)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
         ],
       ),
       backgroundColor: backgroundColor,
@@ -78,7 +76,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
             Container(
               height: 120,
               // color: Colors.yellow,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   CircleAvatar(
@@ -88,7 +86,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     ),
                     radius: 40,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Expanded(
@@ -103,7 +101,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                               postSnap == null ? '0' : postSnap.size.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -120,7 +118,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                               _user.followers.length.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -137,7 +135,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                               _user.following.length.toString(),
                               style: headerTextStyle.copyWith(fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
@@ -166,22 +164,24 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                 style: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 17),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => EditProfileScreen(),
-                          ),
-                        );
+                      onPressed: () async {
+                        setState(() {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const EditProfileScreen(),
+                            ),
+                          );
+                        });
                       },
                       child: Text(
                         'Edit Profile',
@@ -190,7 +190,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                       style: ElevatedButton.styleFrom(primary: Colors.pink),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Container(
@@ -198,7 +198,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                     // color: Colors.pink,
                     child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.keyboard_arrow_down_sharp,
                           color: Colors.white,
                         )),
@@ -207,7 +207,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
               ),
             ),
             TabBar(
-              tabs: [
+              tabs: const [
                 Tab(
                   icon: Icon(Icons.grid_3x3),
                 ),
@@ -234,13 +234,13 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                             .get(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Center(
-                              child: CircularProgressIndicator(),
+                            return const Center(
+                              child: const CircularProgressIndicator(),
                             );
                           }
                           return StaggeredGridView.countBuilder(
                             crossAxisCount: 3,
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemCount: (snapshot.data! as dynamic).docs.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(

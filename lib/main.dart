@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
-
     //if web
     await Firebase.initializeApp(
         options: const FirebaseOptions(
@@ -30,6 +29,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      print('running main');
+    }
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: MaterialApp(
@@ -38,11 +40,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.pink,
           splashColor: Colors.pink,
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Colors.pink
-          )
+          colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.pink),
         ),
-        home: const SplashScreen()
+        home: const SplashScreen(),
       ),
     );
   }

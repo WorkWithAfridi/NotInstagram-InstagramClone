@@ -64,22 +64,21 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
               //
               // print('success');
 
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => MessangerScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MessangerScreen()));
             },
-            icon: Icon(FontAwesomeIcons.comment),
+            icon: const Icon(FontAwesomeIcons.comment),
           ),
           IconButton(
             onPressed: () {
               showDialog(
                 context: context,
                 barrierColor: Colors.black54,
-
                 builder: (context) => Dialog(
                   elevation: 6,
                   backgroundColor: backgroundColor,
                   child: ListView(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shrinkWrap: true,
                     children: [
                       'Settings',
@@ -93,13 +92,13 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
+                                    builder: (context) => const LoginScreen(),
                                   ),
                                 );
                               }
                             },
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 12, horizontal: 16),
                               child: Text(
                                 option,
@@ -113,7 +112,7 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
                 ),
               );
             },
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           ),
         ],
       ),
@@ -129,13 +128,13 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
           builder: (context,
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             return LiquidPullToRefresh(
               onRefresh: () async {
-                await Future.delayed(Duration(seconds: 1));
+                await Future.delayed(const Duration(seconds: 1));
                 setState(() {});
               },
               color: backgroundColor,
@@ -143,12 +142,12 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
               backgroundColor: Colors.white,
               height: 100,
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    StoryTab(),
+                    const StoryTab(),
                     ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.docs.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {

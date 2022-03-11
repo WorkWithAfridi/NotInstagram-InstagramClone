@@ -27,12 +27,11 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
     with TickerProviderStateMixin {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getData();
   }
 
-  var postSnap = null;
+  var postSnap;
   bool isFollowing = false;
 
   void getData() async {

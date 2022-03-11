@@ -77,9 +77,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               setState(() {
                 showLoading = true;
               });
-              print('Updating user profile');
-
-              print(_user.userName);
 
               await FirebaseFirestore.instance
                   .collection('users')
@@ -98,7 +95,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   .collection('posts')
                   .where('uid', isEqualTo: _user.userId)
                   .get();
-              print(temp.size);
               _user = Provider.of<UserProvider>(context, listen: false).user;
 
               for (int i = 0; i < temp.size; i++) {
@@ -123,7 +119,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
-            showLoading ? LinearProgressIndicator(color: Colors.pink,) : Container(),
+            showLoading
+                ? LinearProgressIndicator(
+                    color: Colors.pink,
+                  )
+                : Container(),
             Expanded(
               child: Container(
                 padding: EdgeInsets.symmetric(

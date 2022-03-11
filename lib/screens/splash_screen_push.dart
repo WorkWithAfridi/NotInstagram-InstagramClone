@@ -14,8 +14,7 @@ class SplashScreenPush extends StatefulWidget {
 class _SplashScreenPushState extends State<SplashScreenPush> {
   @override
   Widget build(BuildContext context) {
-    return
-    StreamBuilder(
+    return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {

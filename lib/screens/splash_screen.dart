@@ -5,6 +5,8 @@ import 'package:not_instagram/responsive/mobile_screen_layout.dart';
 import 'package:not_instagram/screens/splash_screen_push.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 
+import '../constants/layout_constraints.dart';
+
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash-view';
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,14 +20,13 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => SplashScreenPush(),
+        builder: (context) => const SplashScreenPush(),
       ),
     );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     triggerSplashScreen(context);
     super.initState();
   }
@@ -34,37 +35,45 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
           primaryColor: Colors.pink,
           splashColor: Colors.pink,
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: Colors.pink
-          )
-      ),
+          colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.pink)),
       home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: AppBar(
-            backgroundColor: backgroundColor,
-          ),
-        ),
         backgroundColor: backgroundColor,
-        body: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Not Instagram',
-                style: titleTextStyle,
+        body: Stack(
+          children: [
+            SizedBox(
+              height: getHeight(context),
+              width: getWidth(context),
+              child: Image.asset(
+                'assets/splash_screen_bg.jpg',
+                fit: BoxFit.cover,
               ),
-              Text(
-                'By Kyoto.',
-                style:subHeaderTextStyle.copyWith(fontSize: 15,height: .5, color: const Color(0xffE40303)),
+            ),
+            Container(
+              height: getHeight(context),
+              width: getWidth(context),
+              color: Colors.black.withOpacity(.85),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Not Instagram',
+                    style: titleTextStyle,
+                  ),
+                  Text(
+                    'By KYOTO',
+                    style: subHeaderTextStyle.copyWith(
+                        fontSize: 15, height: .5, color: Colors.red),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

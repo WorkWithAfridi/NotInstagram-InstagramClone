@@ -38,14 +38,15 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: getHeight(context),
         width: getWidth(context),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               height: getHeight(context),
               width: getWidth(context),
               child: Image.asset(
@@ -59,14 +60,14 @@ class _SignupScreenState extends State<SignupScreen> {
               color: Colors.black.withOpacity(.85),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             "It's not Instagram but it's better.",
                             style: subHeaderNotHighlightedTextStyle,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Row(
@@ -119,7 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           });
                                         }
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.add_a_photo,
                                         color: Colors.pink,
                                       ),
@@ -127,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   )
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text(
@@ -136,7 +137,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           getTextField(
@@ -145,7 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             textInputType: TextInputType.emailAddress,
                             maxLines: 1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           getTextField(
@@ -154,7 +155,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             textInputType: TextInputType.emailAddress,
                             maxLines: 1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           getTextField(
@@ -164,7 +165,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             maxLines: 1,
                             isPass: true,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           getTextField(
@@ -174,7 +175,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             maxLines: 3,
                             isPass: false,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           _isLoading
@@ -183,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 )
-                              : Container(
+                              : SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   height: 40,
                                   child: ElevatedButton(
@@ -232,7 +233,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           Text(
@@ -243,7 +244,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             onTap: () {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (context) => const LoginScreen(),
                                 ),
                               );
                             },
@@ -252,48 +253,30 @@ class _SignupScreenState extends State<SignupScreen> {
                               style: subHeaderTextStyle.copyWith(fontSize: 20),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
-                          // SizedBox(
-                          //   height: 15,
-                          // ),
-                          // Text(
-                          //   'Forgotten your login details?',
-                          //   style: getDefaultTextStyle.copyWith(fontSize: 10),
-                          // ),
-                          // Text(' Get help with logging in.',
-                          //     style: getDefaultTextStyle),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
                         ],
                       ),
                     ),
                   ),
-                  // Container(
-                  //   child: Column(
-                  //     children: [
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               height: 125,
               width: getWidth(context),
               alignment: Alignment.centerRight,
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.close,
                   color: Colors.white,
                 ),
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
+                      builder: (context) => const LoginScreen(),
                     ),
                   );
                 },
