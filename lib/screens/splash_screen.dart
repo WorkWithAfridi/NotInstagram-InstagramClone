@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:not_instagram/main.dart';
 import 'package:not_instagram/responsive/mobile_screen_layout.dart';
 import 'package:not_instagram/screens/splash_screen_push.dart';
@@ -61,14 +62,31 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Not Instagram',
-                    style: titleTextStyle,
-                  ),
-                  Text(
-                    'By KYOTO',
-                    style: subHeaderTextStyle.copyWith(
-                        fontSize: 15, height: .5, color: Colors.red),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 100,
+                        width: 65,
+                        child: Lottie.asset(
+                            'assets/lottie_animations/logoAnimation.json'),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Not Instagram',
+                            style: titleTextStyle,
+                          ),
+                          Text(
+                            'By KYOTO',
+                            style: subHeaderTextStyle.copyWith(fontWeight: FontWeight.bold,
+                                fontSize: 15, height: .5, color: Colors.pink),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -80,7 +80,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: titleTextStyle.copyWith(fontSize: 30),
                           ),
                           Text(
-                            "It's not Instagram but it's better.",
+                            "It's Not Instagram but it's better.",
                             style: subHeaderNotHighlightedTextStyle,
                           ),
                           const SizedBox(
@@ -103,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                                 BorderRadius.circular(40),
                                             child: Image.asset(
                                               'assets/defaultProPic.png',
-                                              fit: BoxFit.fitWidth,
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),

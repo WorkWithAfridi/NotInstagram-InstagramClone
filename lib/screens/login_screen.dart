@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: titleTextStyle.copyWith(fontSize: 30),
                               ),
                               Text(
-                                "It's not Instagram but it's better.",
+                                "It's Not Instagram but it's better.",
                                 style: subHeaderNotHighlightedTextStyle,
                               ),
                               const SizedBox(
