@@ -170,6 +170,8 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
               child: Text(
                 widget.user.bio,
                 style: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 17),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(

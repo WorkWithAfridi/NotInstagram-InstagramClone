@@ -162,6 +162,8 @@ class _UserProfileScreenState extends State<UserProfileScreen>
               child: Text(
                 _user.bio,
                 style: subHeaderNotHighlightedTextStyle.copyWith(fontSize: 17),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             const SizedBox(
