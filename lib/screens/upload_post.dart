@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:not_instagram/constants/layout_constraints.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
@@ -165,97 +166,116 @@ class _AddPostScreenState extends State<AddPostScreen> {
       ),
       backgroundColor: Colors.black,
       body: _file == null
-          ? Container(
-              height: MediaQuery.of(context).size.height,
-              width: double.infinity,
-              color: backgroundColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * .1,
-                    width: MediaQuery.of(context).size.height * .1,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 3),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.upload,
+          ? Stack(
+              children: [
+                Container(
+                  height: getHeight(context),
+                  width: getWidth(context),
+                  child: Image.asset(
+                    'assets/backdropTwo.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  height: getHeight(context),
+                  width: getWidth(context),
+                  color: Colors.black.withOpacity(.85),
+                ),
+
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: double.infinity,
+                  // color: backgroundColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * .1,
+                        width: MediaQuery.of(context).size.height * .1,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white, width: 3),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.upload,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            try {
+                              _selectImage(context);
+                            } catch (e) {}
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Icon(
+                        Icons.arrow_upward,
                         color: Colors.white,
                       ),
-                      onPressed: () {
-                        try {
-                          _selectImage(context);
-                        } catch (e) {}
-                      },
-                    ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'Click here to save a memory',
+                        style: headerTextStyle,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3.toInt()),
+                      //   child: Divider(height: .5,
+                      //     color: Colors.white.withOpacity(.2),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Text(
+                      //   'Click here to add a story',
+                      //   style: headerTextStyle,
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Icon(
+                      //   Icons.arrow_downward,
+                      //   color: Colors.white,
+                      // ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Container(
+                      //   alignment: Alignment.center,
+                      //   height: MediaQuery.of(context).size.height * .1,
+                      //   width: MediaQuery.of(context).size.height * .1,
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(color: Colors.white, width: 3),
+                      //       borderRadius: BorderRadius.all(Radius.circular(10))),
+                      //   child: IconButton(
+                      //     icon: RotatedBox(
+                      //       quarterTurns: 2,
+                      //       child: Icon(
+                      //         Icons.upload,
+                      //         color: Colors.white,
+                      //       ),
+                      //     ),
+                      //     onPressed: () {
+                      //       try {
+                      //         _selectImage(context);
+                      //       } catch (e) {}
+                      //     },
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Icon(
-                    Icons.arrow_upward,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    'Click here to save a memory',
-                    style: headerTextStyle,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3.toInt()),
-                  //   child: Divider(height: .5,
-                  //     color: Colors.white.withOpacity(.2),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Text(
-                  //   'Click here to add a story',
-                  //   style: headerTextStyle,
-                  // ),
-                  // SizedBox(
-                  //   height: 15,
-                  // ),
-                  // Icon(
-                  //   Icons.arrow_downward,
-                  //   color: Colors.white,
-                  // ),
-                  // SizedBox(
-                  //   height: 15,
-                  // ),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   height: MediaQuery.of(context).size.height * .1,
-                  //   width: MediaQuery.of(context).size.height * .1,
-                  //   decoration: BoxDecoration(
-                  //       border: Border.all(color: Colors.white, width: 3),
-                  //       borderRadius: BorderRadius.all(Radius.circular(10))),
-                  //   child: IconButton(
-                  //     icon: RotatedBox(
-                  //       quarterTurns: 2,
-                  //       child: Icon(
-                  //         Icons.upload,
-                  //         color: Colors.white,
-                  //       ),
-                  //     ),
-                  //     onPressed: () {
-                  //       try {
-                  //         _selectImage(context);
-                  //       } catch (e) {}
-                  //     },
-                  //   ),
-                  // ),
-                ],
-              ),
+                ),
+              ],
             )
           : Container(
               height: MediaQuery.of(context).size.height,
@@ -287,7 +307,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(user.photoUrl),

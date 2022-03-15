@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:not_instagram/screens/post_story_screen.dart';
+import 'package:not_instagram/screens/upload_story.dart';
 import 'package:not_instagram/screens/view_story_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/circleAnimation.dart';

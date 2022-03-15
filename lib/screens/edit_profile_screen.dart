@@ -13,6 +13,8 @@ import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/layout_constraints.dart';
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -171,187 +173,206 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ],
       ),
       backgroundColor: backgroundColor,
-      body: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            showLoading
-                ? LinearProgressIndicator(
-                    color: Colors.pink,
-                    minHeight: 1,
-                  )
-                : Container(),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: Stack(
-                          children: [
-                            hasProfilePicturebeenChanged
-                                ? CircleAvatar(
-                                    radius: 60,
-                                    backgroundImage: MemoryImage(_image!),
-                                  )
-                                : CircleAvatar(
-                                    radius: 60,
-                                    backgroundColor: backgroundColor,
-                                    backgroundImage:
-                                        NetworkImage(_user.photoUrl),
+      body: Stack(
+        children: [
+
+          Container(
+            height: getHeight(context),
+            width: getWidth(context),
+            child: Image.asset(
+              'assets/backdropOne.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            height: getHeight(context),
+            width: getWidth(context),
+            color: Colors.black.withOpacity(.85),
+          ),
+
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                showLoading
+                    ? LinearProgressIndicator(
+                        color: Colors.pink,
+                        minHeight: 1,
+                      )
+                    : Container(),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.center,
+                            child: Stack(
+                              children: [
+                                hasProfilePicturebeenChanged
+                                    ? CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage: MemoryImage(_image!),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 60,
+                                        backgroundColor: backgroundColor,
+                                        backgroundImage:
+                                            NetworkImage(_user.photoUrl),
+                                      ),
+                                Positioned(
+                                  bottom: -15,
+                                  left: 80,
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      Uint8List? image =
+                                          await pickImage(ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          _image = image;
+                                          hasProfilePicturebeenChanged = true;
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.add_a_photo,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                            Positioned(
-                              bottom: -15,
-                              left: 80,
-                              child: IconButton(
-                                onPressed: () async {
-                                  Uint8List? image =
-                                      await pickImage(ImageSource.gallery);
-                                  if (image != null) {
-                                    setState(() {
-                                      _image = image;
-                                      hasProfilePicturebeenChanged = true;
-                                    });
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                                )
+                              ],
+                            ),
+                          ),
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width,
+                          //   alignment: Alignment.center,
+                          //   child: Text(
+                          //     'Change profile picture',
+                          //     style: headerTextStyle.copyWith(color: Colors.pink),
+                          //   ),
+                          // ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          getTextField(
+                              textEditingController: _userNameTextController,
+                              maxLines: 1,
+                              hintText: 'Enter your user name here.',
+                              textInputType: TextInputType.emailAddress),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          getTextField(
+                              textEditingController: _emailTextController,
+                              maxLines: 1,
+                              hintText: 'Enter your email here.',
+                              textInputType: TextInputType.emailAddress),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          getTextField(
+                              textEditingController: _bioTextController,
+                              hintText: 'Enter your bio here.',
+                              maxLines: 4,
+                              textInputType: TextInputType.emailAddress),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          // _isLoading
+                          //     ? CircularProgressIndicator(
+                          //         color: Theme.of(context).primaryColor,
+                          //       )
+                          //     : Container(
+                          //         width: MediaQuery.of(context).size.width,
+                          //         child: ElevatedButton(
+                          //           onPressed: () async {
+                          //             // setState(() {
+                          //             //   _isLoading = true;
+                          //             // });
+                          //             // if (_image != null &&
+                          //             //     _emailTextController.text.isNotEmpty &&
+                          //             //     _passwordTextController.text.isNotEmpty &&
+                          //             //     _userNameTextController.text.isNotEmpty &&
+                          //             //     _bioTextController.text.isNotEmpty) {
+                          //             //   String res = await AuthMethods().signUpUser(
+                          //             //     email: _emailTextController.text,
+                          //             //     password: _passwordTextController.text,
+                          //             //     userName: _userNameTextController.text,
+                          //             //     bio: _bioTextController.text,
+                          //             //     file: _image!,
+                          //             //   );
+                          //             //   if (res == 'success') {
+                          //             //     await Provider.of<UserProvider>(context,
+                          //             //             listen: false)
+                          //             //         .refreshUser();
+                          //             //     Navigator.of(context).pushReplacement(
+                          //             //       MaterialPageRoute(
+                          //             //         builder: (context) =>
+                          //             //             ResponsiveLayout(
+                          //             //           mobileScreenLayout:
+                          //             //               MobileScreenLayout(),
+                          //             //           webScreenLayout: WebScreenLayout(),
+                          //             //         ),
+                          //             //       ),
+                          //             //     );
+                          //             //   }
+                          //             // } else {
+                          //             //   showSnackbar(context, "Invalid input.");
+                          //             // }
+                          //             // setState(() {
+                          //             //   _isLoading = false;
+                          //             // });
+                          //           },
+                          //           child: Text('Save'),
+                          //           style: ElevatedButton.styleFrom(
+                          //               primary: Theme.of(context).primaryColor),
+                          //         ),
+                          //       ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
-                      // Container(
-                      //   width: MediaQuery.of(context).size.width,
-                      //   alignment: Alignment.center,
-                      //   child: Text(
-                      //     'Change profile picture',
-                      //     style: headerTextStyle.copyWith(color: Colors.pink),
-                      //   ),
-                      // ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      getTextField(
-                          textEditingController: _userNameTextController,
-                          maxLines: 1,
-                          hintText: 'Enter your user name here.',
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      getTextField(
-                          textEditingController: _emailTextController,
-                          maxLines: 1,
-                          hintText: 'Enter your email here.',
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      getTextField(
-                          textEditingController: _bioTextController,
-                          hintText: 'Enter your bio here.',
-                          maxLines: 4,
-                          textInputType: TextInputType.emailAddress),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // _isLoading
-                      //     ? CircularProgressIndicator(
-                      //         color: Theme.of(context).primaryColor,
-                      //       )
-                      //     : Container(
-                      //         width: MediaQuery.of(context).size.width,
-                      //         child: ElevatedButton(
-                      //           onPressed: () async {
-                      //             // setState(() {
-                      //             //   _isLoading = true;
-                      //             // });
-                      //             // if (_image != null &&
-                      //             //     _emailTextController.text.isNotEmpty &&
-                      //             //     _passwordTextController.text.isNotEmpty &&
-                      //             //     _userNameTextController.text.isNotEmpty &&
-                      //             //     _bioTextController.text.isNotEmpty) {
-                      //             //   String res = await AuthMethods().signUpUser(
-                      //             //     email: _emailTextController.text,
-                      //             //     password: _passwordTextController.text,
-                      //             //     userName: _userNameTextController.text,
-                      //             //     bio: _bioTextController.text,
-                      //             //     file: _image!,
-                      //             //   );
-                      //             //   if (res == 'success') {
-                      //             //     await Provider.of<UserProvider>(context,
-                      //             //             listen: false)
-                      //             //         .refreshUser();
-                      //             //     Navigator.of(context).pushReplacement(
-                      //             //       MaterialPageRoute(
-                      //             //         builder: (context) =>
-                      //             //             ResponsiveLayout(
-                      //             //           mobileScreenLayout:
-                      //             //               MobileScreenLayout(),
-                      //             //           webScreenLayout: WebScreenLayout(),
-                      //             //         ),
-                      //             //       ),
-                      //             //     );
-                      //             //   }
-                      //             // } else {
-                      //             //   showSnackbar(context, "Invalid input.");
-                      //             // }
-                      //             // setState(() {
-                      //             //   _isLoading = false;
-                      //             // });
-                      //           },
-                      //           child: Text('Save'),
-                      //           style: ElevatedButton.styleFrom(
-                      //               primary: Theme.of(context).primaryColor),
-                      //         ),
-                      //       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.of(context).pop();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
+                GestureDetector(
+                  onTap: () {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Switch to a different user.',
+                      style: headerTextStyle.copyWith(color: Colors.pink),
+                    ),
                   ),
-                );
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                child: Text(
-                  'Switch to a different user.',
-                  style: headerTextStyle.copyWith(color: Colors.pink),
                 ),
-              ),
+                SizedBox(
+                  height: 10,
+                )
+              ],
             ),
-            SizedBox(
-              height: 10,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
