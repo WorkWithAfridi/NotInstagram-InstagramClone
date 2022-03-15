@@ -10,14 +10,14 @@ import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
-class MobileScreenLayout extends StatefulWidget {
-  const MobileScreenLayout({Key? key}) : super(key: key);
+class MainFrame extends StatefulWidget {
+  const MainFrame({Key? key}) : super(key: key);
 
   @override
-  State<MobileScreenLayout> createState() => _MobileScreenLayoutState();
+  State<MainFrame> createState() => _MainFrameState();
 }
 
-class _MobileScreenLayoutState extends State<MobileScreenLayout> {
+class _MainFrameState extends State<MainFrame> {
   String userName = '';
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    model.User _user = Provider.of<UserProvider>(context, listen: false).user;
+    model.UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
 
     return Scaffold(
       appBar: PreferredSize(

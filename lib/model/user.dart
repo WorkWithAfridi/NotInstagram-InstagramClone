@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
   late String email;
   late String userName;
   late String userId;
@@ -12,7 +12,7 @@ class User {
   late List<String> following;
   late List<String> chatRooms;
 
-  User.name(
+  UserModel.name(
       {required this.email,
       required this.userName,
       required this.userId,
@@ -33,9 +33,9 @@ class User {
         'chatRooms': chatRooms
       };
 
-  static User fromSnap(DocumentSnapshot documentSnapshot) {
+  static UserModel fromSnap(DocumentSnapshot documentSnapshot) {
     var snapshot = documentSnapshot.data() as Map<String, dynamic>;
-    return User.name(
+    return UserModel.name(
       email: snapshot['email'],
       following: snapshot['following'].cast<String>(),
       userId: snapshot['uid'],

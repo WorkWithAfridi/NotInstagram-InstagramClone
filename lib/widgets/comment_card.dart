@@ -19,7 +19,7 @@ class CommentCard extends StatefulWidget {
 class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return Card(
       color: backgroundColor,
       elevation: 0,
@@ -45,7 +45,7 @@ class _CommentCardState extends State<CommentCard> {
                     ),
                   );
                 } else {
-                  User tempUser = User.name(
+                  UserModel tempUser = UserModel.name(
                     email: snapshot.docs[0]['email'],
                     userName: snapshot.docs[0]['username'],
                     userId: snapshot.docs[0]['uid'],
@@ -96,7 +96,7 @@ class _CommentCardState extends State<CommentCard> {
                             ),
                           );
                         } else {
-                          User tempUser = User.name(
+                          UserModel tempUser = UserModel.name(
                             email: snapshot.docs[0]['email'],
                             userName: snapshot.docs[0]['username'],
                             userId: snapshot.docs[0]['uid'],

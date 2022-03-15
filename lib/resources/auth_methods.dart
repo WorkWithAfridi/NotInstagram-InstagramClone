@@ -12,10 +12,10 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<model.User> getUserDetails() async {
+  Future<model.UserModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
     DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(currentUser.uid).get();
-    return model.User.fromSnap(documentSnapshot);
+    return model.UserModel.fromSnap(documentSnapshot);
   }
 
   Future<String> signUpUser({
@@ -39,7 +39,7 @@ class AuthMethods {
             childName: 'profilePics', file: file, isPost: false);
         //add user to db
 
-        model.User user = model.User.name(
+        model.UserModel user = model.UserModel.name(
             userName: userName,
             userId: userCredential.user!.uid,
             email: email,
@@ -82,7 +82,7 @@ class AuthMethods {
             email: email, password: password);
 
         res = 'success';
-        model.User _user = Provider.of<UserProvider>(context, listen: false).user;
+        model.UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
         _user = await getUserDetails();
       } else {
         res = 'Please enter all the required fields.';

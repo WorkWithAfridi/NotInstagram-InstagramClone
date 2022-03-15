@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
-import 'package:not_instagram/responsive/mobile_screen_layout.dart';
+import 'package:not_instagram/responsive/mainframe.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
@@ -213,7 +213,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const MobileScreenLayout()),
+                                                    const MainFrame()),
                                           );
                                         }
                                       } else {

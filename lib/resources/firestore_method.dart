@@ -147,7 +147,7 @@ class FireStoreMethods {
       DocumentSnapshot documentSnapshot =
           await _firebaseFirestore.collection('posts').doc(postId).get();
       String postUid = (documentSnapshot.data() as Map<String, dynamic>)['uid'];
-      User _user = Provider.of<UserProvider>(context, listen: false).user;
+      UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
       // print(_user.userId);
       // print(postUid);
       // print(postUid.toString()==_user.userId.toString());

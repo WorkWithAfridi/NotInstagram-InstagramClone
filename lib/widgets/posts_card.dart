@@ -49,7 +49,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return SizedBox(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
       // color: Colors.black38,
@@ -87,7 +87,7 @@ class _PostCardState extends State<PostCard> {
                           ),
                         );
                       } else {
-                        User tempUser = User.name(
+                        UserModel tempUser = UserModel.name(
                           email: snapshot.docs[0]['email'],
                           userName: snapshot.docs[0]['username'],
                           userId: snapshot.docs[0]['uid'],

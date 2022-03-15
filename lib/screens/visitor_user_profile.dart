@@ -13,7 +13,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 import 'detailed_post_screen.dart';
 
 class VisitorProfileScreen extends StatefulWidget {
-  final User user;
+  final UserModel user;
   const VisitorProfileScreen({
     Key? key,
     required this.user,
@@ -51,7 +51,7 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
         )
         .get();
 
-    User _user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
     isFollowing = widget.user.followers
         .contains(FirebaseAuth.FirebaseAuth.instance.currentUser!.uid);
     setState(() {});

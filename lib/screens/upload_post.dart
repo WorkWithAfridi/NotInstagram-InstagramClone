@@ -92,7 +92,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final model.User user = Provider.of<UserProvider>(context).user;
+    final model.UserModel user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
       appBar:
@@ -266,6 +266,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   children: [
                     _isLoading
                         ? const LinearProgressIndicator(
+                            minHeight: 1,
                             color: Colors.pink,
                           )
                         : Container(),

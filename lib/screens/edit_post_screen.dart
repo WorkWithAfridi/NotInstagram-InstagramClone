@@ -109,7 +109,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final model.User user = Provider.of<UserProvider>(context).user;
+    final model.UserModel user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
       appBar:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:not_instagram/screens/post_story_screen.dart';
 import 'package:not_instagram/screens/view_story_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
+import 'package:not_instagram/widgets/circleAnimation.dart';
 import 'package:provider/provider.dart';
 
 import '../model/user.dart';
@@ -33,9 +34,11 @@ class _StoryTabState extends State<StoryTab> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return isLoading
-        ? const LinearProgressIndicator()
+        ? const LinearProgressIndicator(
+            minHeight: 1,
+          )
         : Column(
             children: [
               SizedBox(
@@ -164,38 +167,53 @@ class _StoryTabState extends State<StoryTab> {
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            height: 65,
-                                            width: 65,
-                                            decoration: BoxDecoration(
-                                              // color: Colors.pink,
-                                              borderRadius:
-                                                  BorderRadius.circular(65),
-                                              gradient: LinearGradient(
-                                                  colors: [
-                                                    Colors.orange
-                                                        .withOpacity(.8),
-                                                    Colors.orangeAccent
-                                                        .withOpacity(.8),
-                                                    Colors.red.withOpacity(.8),
-                                                    Colors.redAccent
-                                                        .withOpacity(.8),
-                                                    //add more colors for gradient
-                                                  ],
-                                                  begin: Alignment
-                                                      .topLeft, //begin of the gradient color
-                                                  end: Alignment
-                                                      .bottomRight, //end of the gradient color
-                                                  stops: const [
-                                                    0,
-                                                    0.2,
-                                                    0.5,
-                                                    0.8
-                                                  ] //stops for individual color
-                                                  //set the stops number equal to numbers of color
-                                                  ),
-                                            ),
                                             child: Stack(
                                               children: [
+                                                Center(
+                                                  child: CircleAnimation(
+                                                    child: Container(
+                                                      height: 65,
+                                                      width: 65,
+                                                      decoration: BoxDecoration(
+                                                        // color: Colors.pink,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(65),
+                                                        gradient:
+                                                            LinearGradient(
+                                                                colors: [
+                                                                  Colors.orange
+                                                                      .withOpacity(
+                                                                          .8),
+                                                                  Colors
+                                                                      .orangeAccent
+                                                                      .withOpacity(
+                                                                          .8),
+                                                                  Colors.pink
+                                                                      .withOpacity(
+                                                                          .8),
+                                                                  Colors
+                                                                      .redAccent
+                                                                      .withOpacity(
+                                                                          .8),
+                                                                  //add more colors for gradient
+                                                                ],
+                                                                begin: Alignment
+                                                                    .topLeft, //begin of the gradient color
+                                                                end: Alignment
+                                                                    .bottomRight, //end of the gradient color
+                                                                stops: const [
+                                                                  0,
+                                                                  0.2,
+                                                                  0.5,
+                                                                  0.8
+                                                                ] //stops for individual color
+                                                                //set the stops number equal to numbers of color
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                                 Center(
                                                   child: Container(
                                                     height: 60,

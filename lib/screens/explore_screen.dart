@@ -31,7 +31,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Container(
@@ -56,7 +56,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  FutureBuilder<QuerySnapshot<Map<String, dynamic>>> getSearchResultScreen(User user) {
+  FutureBuilder<QuerySnapshot<Map<String, dynamic>>> getSearchResultScreen(UserModel user) {
     return FutureBuilder(
                       future: FirebaseFirestore.instance
                           .collection('users')
@@ -96,7 +96,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   // ['uid'] ).get()) as DocumentSnapshot<Object?>;
 
                                   // User tempUserTwo= await User.fromSnap(documentSnapshot);
-                                  User tempUser = User.name(
+                                  UserModel tempUser = UserModel.name(
                                     email: (snapshot.data! as dynamic)
                                         .docs[index]['email'],
                                     userName: (snapshot.data! as dynamic)

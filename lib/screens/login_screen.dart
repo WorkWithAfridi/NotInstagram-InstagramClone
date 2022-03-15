@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
-import 'package:not_instagram/responsive/mobile_screen_layout.dart';
+import 'package:not_instagram/responsive/mainframe.dart';
 import 'package:not_instagram/screens/signup_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   .pushAndRemoveUntil(
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const MobileScreenLayout(),
+                                                      const MainFrame(),
                                                 ),
                                                 ModalRoute.withName('/'),
                                               );

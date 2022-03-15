@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
-  final User user2;
+  final UserModel user2;
   const ChatScreen({Key? key, required this.user2}) : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         title: Text(

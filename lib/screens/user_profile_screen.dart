@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
@@ -9,6 +10,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import 'detailed_post_screen.dart';
+import 'login_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({
@@ -32,7 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
 
   void getData() async {
     Provider.of<UserProvider>(context, listen: false).refreshUser();
-    User _user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
     postSnap = await FirebaseFirestore.instance
         .collection('posts')
         .where(
@@ -51,7 +53,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 2, vsync: this);
     Provider.of<UserProvider>(context, listen: false).refreshUser();
-    User _user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -62,7 +64,50 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         backgroundColor: backgroundColor,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
+          IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.black54,
+                  builder: (context) => Dialog(
+                    elevation: 6,
+                    backgroundColor: backgroundColor,
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shrinkWrap: true,
+                      children: [
+                        'Settings',
+                        'Logout',
+                      ]
+                          .map(
+                            (option) => InkWell(
+                              onTap: () {
+                                if (option == 'Logout') {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 16),
+                                child: Text(
+                                  option,
+                                  style: subHeaderTextStyle,
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.menu))
         ],
       ),
       backgroundColor: backgroundColor,
@@ -177,12 +222,19 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () async {
-                        setState(() {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const EditProfileScreen(),
-                            ),
-                          );
+                        Navigator.of(context)
+                            .push(
+                          MaterialPageRoute(
+                            builder: (context) => const EditProfileScreen(),
+                          ),
+                        )
+                            .then((value) {
+                          print('Refreshing user');
+                          Provider.of<UserProvider>(context, listen: false)
+                              .refreshUser()
+                              .then((value) {
+                            setState(() {});
+                          });
                         });
                       },
                       child: Text(

@@ -36,7 +36,7 @@ class _DetailedImageScreenState extends State<DetailedImageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<UserProvider>(context, listen: false).user;
+    UserModel user = Provider.of<UserProvider>(context, listen: false).user;
 
     return Scaffold(
       appBar: AppBar(

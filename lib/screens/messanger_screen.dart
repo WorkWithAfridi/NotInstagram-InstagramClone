@@ -36,7 +36,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
 
     getData();
   }
-  late User userTemp;
+  late UserModel userTemp;
   void getData() async {
    userTemp = await Provider.of<UserProvider>(context, listen: false).user;
     var snapshot= await FirebaseFirestore.instance
@@ -48,7 +48,7 @@ class _MessangerScreenState extends State<MessangerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).user;
+    final UserModel user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         title: Text(

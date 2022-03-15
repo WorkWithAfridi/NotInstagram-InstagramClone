@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/resources/storage_methods.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
@@ -41,7 +42,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     getData();
   }
 
-  late model.User _user;
+  late model.UserModel _user;
   void getData() {
     _user = Provider.of<UserProvider>(context, listen: false).user;
     _emailTextController.text = _user.email;
@@ -51,6 +52,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   bool showLoading = false;
+
+  bool hasProfilePicturebeenChanged = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,33 +81,87 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 showLoading = true;
               });
 
-              await FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(_user.userId)
-                  .update({
-                    'username': _userNameTextController.text,
-                    'bio': _bioTextController.text,
-                  })
-                  .then((value) => print('updated'))
-                  .catchError((error) => print('Update failed: $error'));
+              if (hasProfilePicturebeenChanged) {
+                String newProfilePictureImageLink = await StorageMethods()
+                    .uploadImageToStorage(
+                        childName: 'profilePics', file: _image!, isPost: false);
 
-              await Provider.of<UserProvider>(context, listen: false)
-                  .refreshUser();
-
-              var temp = await FirebaseFirestore.instance
-                  .collection('posts')
-                  .where('uid', isEqualTo: _user.userId)
-                  .get();
-              _user = Provider.of<UserProvider>(context, listen: false).user;
-
-              for (int i = 0; i < temp.size; i++) {
                 await FirebaseFirestore.instance
-                    .collection('posts')
-                    .doc(temp.docs[i]['postId'])
-                    .update({'username': _user.userName});
-              }
+                    .collection('users')
+                    .doc(_user.userId)
+                    .update({
+                      'username': _userNameTextController.text,
+                      'photoUrl': newProfilePictureImageLink,
+                      'bio': _bioTextController.text,
+                    })
+                    .then((value) => print('updated'))
+                    .catchError((error) => print('Update failed: $error'));
 
-              Navigator.of(context).pop();
+                await Provider.of<UserProvider>(context, listen: false)
+                    .refreshUser();
+
+                var temp = await FirebaseFirestore.instance
+                    .collection('posts')
+                    .where('uid', isEqualTo: _user.userId)
+                    .get();
+                _user = Provider.of<UserProvider>(context, listen: false).user;
+
+                print(newProfilePictureImageLink);
+                for (int i = 0; i < temp.size; i++) {
+                  await FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(temp.docs[i]['postId'])
+                      .update({
+                    'username': _user.userName,
+                    'profilePhotoUrl': newProfilePictureImageLink
+                  });
+                }
+
+                print(newProfilePictureImageLink);
+                var temp2 = await FirebaseFirestore.instance
+                    .collection('stories')
+                    .where('uid', isEqualTo: _user.userId)
+                    .get();
+                for (int i = 0; i < temp2.size; i++) {
+                  await FirebaseFirestore.instance
+                      .collection('stories')
+                      .doc(temp2.docs[i]['postId'])
+                      .update({
+                    'username': _user.userName,
+                    'profilePhotoUrl': newProfilePictureImageLink
+                  });
+                }
+
+                Navigator.of(context).pop();
+              } else {
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(_user.userId)
+                    .update({
+                      'username': _userNameTextController.text,
+                      'bio': _bioTextController.text,
+                    })
+                    .then((value) => print('updated'))
+                    .catchError((error) => print('Update failed: $error'));
+
+                await Provider.of<UserProvider>(context, listen: false)
+                    .refreshUser();
+
+                var temp = await FirebaseFirestore.instance
+                    .collection('posts')
+                    .where('uid', isEqualTo: _user.userId)
+                    .get();
+                _user = Provider.of<UserProvider>(context, listen: false).user;
+
+                for (int i = 0; i < temp.size; i++) {
+                  await FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(temp.docs[i]['postId'])
+                      .update({'username': _user.userName});
+                }
+
+                Navigator.of(context).pop();
+              }
             },
             icon: Icon(
               Icons.check,
@@ -122,6 +179,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             showLoading
                 ? LinearProgressIndicator(
                     color: Colors.pink,
+                    minHeight: 1,
                   )
                 : Container(),
             Expanded(
@@ -135,19 +193,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // SizedBox(
-                      //   height: 25,
-                      // ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.center,
                         child: Stack(
                           children: [
-                            CircleAvatar(
-                              radius: 60,
-                              backgroundColor: backgroundColor,
-                              backgroundImage: NetworkImage(_user.photoUrl),
-                            ),
+                            hasProfilePicturebeenChanged
+                                ? CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: MemoryImage(_image!),
+                                  )
+                                : CircleAvatar(
+                                    radius: 60,
+                                    backgroundColor: backgroundColor,
+                                    backgroundImage:
+                                        NetworkImage(_user.photoUrl),
+                                  ),
                             Positioned(
                               bottom: -15,
                               left: 80,
@@ -158,6 +222,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   if (image != null) {
                                     setState(() {
                                       _image = image;
+                                      hasProfilePicturebeenChanged = true;
                                     });
                                   }
                                 },
@@ -170,19 +235,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ],
                         ),
                       ),
+                      // SizedBox(
+                      //   height: 15,
+                      // ),
+                      // Container(
+                      //   width: MediaQuery.of(context).size.width,
+                      //   alignment: Alignment.center,
+                      //   child: Text(
+                      //     'Change profile picture',
+                      //     style: headerTextStyle.copyWith(color: Colors.pink),
+                      //   ),
+                      // ),
                       SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Change profile picture',
-                          style: headerTextStyle.copyWith(color: Colors.pink),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
+                        height: 25,
                       ),
                       getTextField(
                           textEditingController: _userNameTextController,
