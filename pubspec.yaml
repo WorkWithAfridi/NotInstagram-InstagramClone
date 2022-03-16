@@ -50,6 +50,7 @@ dependencies:
   staggered_grid_view_flutter: any
   uuid: any
   flutter_image_compress: ^1.1.0
+  timeago: any
 
 dev_dependencies:
 

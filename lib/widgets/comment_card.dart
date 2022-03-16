@@ -7,6 +7,7 @@ import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatefulWidget {
   final snap;
@@ -134,9 +135,7 @@ class _CommentCardState extends State<CommentCard> {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                          DateFormat.yMMMd().format(
-                            widget.snap['datePublished'].toDate(),
-                          ),
+                        timeago.format(widget.snap['datePublished'].toDate()),
                           style: subHeaderNotHighlightedTextStyle),
                     )
                   ],

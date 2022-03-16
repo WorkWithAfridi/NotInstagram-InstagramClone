@@ -13,6 +13,7 @@ import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class PostCard extends StatefulWidget {
   final snap;
@@ -270,13 +271,20 @@ class _PostCardState extends State<PostCard> {
                     // color: Colors.green,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.of(context).push(
+                        Navigator.of(context)
+                            .push(
                           MaterialPageRoute(
                             builder: (context) => CommentsScreen(
                               snap: widget.snap,
                             ),
                           ),
-                        );
+                        )
+                            .then((value) async {
+                              //TODO: implement refresh future
+                          // print('refreshing');
+                          // await Future.delayed(const Duration(seconds: 1));
+                          // setState(() {});
+                        });
                       },
                       icon: const Icon(
                         FontAwesomeIcons.commentDots,
@@ -361,11 +369,7 @@ class _PostCardState extends State<PostCard> {
                         : Container(),
                   ),
                   Text(
-                    DateFormat.yMMMd().format(
-                      DateTime.parse(
-                        widget.snap['datePublished'],
-                      ),
-                    ),
+                    timeago.format(widget.snap['datePublished'].toDate()),
                     style: subHeaderNotHighlightedTextStyle,
                   ),
                   const SizedBox(

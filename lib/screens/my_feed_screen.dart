@@ -134,8 +134,10 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
             }
             return LiquidPullToRefresh(
               onRefresh: () async {
-                await Future.delayed(const Duration(seconds: 1));
-                setState(() {});
+                //TODO: implement refresh future
+
+                // await Future.delayed(const Duration(seconds: 1));
+                // setState(() {});
               },
               color: backgroundColor,
               showChildOpacityTransition: false,

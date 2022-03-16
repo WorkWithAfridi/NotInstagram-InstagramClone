@@ -9,7 +9,7 @@ class Posts {
   late String postId;
   late String profilePhotoUrl;
   late String postPhotoUrl;
-  late String datePublished;
+  final datePublished;
   final likes;
 
   Posts.name({

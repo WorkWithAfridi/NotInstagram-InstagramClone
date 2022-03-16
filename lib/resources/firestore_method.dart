@@ -38,7 +38,7 @@ class FireStoreMethods {
         profilePhotoUrl: profilePictureUrl,
         postPhotoUrl: photoUrl,
         likes: [],
-        datePublished: DateTime.now().toString(),
+        datePublished: DateTime.now(),
       );
 
       _firebaseFirestore.collection('posts').doc(postId).set(post.toJson());
