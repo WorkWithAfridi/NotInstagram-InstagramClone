@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:not_instagram/constants/cacheManager.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 
 import '../widgets/text_field_input.dart';
@@ -50,12 +52,35 @@ class _ViewStoryState extends State<ViewStory> {
           children: [
             SizedBox.expand(
               child: Hero(
-                tag: widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
-                child: Image.network(
-                  widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  tag: widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
+                  child: CachedNetworkImage(
+                    imageUrl: widget.parentSnap.docs[currentIndex]
+                        ['postPhotoUrl'],
+                    cacheManager: cacheManager,
+                    fit: BoxFit.cover,
+                    alignment: FractionalOffset.center,
+                    placeholder: (context, url) => Container(
+                      color: backgroundColor,
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator(
+                        color: Colors.pink,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: backgroundColor,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.error,
+                        color: Colors.pink,
+                      ),
+                    ),
+                  )
+
+                  // Image.network(
+                  //   widget.parentSnap.docs[currentIndex]['postPhotoUrl'],
+                  //   fit: BoxFit.cover,
+                  // ),
+                  ),
             ),
             GestureDetector(
               onTap: () {
@@ -92,13 +117,36 @@ class _ViewStoryState extends State<ViewStory> {
                           height: 45,
                           width: 45,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(45),
-                            child: Image.network(
-                              widget.parentSnap.docs[currentIndex]
-                                  ['profilePhotoUrl'],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                              borderRadius: BorderRadius.circular(45),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.parentSnap.docs[currentIndex]
+                                    ['profilePhotoUrl'],
+                                cacheManager: cacheManager,
+                                fit: BoxFit.cover,
+                                alignment: FractionalOffset.center,
+                                placeholder: (context, url) => Container(
+                                  color: backgroundColor,
+                                  alignment: Alignment.center,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.pink,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: backgroundColor,
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.error,
+                                    color: Colors.pink,
+                                  ),
+                                ),
+                              )
+
+                              // Image.network(
+                              //   widget.parentSnap.docs[currentIndex]
+                              //       ['profilePhotoUrl'],
+                              //   fit: BoxFit.cover,
+                              // ),
+                              ),
                         ),
                         SizedBox(
                           width: 10,
@@ -151,6 +199,7 @@ class _ViewStoryState extends State<ViewStory> {
                       children: [
                         CircleAvatar(
                           backgroundImage: NetworkImage(widget.user.photoUrl),
+                          backgroundColor: Colors.transparent,
                         ),
                         SizedBox(
                           width: 10,

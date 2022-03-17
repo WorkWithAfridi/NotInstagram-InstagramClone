@@ -75,12 +75,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'Not Instagram',
-                                style: titleTextStyle.copyWith(fontSize: 30),
+                                '!instagram',
+                                style: AppTitleTextStyle.copyWith(fontSize: 30),
                               ),
                               Text(
-                                "It's Not Instagram but it's better.",
-                                style: subHeaderNotHighlightedTextStyle,
+                                "It's !instagram and it's better.",
+                                style: subHeaderNotHighlightedTextStyle.copyWith(height: .8, fontSize: 13),
                               ),
                               const SizedBox(
                                 height: 25,

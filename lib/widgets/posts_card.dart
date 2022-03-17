@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:not_instagram/constants/cacheManager.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
@@ -10,6 +12,7 @@ import 'package:not_instagram/screens/comments_screen.dart';
 import 'package:not_instagram/screens/edit_post_screen.dart';
 import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/visitor_user_profile.dart';
+import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -231,13 +234,35 @@ class _PostCardState extends State<PostCard> {
                 width: double.infinity,
                 height: double.infinity,
                 child: Hero(
-                  tag: widget.snap['postPhotoUrl'],
-                  child: Image.network(
-                    widget.snap['postPhotoUrl'],
-                    fit: BoxFit.cover,
-                    alignment: FractionalOffset.center,
-                  ),
-                ),
+                    tag: widget.snap['postPhotoUrl'],
+                    child: CachedNetworkImage(
+                      cacheManager: cacheManager,
+                      imageUrl: widget.snap['postPhotoUrl'],
+                      fit: BoxFit.cover,
+                      alignment: FractionalOffset.center,
+                      placeholder: (context, url) => Container(
+                        color: backgroundColor,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          color: Colors.pink,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: backgroundColor,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.error,
+                          color: Colors.pink,
+                        ),
+                      ),
+                    )
+
+                    // Image.network(
+                    //   widget.snap['postPhotoUrl'],
+                    //   fit: BoxFit.cover,
+                    //   alignment: FractionalOffset.center,
+                    // ),
+                    ),
               ),
             ),
             Container(
@@ -280,7 +305,7 @@ class _PostCardState extends State<PostCard> {
                           ),
                         )
                             .then((value) async {
-                              //TODO: implement refresh future
+                          //TODO: implement refresh future
                           // print('refreshing');
                           // await Future.delayed(const Duration(seconds: 1));
                           // setState(() {});

@@ -1,13 +1,19 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:not_instagram/functions/open_webview.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/messanger_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 import 'package:not_instagram/widgets/story_tab.dart';
+
+import '../utils/utils.dart';
 
 class MyFeedScreen extends StatefulWidget {
   const MyFeedScreen({Key? key}) : super(key: key);
@@ -17,13 +23,80 @@ class MyFeedScreen extends StatefulWidget {
 }
 
 class _MyFeedScreenState extends State<MyFeedScreen> {
+  openSettingPopUp(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) {
+        return SimpleDialog(
+          elevation: 6,
+          backgroundColor: backgroundColor,
+          title: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => OpenWebView(
+                      websiteLink:
+                          'https://sites.google.com/view/workwithafridi'),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '!instagram',
+                  style: AppTitleTextStyle,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'By KYOTO',
+                  style: creatorTextStyle,
+                ),
+              ],
+            ),
+          ),
+          children: [
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text(
+                'Settings',
+                style: subHeaderTextStyle,
+              ),
+              onPressed: () async {},
+            ),
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text(
+                'Logout',
+                style: subHeaderTextStyle,
+              ),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Not Instagram',
-          style: titleTextStyle.copyWith(fontSize: 20),
+          '!instagram',
+          style: AppTitleTextStyle.copyWith(fontSize: 20),
         ),
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -71,46 +144,7 @@ class _MyFeedScreenState extends State<MyFeedScreen> {
           ),
           IconButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                barrierColor: Colors.black54,
-                builder: (context) => Dialog(
-                  elevation: 6,
-                  backgroundColor: backgroundColor,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shrinkWrap: true,
-                    children: [
-                      'Settings',
-                      'Logout',
-                    ]
-                        .map(
-                          (option) => InkWell(
-                            onTap: () {
-                              if (option == 'Logout') {
-                                FirebaseAuth.instance.signOut();
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginScreen(),
-                                  ),
-                                );
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
-                              child: Text(
-                                option,
-                                style: subHeaderTextStyle,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              );
+              openSettingPopUp(context);
             },
             icon: const Icon(Icons.menu),
           ),

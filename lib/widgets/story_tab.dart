@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:not_instagram/screens/upload_story.dart';
@@ -6,8 +7,10 @@ import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/circleAnimation.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/cacheManager.dart';
 import '../model/user.dart';
 import '../providers/user_provider.dart';
+import '../utils/colors.dart';
 
 class StoryTab extends StatefulWidget {
   const StoryTab({Key? key}) : super(key: key);
@@ -42,7 +45,7 @@ class _StoryTabState extends State<StoryTab> {
         : Column(
             children: [
               SizedBox(
-                height: 80,
+                height: 85,
                 width: MediaQuery.of(context).size.width,
                 // color: Colors.yellow,
                 child: SingleChildScrollView(
@@ -71,7 +74,7 @@ class _StoryTabState extends State<StoryTab> {
                                     height: 65,
                                     width: 65,
                                     decoration: BoxDecoration(
-                                      color: Colors.pink,
+                                      // color: Colors.pink,
                                       borderRadius: BorderRadius.circular(65),
                                     ),
                                     child: Stack(
@@ -83,10 +86,34 @@ class _StoryTabState extends State<StoryTab> {
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(65),
-                                              child: Image.network(
-                                                user.photoUrl,
+                                              child: CachedNetworkImage(
+                                                cacheManager: cacheManager,
+                                                imageUrl: user.photoUrl,
                                                 fit: BoxFit.cover,
-                                              ),
+                                                alignment: FractionalOffset.center,
+                                                placeholder: (context, url) => Container(
+                                                  color: backgroundColor,
+                                                  alignment: Alignment.center,
+                                                  child: CircularProgressIndicator(
+                                                    color: Colors.pink,
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url, error) => Container(
+                                                  color: backgroundColor,
+                                                  alignment: Alignment.center,
+                                                  child: Icon(
+                                                    Icons.error,
+                                                    color: Colors.pink,
+                                                  ),
+                                                ),
+                                              )
+
+
+
+                                              // Image.network(
+                                              //   user.photoUrl,
+                                              //   fit: BoxFit.cover,
+                                              // ),
                                             ),
                                           ),
                                         ),
@@ -226,12 +253,35 @@ class _StoryTabState extends State<StoryTab> {
                                                         tag: snapshot.data!
                                                                 .docs[index]
                                                             ['postPhotoUrl'],
-                                                        child: Image.network(
-                                                          snapshot.data!
-                                                                  .docs[index]
-                                                              ['postPhotoUrl'],
+                                                        child: CachedNetworkImage(
+                                                          cacheManager: cacheManager,
+                                                          imageUrl: snapshot.data!.docs[index]['postPhotoUrl'],
                                                           fit: BoxFit.cover,
-                                                        ),
+                                                          alignment: FractionalOffset.center,
+                                                          placeholder: (context, url) => Container(
+                                                            color: backgroundColor,
+                                                            alignment: Alignment.center,
+                                                            child: CircularProgressIndicator(
+                                                              color: Colors.pink,
+                                                            ),
+                                                          ),
+                                                          errorWidget: (context, url, error) => Container(
+                                                            color: backgroundColor,
+                                                            alignment: Alignment.center,
+                                                            child: Icon(
+                                                              Icons.error,
+                                                              color: Colors.pink,
+                                                            ),
+                                                          ),
+                                                        )
+
+
+                                                        // Image.network(
+                                                        //   snapshot.data!
+                                                        //           .docs[index]
+                                                        //       ['postPhotoUrl'],
+                                                        //   fit: BoxFit.cover,
+                                                        // ),
                                                       ),
                                                     ),
                                                   ),

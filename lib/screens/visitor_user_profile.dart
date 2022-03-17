@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/screens/chat_screen.dart';
@@ -10,7 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
+import '../functions/open_webview.dart';
 import 'detailed_post_screen.dart';
+import 'login_screen.dart';
 
 class VisitorProfileScreen extends StatefulWidget {
   final UserModel user;
@@ -29,6 +32,57 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
   void initState() {
     super.initState();
     getData();
+  }
+
+  openMenu(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) {
+        return SimpleDialog(
+          elevation: 6,
+          backgroundColor: backgroundColor,
+          title: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => OpenWebView(
+                      websiteLink:
+                          'https://sites.google.com/view/workwithafridi'),
+                ),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '!instagram',
+                  style: AppTitleTextStyle,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'By KYOTO',
+                  style: creatorTextStyle,
+                ),
+              ],
+            ),
+          ),
+          children: [
+            SimpleDialogOption(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              child: Text(
+                'Report user',
+                style: subHeaderTextStyle,
+              ),
+              onPressed: () async {},
+            ),
+          ],
+        );
+      },
+    );
   }
 
   var postSnap;
@@ -70,7 +124,11 @@ class _VisitorProfileScreenState extends State<VisitorProfileScreen>
         backgroundColor: backgroundColor,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.menu))
+          IconButton(
+              onPressed: () {
+                openMenu(context);
+              },
+              icon: const Icon(FontAwesomeIcons.ellipsisV, size: 17,))
         ],
       ),
       backgroundColor: backgroundColor,

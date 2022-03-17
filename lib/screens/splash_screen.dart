@@ -107,16 +107,15 @@ class _SplashScreenState extends State<SplashScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Not Instagram',
-                            style: titleTextStyle,
+                            '!instagram',
+                            style: AppTitleTextStyle,
+                          ),
+                          SizedBox(
+                            height: 5,
                           ),
                           Text(
                             'By KYOTO',
-                            style: subHeaderTextStyle.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                height: .5,
-                                color: Colors.pink),
+                            style: creatorTextStyle,
                           ),
                         ],
                       ),

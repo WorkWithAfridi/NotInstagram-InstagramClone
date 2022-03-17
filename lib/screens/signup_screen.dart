@@ -76,12 +76,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             height: MediaQuery.of(context).size.height * .15,
                           ),
                           Text(
-                            'Not Instagram',
-                            style: titleTextStyle.copyWith(fontSize: 30),
+                            '!instagram',
+                            style: AppTitleTextStyle.copyWith(fontSize: 30),
                           ),
                           Text(
-                            "It's Not Instagram but it's better.",
-                            style: subHeaderNotHighlightedTextStyle,
+                            "It's !instagram and it's better.",
+                            style: subHeaderNotHighlightedTextStyle.copyWith(height: .8, fontSize: 13),
                           ),
                           const SizedBox(
                             height: 30,
@@ -122,7 +122,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       },
                                       icon: const Icon(
                                         Icons.add_a_photo,
-                                        color: Colors.pink,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   )
@@ -133,7 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               Text(
                                 'Create a \nnew account',
-                                style: titleTextStyle.copyWith(fontSize: 25),
+                                style: AppTitleTextStyle.copyWith(fontSize: 25),
                               ),
                             ],
                           ),
