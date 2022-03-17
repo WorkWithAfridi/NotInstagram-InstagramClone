@@ -5,7 +5,7 @@
 
 
    <application
-        android:label="not_instagram"
+        android:label="!instagram"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

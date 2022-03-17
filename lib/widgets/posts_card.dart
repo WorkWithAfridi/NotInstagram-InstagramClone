@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:not_instagram/constants/cacheManager.dart';
+import 'package:not_instagram/constants/layout_constraints.dart';
 import 'package:not_instagram/model/user.dart';
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
@@ -57,7 +58,7 @@ class _PostCardState extends State<PostCard> {
     return SizedBox(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
       // color: Colors.black38,
-      height: 500,
+      height: getHeight(context)*.8<500? 600 : getHeight(context)*.8,
       width: double.infinity,
       child: Card(
         color: backgroundColor,
@@ -242,10 +243,10 @@ class _PostCardState extends State<PostCard> {
                       alignment: FractionalOffset.center,
                       placeholder: (context, url) => Container(
                         color: backgroundColor,
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          color: Colors.pink,
-                        ),
+                        // alignment: Alignment.center,
+                        // child: CircularProgressIndicator(
+                        //   color: Colors.pink,
+                        // ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: backgroundColor,

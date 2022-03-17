@@ -217,10 +217,10 @@ class getExploreScreen extends StatelessWidget {
                       alignment: FractionalOffset.center,
                       placeholder: (context, url) => Container(
                         color: backgroundColor,
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(
-                          color: Colors.pink,
-                        ),
+                        // alignment: Alignment.center,
+                        // child: CircularProgressIndicator(
+                        //   color: Colors.pink,
+                        // ),
                       ),
                       errorWidget: (context, url, error) => Container(
                         color: backgroundColor,

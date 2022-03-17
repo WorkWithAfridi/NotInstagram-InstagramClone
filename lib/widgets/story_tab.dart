@@ -84,37 +84,39 @@ class _StoryTabState extends State<StoryTab> {
                                             height: 60,
                                             width: 60,
                                             child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(65),
-                                              child: CachedNetworkImage(
-                                                cacheManager: cacheManager,
-                                                imageUrl: user.photoUrl,
-                                                fit: BoxFit.cover,
-                                                alignment: FractionalOffset.center,
-                                                placeholder: (context, url) => Container(
-                                                  color: backgroundColor,
-                                                  alignment: Alignment.center,
-                                                  child: CircularProgressIndicator(
-                                                    color: Colors.pink,
+                                                borderRadius:
+                                                    BorderRadius.circular(65),
+                                                child: CachedNetworkImage(
+                                                  cacheManager: cacheManager,
+                                                  imageUrl: user.photoUrl,
+                                                  fit: BoxFit.cover,
+                                                  alignment:
+                                                      FractionalOffset.center,
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    color: backgroundColor,
+                                                    // alignment: Alignment.center,
+                                                    // child: CircularProgressIndicator(
+                                                    //   color: Colors.pink,
+                                                    // ),
                                                   ),
-                                                ),
-                                                errorWidget: (context, url, error) => Container(
-                                                  color: backgroundColor,
-                                                  alignment: Alignment.center,
-                                                  child: Icon(
-                                                    Icons.error,
-                                                    color: Colors.pink,
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Container(
+                                                    color: backgroundColor,
+                                                    alignment: Alignment.center,
+                                                    child: Icon(
+                                                      Icons.error,
+                                                      color: Colors.pink,
+                                                    ),
                                                   ),
+                                                )
+
+                                                // Image.network(
+                                                //   user.photoUrl,
+                                                //   fit: BoxFit.cover,
+                                                // ),
                                                 ),
-                                              )
-
-
-
-                                              // Image.network(
-                                              //   user.photoUrl,
-                                              //   fit: BoxFit.cover,
-                                              // ),
-                                            ),
                                           ),
                                         ),
                                         Positioned(
@@ -157,9 +159,7 @@ class _StoryTabState extends State<StoryTab> {
                                 snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return Container();
                           }
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -250,39 +250,57 @@ class _StoryTabState extends State<StoryTab> {
                                                           BorderRadius.circular(
                                                               65),
                                                       child: Hero(
-                                                        tag: snapshot.data!
-                                                                .docs[index]
-                                                            ['postPhotoUrl'],
-                                                        child: CachedNetworkImage(
-                                                          cacheManager: cacheManager,
-                                                          imageUrl: snapshot.data!.docs[index]['postPhotoUrl'],
-                                                          fit: BoxFit.cover,
-                                                          alignment: FractionalOffset.center,
-                                                          placeholder: (context, url) => Container(
-                                                            color: backgroundColor,
-                                                            alignment: Alignment.center,
-                                                            child: CircularProgressIndicator(
-                                                              color: Colors.pink,
+                                                          tag: snapshot.data!
+                                                                  .docs[index]
+                                                              ['postPhotoUrl'],
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            cacheManager:
+                                                                cacheManager,
+                                                            imageUrl: snapshot
+                                                                    .data!
+                                                                    .docs[index]
+                                                                [
+                                                                'postPhotoUrl'],
+                                                            fit: BoxFit.cover,
+                                                            alignment:
+                                                                FractionalOffset
+                                                                    .center,
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Container(
+                                                              color:
+                                                                  backgroundColor,
+                                                              // alignment: Alignment.center,
+                                                              // child: CircularProgressIndicator(
+                                                              //   color: Colors.pink,
+                                                              // ),
                                                             ),
-                                                          ),
-                                                          errorWidget: (context, url, error) => Container(
-                                                            color: backgroundColor,
-                                                            alignment: Alignment.center,
-                                                            child: Icon(
-                                                              Icons.error,
-                                                              color: Colors.pink,
+                                                            errorWidget:
+                                                                (context, url,
+                                                                        error) =>
+                                                                    Container(
+                                                              color:
+                                                                  backgroundColor,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Icon(
+                                                                Icons.error,
+                                                                color:
+                                                                    Colors.pink,
+                                                              ),
                                                             ),
+                                                          )
+
+                                                          // Image.network(
+                                                          //   snapshot.data!
+                                                          //           .docs[index]
+                                                          //       ['postPhotoUrl'],
+                                                          //   fit: BoxFit.cover,
+                                                          // ),
                                                           ),
-                                                        )
-
-
-                                                        // Image.network(
-                                                        //   snapshot.data!
-                                                        //           .docs[index]
-                                                        //       ['postPhotoUrl'],
-                                                        //   fit: BoxFit.cover,
-                                                        // ),
-                                                      ),
                                                     ),
                                                   ),
                                                 ),
