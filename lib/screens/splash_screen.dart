@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    triggerSplashScreen(context);
     super.initState();
+    triggerSplashScreen(context);
   }
 
   @override
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               height: getHeight(context),
               width: getWidth(context),
-              color: Colors.black.withOpacity(.85),
+              color: Colors.black.withOpacity(.75),
             ),
             Container(
               alignment: Alignment.center,

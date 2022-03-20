@@ -12,7 +12,7 @@ import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/text_field_input.dart';
 import 'package:provider/provider.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'comments_screen.dart';
 
 class EditPostScreen extends StatefulWidget {
@@ -112,8 +112,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final model.UserModel user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      appBar:
-          AppBar(
+      appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -240,11 +239,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                       style: headerTextStyle,
                     ),
                     Text(
-                      DateFormat.yMMMd().format(
-                        DateTime.parse(
-                          widget.snap['datePublished'],
-                        ),
-                      ),
+                      timeago.format(widget.snap['datePublished'].toDate()),
                       style: subHeaderNotHighlightedTextStyle,
                     ),
                     const SizedBox(

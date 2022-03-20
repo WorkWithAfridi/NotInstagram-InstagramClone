@@ -57,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
             Container(
               height: getHeight(context),
               width: getWidth(context),
-              color: Colors.black.withOpacity(.85),
+              color: Colors.black.withOpacity(.75),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -224,7 +224,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       });
                                     },
                                     child: Text(
-                                      'Login',
+                                      'Sign up',
                                       style: headerTextStyle,
                                     ),
                                     style: ElevatedButton.styleFrom(

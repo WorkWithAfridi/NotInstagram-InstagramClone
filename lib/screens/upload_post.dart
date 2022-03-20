@@ -179,7 +179,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 Container(
                   height: getHeight(context),
                   width: getWidth(context),
-                  color: Colors.black.withOpacity(.85),
+                  color: Colors.black.withOpacity(.75),
                 ),
 
                 Container(

@@ -14,7 +14,8 @@ class AuthMethods {
 
   Future<model.UserModel> getUserDetails() async {
     User currentUser = _auth.currentUser!;
-    DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(currentUser.uid).get();
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(currentUser.uid).get();
     return model.UserModel.fromSnap(documentSnapshot);
   }
 
@@ -46,8 +47,8 @@ class AuthMethods {
             bio: bio,
             followers: [],
             following: [],
-            photoUrl: photoUrl, chatRooms: []);
-
+            photoUrl: photoUrl,
+            chatRooms: []);
 
         await _firestore
             .collection('users')
@@ -70,31 +71,36 @@ class AuthMethods {
     return res;
   }
 
-  Future<String> logInUser({
-    required String email,
-    required String password,
-    required BuildContext context
-  }) async {
+  Future<String> logInUser(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     String res = 'An error occurred.';
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
+        print('1');
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
             email: email, password: password);
+        print('2');
 
         res = 'success';
-        model.UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
+        model.UserModel _user =
+            Provider.of<UserProvider>(context, listen: false).user;
         _user = await getUserDetails();
       } else {
         res = 'Please enter all the required fields.';
       }
     } on FirebaseAuthException catch (err) {
-      if (err.code == 'invalid-email') res = "The email is badly formatted.";
+      print(err.toString());
+      if (err.code.toString() == 'invalid-email') res = "The email is badly formatted.";
       if (err.code == 'user-not-found')
         res = "No user found. Please sign up and try again.";
       else
-        res = 'Wrong Credentioals';
+        res=err.code.toString();
+    } on FirebaseException catch (err) {
+      print(err.toString());
     } catch (err) {
-      res = err.toString();
+      print(res = err.toString());
     }
     return res;
   }

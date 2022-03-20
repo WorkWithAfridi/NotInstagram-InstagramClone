@@ -34,12 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Image.asset('assets/login_bg.png', fit: BoxFit.cover,),
+            child: Image.asset(
+              'assets/login_bg.png',
+              fit: BoxFit.cover,
+            ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            color: Colors.black.withOpacity(.85),
+            color: Colors.black.withOpacity(.75),
           ),
           Container(
             alignment: Alignment.center,
@@ -80,7 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               Text(
                                 "It's !instagram and it's better.",
-                                style: subHeaderNotHighlightedTextStyle.copyWith(height: .8, fontSize: 13),
+                                style: subHeaderNotHighlightedTextStyle
+                                    .copyWith(height: .8, fontSize: 13),
                               ),
                               const SizedBox(
                                 height: 25,
@@ -109,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Theme.of(context).primaryColor,
                                     )
                                   : Container(
-                                      width:
-                                          MediaQuery.of(context).size.width,
+                                      width: MediaQuery.of(context).size.width,
                                       height: 40,
                                       child: ElevatedButton(
                                         onPressed: () async {
@@ -123,9 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             });
                                             String res = await AuthMethods()
                                                 .logInUser(
-                                                    email:
-                                                        _emailTextController
-                                                            .text,
+                                                    email: _emailTextController
+                                                        .text,
                                                     password:
                                                         _passwordTextController
                                                             .text,
@@ -145,6 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 ),
                                                 ModalRoute.withName('/'),
                                               );
+                                            } else {
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                              showSnackbar(context, res);
                                             }
                                           } else {
                                             showSnackbar(context,
@@ -156,8 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           style: headerTextStyle,
                                         ),
                                         style: ElevatedButton.styleFrom(
-                                            primary: Theme.of(context)
-                                                .primaryColor),
+                                            primary:
+                                                Theme.of(context).primaryColor),
                                       ),
                                     ),
                               const SizedBox(
@@ -167,8 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text('Forgotten your login details?',
-                                      style:
-                                          subHeaderNotHighlightedTextStyle),
+                                      style: subHeaderNotHighlightedTextStyle),
                                   Text(' Get help with logging in.',
                                       style: subHeaderTextStyle),
                                 ],
