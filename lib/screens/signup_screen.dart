@@ -9,7 +9,7 @@ import 'package:not_instagram/responsive/mainframe.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/layout_constraints.dart';

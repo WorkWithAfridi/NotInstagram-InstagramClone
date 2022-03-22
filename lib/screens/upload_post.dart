@@ -9,78 +9,18 @@ import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 
-class AddPostScreen extends StatefulWidget {
-  const AddPostScreen({Key? key}) : super(key: key);
+class AddDetailAndUploadPost extends StatefulWidget {
+  final Uint8List file;
+  const AddDetailAndUploadPost({Key? key, required this.file}) : super(key: key);
 
   @override
-  _AddPostScreenState createState() => _AddPostScreenState();
+  _AddDetailAndUploadPostState createState() => _AddDetailAndUploadPostState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
-  Uint8List? _file;
-
-  _selectImage(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierColor: Colors.black54,
-      builder: (context) {
-        return SimpleDialog(
-          elevation: 6,
-          backgroundColor: backgroundColor,
-          title: Text(
-            'Post a memory',
-            style: subHeaderTextStyle.copyWith(fontSize: 25),
-          ),
-          children: [
-            SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text(
-                'Take a Photo',
-                style: subHeaderTextStyle,
-              ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                Uint8List file = await pickImage(ImageSource.camera);
-                setState(() {
-                  _file = file;
-                });
-              },
-            ),
-            SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text(
-                'Choose from Gallery',
-                style: subHeaderTextStyle,
-              ),
-              onPressed: () async {
-                try {
-                  Navigator.of(context).pop();
-                  Uint8List file = await pickImage(ImageSource.gallery);
-                  setState(() {
-                    _file = file;
-                  });
-                } catch (e) {}
-              },
-            ),
-            SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Text(
-                'Cancel',
-                style: subHeaderTextStyle,
-              ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+class _AddDetailAndUploadPostState extends State<AddDetailAndUploadPost> {
   TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
 
@@ -97,187 +37,57 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
     return Scaffold(
       appBar:
-          // _file == null
-          //     ? PreferredSize(child: AppBar(), preferredSize: Size.fromHeight(0))
-          //     :
           AppBar(
-        leading: _file == null
-            ? Container()
-            : IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  setState(() {
-                    _file = null;
-                  });
-                },
-              ),
-        backgroundColor: backgroundColor,
-        title: _file == null
-            ? Text(
-                'Upload',
-                style: headerTextStyle,
-              )
-            : Text(
-                'Post To',
-                style: headerTextStyle,
-              ),
-        centerTitle: _file == null ? true : false,
-        actions: [
-          _file == null
-              ? Text('')
-              : TextButton(
-                  onPressed: () async {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    String uid = user.userId;
-                    String userName = user.userName;
-                    String profileImage = user.photoUrl;
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
 
-                    try {
-                      String res = await FireStoreMethods().uploadPost(
-                          _file!,
-                          _descriptionController.text,
-                          uid,
-                          userName,
-                          user.photoUrl);
-                      if (res == 'success') {
-                        showSnackbar(context, 'Posted');
-                      } else {
-                        showSnackbar(context, res);
-                      }
-                    } catch (e) {
-                      showSnackbar(
-                          context, 'Could not post. An Error occurred.');
-                    }
-                    setState(
-                      () {
-                        _isLoading = false;
-                        _file = null;
-                      },
-                    );
-                  },
-                  child: Icon(
-                    Icons.send,
-                    color: Colors.white,
-                  ),
-                )
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: backgroundColor,
+        title: Text(
+          'Add a memory',
+          style: headerTextStyle,
+        ),
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () async {
+              setState(() {
+                _isLoading = true;
+              });
+              String uid = user.userId;
+              String userName = user.userName;
+              String profileImage = user.photoUrl;
+
+              try {
+                String res = await FireStoreMethods().uploadPost(widget.file,
+                    _descriptionController.text, uid, userName, user.photoUrl);
+                if (res == 'success') {
+                  showSnackbar(context, 'Posted');
+                } else {
+                  showSnackbar(context, res);
+                }
+              } catch (e) {
+                showSnackbar(context, 'Could not post. An Error occurred.');
+              }
+              setState(
+                () {
+                  _isLoading = false;
+                  Navigator.of(context).pop();
+                },
+              );
+            },
+            child: Icon(
+              Icons.send,
+              color: Colors.white,
+            ),
+          )
         ],
       ),
       backgroundColor: Colors.black,
-      body: _file == null
-          ? Stack(
-              children: [
-                Container(
-                  height: getHeight(context),
-                  width: getWidth(context),
-                  child: Image.asset(
-                    'assets/backdropTwo.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Container(
-                  height: getHeight(context),
-                  width: getWidth(context),
-                  color: Colors.black.withOpacity(.75),
-                ),
-
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: double.infinity,
-                  // color: backgroundColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * .1,
-                        width: MediaQuery.of(context).size.height * .1,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 3),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.upload,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            try {
-                              _selectImage(context);
-                            } catch (e) {}
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Icon(
-                        Icons.arrow_upward,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        'Click here to save a memory',
-                        style: headerTextStyle,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/3.toInt()),
-                      //   child: Divider(height: .5,
-                      //     color: Colors.white.withOpacity(.2),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      // Text(
-                      //   'Click here to add a story',
-                      //   style: headerTextStyle,
-                      // ),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
-                      // Icon(
-                      //   Icons.arrow_downward,
-                      //   color: Colors.white,
-                      // ),
-                      // SizedBox(
-                      //   height: 15,
-                      // ),
-                      // Container(
-                      //   alignment: Alignment.center,
-                      //   height: MediaQuery.of(context).size.height * .1,
-                      //   width: MediaQuery.of(context).size.height * .1,
-                      //   decoration: BoxDecoration(
-                      //       border: Border.all(color: Colors.white, width: 3),
-                      //       borderRadius: BorderRadius.all(Radius.circular(10))),
-                      //   child: IconButton(
-                      //     icon: RotatedBox(
-                      //       quarterTurns: 2,
-                      //       child: Icon(
-                      //         Icons.upload,
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //     onPressed: () {
-                      //       try {
-                      //         _selectImage(context);
-                      //       } catch (e) {}
-                      //     },
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          : Container(
+      body: Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               color: backgroundColor,
@@ -296,7 +106,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         image: DecorationImage(
                           fit: BoxFit.fill,
                           alignment: FractionalOffset.topCenter,
-                          image: MemoryImage(_file!),
+                          image: MemoryImage(widget.file),
                         ),
                       ),
                     ),
@@ -311,6 +121,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(user.photoUrl),
+                            backgroundColor: Colors.transparent,
                           ),
                           SizedBox(
                             width: 10,

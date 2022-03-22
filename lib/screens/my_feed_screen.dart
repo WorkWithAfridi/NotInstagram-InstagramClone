@@ -9,20 +9,21 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:not_instagram/functions/open_webview.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/messanger_screen.dart';
+import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 import 'package:not_instagram/widgets/story_tab.dart';
 
 import '../utils/utils.dart';
 
-class MyFeedScreen extends StatefulWidget {
-  const MyFeedScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyFeedScreen> createState() => _MyFeedScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyFeedScreenState extends State<MyFeedScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   openSettingPopUp(BuildContext context) {
     return showDialog(
       context: context,

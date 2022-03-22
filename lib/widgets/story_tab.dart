@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:not_instagram/functions/getImage.dart';
 import 'package:not_instagram/screens/upload_story.dart';
 import 'package:not_instagram/screens/view_story_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
@@ -55,11 +56,8 @@ class _StoryTabState extends State<StoryTab> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const AddStoryScreen(),
-                            ),
-                          );
+                          GetImage().OpenDialogAndShowOptionToPickImageFrom(
+                              context, true);
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15.0),

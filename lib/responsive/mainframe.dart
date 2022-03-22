@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/screens/explore_screen.dart';
@@ -8,7 +11,10 @@ import 'package:not_instagram/screens/user_profile_screen.dart';
 import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
+import 'package:not_instagram/utils/utils.dart';
 import 'package:provider/provider.dart';
+
+import '../functions/getImage.dart';
 
 class MainFrame extends StatefulWidget {
   const MainFrame({Key? key}) : super(key: key);
@@ -56,7 +62,8 @@ class _MainFrameState extends State<MainFrame> {
 
   @override
   Widget build(BuildContext context) {
-    model.UserModel _user = Provider.of<UserProvider>(context, listen: false).user;
+    model.UserModel _user =
+        Provider.of<UserProvider>(context, listen: false).user;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -73,14 +80,20 @@ class _MainFrameState extends State<MainFrame> {
             // ProfileScreen()
 
             PageView(
-          children: homeScreenPages,
+          children: Pages,
 
           // physics: BouncingScrollPhysics(),
           controller: pageController,
           onPageChanged: (value) {
-            setState(() {
-              _page = value;
-            });
+            if (value == 2) {
+              setState(() {
+                _page = 3;
+              });
+            } else {
+              setState(() {
+                _page = value;
+              });
+            }
           },
         ),
       ),
@@ -122,22 +135,23 @@ class _MainFrameState extends State<MainFrame> {
               backgroundColor: Colors.pink),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
-
-              // _user.photoUrl == null
-              //     ? Icon(Icons.person)
-              //     : CircleAvatar(
-              //         backgroundColor: backgroundColor,
-              //         backgroundImage: NetworkImage(_user.photoUrl),
-              //         radius: 13,
-              //       ),
               label: 'Account',
               backgroundColor: Colors.pink),
         ],
         onTap: (value) {
-          setState(() {
-            _page = value;
-          });
-          pageController.jumpToPage(_page);
+          if (value == 2) {
+            GetImage().OpenDialogAndShowOptionToPickImageFrom(context, false);
+          } else if (value > 2) {
+            setState(() {
+              _page = value - 1;
+            });
+            pageController.jumpToPage(_page);
+          } else {
+            setState(() {
+              _page = value;
+            });
+            pageController.jumpToPage(_page);
+          }
         },
         currentIndex: _page,
       ),

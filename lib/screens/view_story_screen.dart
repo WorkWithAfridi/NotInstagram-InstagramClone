@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:not_instagram/constants/cacheManager.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 
-import '../widgets/text_field_input.dart';
+import '../widgets/customTextField.dart';
 
 class ViewStory extends StatefulWidget {
   final parentSnap;

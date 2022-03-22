@@ -8,7 +8,7 @@ import 'package:not_instagram/screens/visitor_user_profile.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/comment_card.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {

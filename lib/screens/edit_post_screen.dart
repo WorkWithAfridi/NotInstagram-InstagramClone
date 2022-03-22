@@ -10,7 +10,7 @@ import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'comments_screen.dart';

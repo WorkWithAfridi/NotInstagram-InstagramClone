@@ -5,7 +5,7 @@ import 'package:not_instagram/responsive/mainframe.dart';
 import 'package:not_instagram/screens/signup_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

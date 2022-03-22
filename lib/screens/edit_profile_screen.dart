@@ -10,7 +10,7 @@ import 'package:not_instagram/resources/storage_methods.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
-import 'package:not_instagram/widgets/text_field_input.dart';
+import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
 
 import '../constants/layout_constraints.dart';
@@ -180,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             height: getHeight(context),
             width: getWidth(context),
             child: Image.asset(
-              'assets/backdropOne.png',
+              'assets/edit_profile_bg.png',
               fit: BoxFit.cover,
             ),
           ),
