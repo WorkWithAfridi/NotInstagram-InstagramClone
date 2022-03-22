@@ -55,9 +55,9 @@ class _PostCardState extends State<PostCard> {
   void deletePost() async {
     String res =
         await FireStoreMethods().deletePost(widget.snap['postId'], context);
-    setState(() {});
     showSnackbar(context, res);
     Navigator.pop(context);
+    setState(() {});
   }
 
   @override

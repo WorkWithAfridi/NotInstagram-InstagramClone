@@ -7,14 +7,17 @@ import 'package:not_instagram/constants/layout_constraints.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
+import 'package:not_instagram/utils/colors.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/utils/utils.dart';
 import 'package:not_instagram/widgets/customTextField.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AddDetailAndUploadPost extends StatefulWidget {
   final Uint8List file;
-  const AddDetailAndUploadPost({Key? key, required this.file}) : super(key: key);
+  const AddDetailAndUploadPost({Key? key, required this.file})
+      : super(key: key);
 
   @override
   _AddDetailAndUploadPostState createState() => _AddDetailAndUploadPostState();
@@ -36,12 +39,10 @@ class _AddDetailAndUploadPostState extends State<AddDetailAndUploadPost> {
     final model.UserModel user = Provider.of<UserProvider>(context).user;
 
     return Scaffold(
-      appBar:
-          AppBar(
+      appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-
             Navigator.of(context).pop();
           },
         ),
@@ -52,8 +53,8 @@ class _AddDetailAndUploadPostState extends State<AddDetailAndUploadPost> {
         ),
         centerTitle: true,
         actions: [
-          TextButton(
-            onPressed: () async {
+          GestureDetector(
+            onTap: () async {
               setState(() {
                 _isLoading = true;
               });
@@ -79,70 +80,99 @@ class _AddDetailAndUploadPostState extends State<AddDetailAndUploadPost> {
                 },
               );
             },
-            child: Icon(
-              Icons.send,
-              color: Colors.white,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Text(
+                  'Upload',
+                  style: headerTextStyle.copyWith(color: Colors.pink),
+                ),
+              ),
             ),
           )
         ],
       ),
       backgroundColor: Colors.black,
       body: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: backgroundColor,
-              child: SingleChildScrollView(
-                child: Column(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: backgroundColor,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _isLoading
+                  ? const LinearProgressIndicator(
+                      minHeight: 1,
+                      color: Colors.pink,
+                    )
+                  : Container(),
+              Container(
+                height: MediaQuery.of(context).size.height * .5,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    alignment: FractionalOffset.topCenter,
+                    image: MemoryImage(widget.file),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                child: Row(
                   children: [
-                    _isLoading
-                        ? const LinearProgressIndicator(
-                            minHeight: 1,
-                            color: Colors.pink,
-                          )
-                        : Container(),
-                    Container(
-                      height: MediaQuery.of(context).size.height * .5,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          alignment: FractionalOffset.topCenter,
-                          image: MemoryImage(widget.file),
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(user.photoUrl),
+                      backgroundColor: Colors.transparent,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.userName,
+                          style: headerTextStyle,
                         ),
-                      ),
+                        Text(
+                          timeago.format(DateTime.now()),
+                          style: subHeaderNotHighlightedTextStyle,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(user.photoUrl),
-                            backgroundColor: Colors.transparent,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: getTextField(
-                                textEditingController: _descriptionController,
-                                maxLines: 4,
-                                hintText: 'Enter a caption...',
-                                textInputType: TextInputType.text),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: getTextField(
+                          textEditingController: _descriptionController,
+                          maxLines: 4,
+                          hintText: 'Enter a caption...',
+                          textInputType: TextInputType.text),
                     )
                   ],
                 ),
               ),
-            ),
+              const SizedBox(
+                height: 15,
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

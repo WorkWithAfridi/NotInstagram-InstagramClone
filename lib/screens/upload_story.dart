@@ -10,10 +10,12 @@ import 'package:provider/provider.dart';
 
 class AddDetailAndUploadStory extends StatefulWidget {
   final Uint8List file;
-  const AddDetailAndUploadStory({Key? key, required this.file}) : super(key: key);
+  const AddDetailAndUploadStory({Key? key, required this.file})
+      : super(key: key);
 
   @override
-  _AddDetailAndUploadStoryState createState() => _AddDetailAndUploadStoryState();
+  _AddDetailAndUploadStoryState createState() =>
+      _AddDetailAndUploadStoryState();
 }
 
 class _AddDetailAndUploadStoryState extends State<AddDetailAndUploadStory> {
@@ -39,6 +41,7 @@ class _AddDetailAndUploadStoryState extends State<AddDetailAndUploadStory> {
           'Add a Story',
           style: headerTextStyle,
         ),
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(
             Icons.clear_outlined,
@@ -48,8 +51,8 @@ class _AddDetailAndUploadStoryState extends State<AddDetailAndUploadStory> {
           },
         ),
         actions: [
-          TextButton(
-            onPressed: () async {
+          GestureDetector(
+            onTap: () async {
               setState(() {
                 _isLoading = true;
               });
@@ -79,9 +82,14 @@ class _AddDetailAndUploadStoryState extends State<AddDetailAndUploadStory> {
                 },
               );
             },
-            child: const Icon(
-              Icons.send,
-              color: Colors.white,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Text(
+                  'Upload',
+                  style: headerTextStyle.copyWith(color: Colors.pink),
+                ),
+              ),
             ),
           )
         ],
