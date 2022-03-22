@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:not_instagram/constants/layout_constraints.dart';
 import 'package:not_instagram/model/user.dart' as model;
 import 'package:not_instagram/providers/user_provider.dart';
 import 'package:not_instagram/resources/firestore_method.dart';
@@ -156,7 +157,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
       body: SizedBox(
         // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
         // color: Colors.black38,
-        height: MediaQuery.of(context).size.height * .6,
         width: double.infinity,
         child: Card(
           color: backgroundColor,
@@ -171,54 +171,23 @@ class _EditPostScreenState extends State<EditPostScreen> {
                     )
                   : Container(),
               Container(
-                height: 60,
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {},
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black12,
-                              backgroundImage:
-                                  NetworkImage(widget.snap['profilePhotoUrl']),
-                            ),
-                          ),
-                          Text(
-                            widget.snap['username'],
-                            style: headerTextStyle,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.black26,
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: GestureDetector(
-                    onDoubleTap: () async {
-                      // await FireStoreMethods().likePost(
-                      //     widget.snap['postId'], user.userId, widget.snap['likes']);
-                      // setState(() {
-                      //   isLikeAnimating = true;
-                      // });
-                    },
-                    child: Hero(
-                      tag: widget.snap['postPhotoUrl'],
-                      child: Image.network(
-                        widget.snap['postPhotoUrl'],
-                        fit: BoxFit.cover,
-                        alignment: FractionalOffset.center,
-                      ),
+                color: Colors.black26,
+                width: getWidth(context),
+                height: getWidth(context),
+                child: GestureDetector(
+                  onDoubleTap: () async {
+                    // await FireStoreMethods().likePost(
+                    //     widget.snap['postId'], user.userId, widget.snap['likes']);
+                    // setState(() {
+                    //   isLikeAnimating = true;
+                    // });
+                  },
+                  child: Hero(
+                    tag: widget.snap['postPhotoUrl'],
+                    child: Image.network(
+                      widget.snap['postPhotoUrl'],
+                      fit: BoxFit.cover,
+                      alignment: FractionalOffset.center,
                     ),
                   ),
                 ),
@@ -231,19 +200,46 @@ class _EditPostScreenState extends State<EditPostScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      widget.snap['username'],
-                      style: headerTextStyle,
-                    ),
-                    Text(
-                      timeago.format(widget.snap['datePublished'].toDate()),
-                      style: subHeaderNotHighlightedTextStyle,
-                    ),
-                    const SizedBox(
-                      height: 5,
+                    Container(
+                      height: 60,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {},
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.black12,
+                                  backgroundImage: NetworkImage(
+                                      widget.snap['profilePhotoUrl']),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.snap['username'],
+                                      style: headerTextStyle,
+                                    ),
+                                    Text(
+                                      timeago.format(widget
+                                          .snap['datePublished']
+                                          .toDate()),
+                                      style: subHeaderNotHighlightedTextStyle,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     getTextField(
                       textEditingController: _textEditingController,

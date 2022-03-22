@@ -52,13 +52,21 @@ class _PostCardState extends State<PostCard> {
     } catch (e) {}
   }
 
+  void deletePost() async {
+    String res =
+        await FireStoreMethods().deletePost(widget.snap['postId'], context);
+    setState(() {});
+    showSnackbar(context, res);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserModel user = Provider.of<UserProvider>(context).user;
     return SizedBox(
       // padding: EdgeInsets.symmetric(vertical: 0, horizontal: ),
       // color: Colors.black38,
-      height: getHeight(context)*.8<500? 600 : getHeight(context)*.8,
+      height: getHeight(context) * .8 < 500 ? 600 : getHeight(context) * .8,
       width: double.infinity,
       child: Card(
         color: backgroundColor,
@@ -148,13 +156,7 @@ class _PostCardState extends State<PostCard> {
                                       (e) => InkWell(
                                         onTap: () async {
                                           if (e == 'Delete') {
-                                            String res =
-                                                await FireStoreMethods()
-                                                    .deletePost(
-                                                        widget.snap['postId'],
-                                                        context);
-                                            showSnackbar(context, res);
-                                            Navigator.pop(context);
+                                            deletePost();
                                           }
                                           if (e == 'Edit') {
                                             if (widget.snap['uid'] ==
