@@ -29,9 +29,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode) {
-      print('running main');
-    }
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: MaterialApp(

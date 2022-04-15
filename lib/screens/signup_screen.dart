@@ -88,7 +88,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           Row(
                             children: [
-                              Stack(
+                             Stack(
                                 children: [
                                   _image != null
                                       ? CircleAvatar(

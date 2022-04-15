@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:not_instagram/resources/auth_methods.dart';
@@ -27,6 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(kDebugMode){
+      print("Log in");
+    }
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Stack(

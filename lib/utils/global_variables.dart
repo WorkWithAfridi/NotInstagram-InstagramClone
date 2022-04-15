@@ -1,12 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:not_instagram/screens/explore_screen.dart';
+import 'package:not_instagram/screens/homepage.dart';
 import 'package:not_instagram/screens/likes_screen.dart';
 import 'package:not_instagram/screens/user_profile_screen.dart';
-import 'package:not_instagram/screens/upload_post.dart';
-import 'package:not_instagram/screens/homepage.dart';
 
 const webScreenSize = 600;
 
