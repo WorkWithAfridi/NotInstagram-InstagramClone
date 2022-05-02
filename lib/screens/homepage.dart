@@ -140,75 +140,79 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       backgroundColor: backgroundColor,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('posts')
-                    .orderBy('datePublished', descending: true)
-                    .snapshots(),
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+      body: Consumer<UserProvider>(builder: (context, provider, childProperty) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: isLoading
+              ? Center(child: CircularProgressIndicator())
+              : StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('posts')
+                      .orderBy('datePublished', descending: true)
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                  return LiquidPullToRefresh(
-                    onRefresh: () async {
-                      //TODO: implement refresh future
+                    return LiquidPullToRefresh(
+                      onRefresh: () async {
+                        //TODO: implement refresh future
 
-                      // await Future.delayed(const Duration(seconds: 1));
-                      // setState(() {});
-                    },
-                    color: backgroundColor,
-                    showChildOpacityTransition: false,
-                    backgroundColor: Colors.white,
-                    height: 100,
-                    child: userProvider.user.following.length == 0
-                        ? Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 45),
-                              child: Text(
-                                "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
-                                style: subHeaderNotHighlightedTextStyle,
-                                textAlign: TextAlign.center,
+                        // await Future.delayed(const Duration(seconds: 1));
+                        // setState(() {});
+                      },
+                      color: backgroundColor,
+                      showChildOpacityTransition: false,
+                      backgroundColor: Colors.white,
+                      height: 100,
+                      child: provider.user.following.length == 0
+                          ? Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 45),
+                                child: Text(
+                                  "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
+                                  style: subHeaderNotHighlightedTextStyle,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  const StoryTab(),
+                                  ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data!.docs.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return provider.user.following.contains(
+                                                  snapshot.data!.docs[index]
+                                                      ['uid']) ||
+                                              snapshot.data!.docs[index]
+                                                      ['uid'] ==
+                                                  provider.user.userId
+                                          ? PostCard(
+                                              snap: snapshot.data!.docs[index],
+                                            )
+                                          : SizedBox.shrink();
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                          )
-                        : SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            child: Column(
-                              children: [
-                                const StoryTab(),
-                                ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return userProvider.user.following.contains(
-                                                snapshot.data!.docs[index]
-                                                    ['uid']) ||
-                                            snapshot.data!.docs[index]['uid'] ==
-                                                userProvider.user.userId
-                                        ? PostCard(
-                                            snap: snapshot.data!.docs[index],
-                                          )
-                                        : SizedBox.shrink();
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                  );
-                },
-              ),
-      ),
+                    );
+                  },
+                ),
+        );
+      }),
     );
   }
 }

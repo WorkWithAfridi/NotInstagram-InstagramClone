@@ -59,13 +59,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   FutureBuilder<QuerySnapshot<Map<String, dynamic>>> getSearchResultScreen(
       UserModel user) {
+    print(_searchController.text);
     return FutureBuilder(
       future: FirebaseFirestore.instance
           .collection('users')
-          .where(
-            'username',
-            isEqualTo: _searchController.text,
-          )
+          .where('username', isEqualTo: _searchController.text
+              // isEqualTo: _searchController.text,
+              )
           .get(),
       builder: (context, snapshot) {
         print(_searchController.text);
@@ -148,9 +148,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
       child: TextFormField(
         controller: _searchController,
         decoration: InputDecoration(
-          labelText: 'Search',
+          labelText: 'Search with username',
           border: InputBorder.none,
-          labelStyle: subHeaderTextStyle,
+          labelStyle: subHeaderNotHighlightedTextStyle,
         ),
         style: const TextStyle(
             color: Colors.white70,

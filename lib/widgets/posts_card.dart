@@ -114,12 +114,17 @@ class _PostCardState extends State<PostCard> {
                           chatRooms: [],
                         );
 
-                        Navigator.of(context).push(
+                        Navigator.of(context)
+                            .push(
                           MaterialPageRoute(
                             builder: (context) =>
                                 VisitorProfileScreen(user: tempUser),
                           ),
-                        );
+                        )
+                            .then((value) async {
+                          await userProvider.refreshUser();
+                          setState(() {});
+                        });
                       }
                     },
                     child: Row(
