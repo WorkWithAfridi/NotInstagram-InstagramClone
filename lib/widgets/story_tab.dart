@@ -29,7 +29,10 @@ class _StoryTabState extends State<StoryTab> {
     getData();
   }
 
+  late UserProvider userProvider;
+
   void getData() async {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     await Future.delayed(const Duration(seconds: 4));
     setState(() {
       isLoading = false;
@@ -159,13 +162,13 @@ class _StoryTabState extends State<StoryTab> {
                               ConnectionState.waiting) {
                             return Container();
                           }
+
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
+                              return userProvider.user.following.contains(snapshot.data!.docs[index]['uid']) ? GestureDetector(onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => ViewStory(
@@ -319,7 +322,7 @@ class _StoryTabState extends State<StoryTab> {
                                     ),
                                   ),
                                 ),
-                              );
+                              ) : SizedBox.shrink();
                             },
                           );
                         },

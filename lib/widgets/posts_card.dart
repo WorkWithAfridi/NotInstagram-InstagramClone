@@ -38,7 +38,10 @@ class _PostCardState extends State<PostCard> {
     getData();
   }
 
+  late UserProvider userProvider;
+
   void getData() async {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       QuerySnapshot querySnap = await FirebaseFirestore.instance
           .collection('posts')
@@ -132,7 +135,16 @@ class _PostCardState extends State<PostCard> {
                         Text(
                           widget.snap['username'],
                           style: headerTextStyle,
-                        )
+                        ),
+                        userProvider.user.following
+                                    .contains(widget.snap['uid']) ||
+                                userProvider.user.userId == widget.snap['uid']
+                            ? SizedBox.shrink()
+                            : Text(
+                                ' Follow',
+                                style: headerTextStyle.copyWith(
+                                    color: Colors.pink),
+                              )
                       ],
                     ),
                   ),

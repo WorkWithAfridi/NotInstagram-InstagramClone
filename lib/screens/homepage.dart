@@ -7,12 +7,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:not_instagram/functions/open_webview.dart';
+import 'package:not_instagram/providers/user_provider.dart';
+import 'package:not_instagram/resources/auth_methods.dart';
 import 'package:not_instagram/screens/login_screen.dart';
 import 'package:not_instagram/screens/messanger_screen.dart';
 import 'package:not_instagram/screens/upload_post.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 import 'package:not_instagram/widgets/posts_card.dart';
 import 'package:not_instagram/widgets/story_tab.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/utils.dart';
 
@@ -91,6 +94,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  late UserProvider userProvider;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.refreshUser().then((value) {
+      print(userProvider.user.following);
+      setState(() {
+        isLoading = false;
+      });
+    });
+    // AuthMethods().getUserDetails().then((value) {
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,40 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              //
-              // DocumentSnapshot snap = await FirebaseFirestore.instance
-              //     .collection('users')
-              //     .doc(pLvwl0h0BDh5eAlhSjjmhNOmadv1)
-              //     .get();
-              // List following = (snap.data()! as dynamic)['followers'];
-
-              // print('Starting');
-              //
-              // List userList = [];
-              // for (int i = 0; i < 497; i++) {
-              //   // userList.add('TempUser${i}');
-              //   await FirebaseFirestore.instance
-              //       .collection('users')
-              //       .doc('pLvwl0h0BDh5eAlhSjjmhNOmadv1')
-              //       .update(
-              //     {
-              //       'followers': FieldValue.arrayUnion(['TempUser${i+503}'])
-              //     },
-              //   );
-              //   print('Adding user - TempUser${i+503}');
-              // }
-              //
-              // await FirebaseFirestore.instance
-              //     .collection('users')
-              //     .doc('pLvwl0h0BDh5eAlhSjjmhNOmadv1')
-              //     .update(
-              //   {
-              //     'followers': FieldValue.arrayUnion([...userList])
-              //   },
-              // );
-              //
-              // print('success');
-
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const MessangerScreen()));
             },
@@ -155,50 +143,71 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('posts')
-              .orderBy('datePublished', descending: true)
-              .snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return LiquidPullToRefresh(
-              onRefresh: () async {
-                //TODO: implement refresh future
+        child: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('posts')
+                    .orderBy('datePublished', descending: true)
+                    .snapshots(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                // await Future.delayed(const Duration(seconds: 1));
-                // setState(() {});
-              },
-              color: backgroundColor,
-              showChildOpacityTransition: false,
-              backgroundColor: Colors.white,
-              height: 100,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    const StoryTab(),
-                    ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.docs.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return PostCard(
-                          snap: snapshot.data!.docs[index],
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                  return LiquidPullToRefresh(
+                    onRefresh: () async {
+                      //TODO: implement refresh future
+
+                      // await Future.delayed(const Duration(seconds: 1));
+                      // setState(() {});
+                    },
+                    color: backgroundColor,
+                    showChildOpacityTransition: false,
+                    backgroundColor: Colors.white,
+                    height: 100,
+                    child: userProvider.user.following.length == 0
+                        ? Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 45),
+                              child: Text(
+                                "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
+                                style: subHeaderNotHighlightedTextStyle,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )
+                        : SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Column(
+                              children: [
+                                const StoryTab(),
+                                ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return userProvider.user.following.contains(
+                                                snapshot.data!.docs[index]
+                                                    ['uid']) ||
+                                            snapshot.data!.docs[index]['uid'] ==
+                                                userProvider.user.userId
+                                        ? PostCard(
+                                            snap: snapshot.data!.docs[index],
+                                          )
+                                        : SizedBox.shrink();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }

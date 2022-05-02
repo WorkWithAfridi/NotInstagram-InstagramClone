@@ -36,3 +36,20 @@ class _SplashScreenPushState extends State<SplashScreenPush> {
     );
   }
 }
+
+// class AuthWrapper extends StatelessWidget {
+//   const AuthWrapper({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final FirebaseAuth auth = FirebaseAuth.instance;
+//
+//     final User? user = auth.currentUser;
+//     // final firebaseUser = context.watch<User?>();
+//
+//     if (user != null) {
+//       return const HomeScreen();
+//     }
+//     return const LoginScreen();
+//   }
+// }

@@ -16,6 +16,10 @@ class AuthMethods {
     User currentUser = _auth.currentUser!;
     DocumentSnapshot documentSnapshot =
         await _firestore.collection('users').doc(currentUser.uid).get();
+
+    // var snapshot = documentSnapshot.data() as Map<String, dynamic>;
+    // print(snapshot['following'].cast<String>());
+
     return model.UserModel.fromSnap(documentSnapshot);
   }
 
@@ -92,11 +96,12 @@ class AuthMethods {
       }
     } on FirebaseAuthException catch (err) {
       print(err.toString());
-      if (err.code.toString() == 'invalid-email') res = "The email is badly formatted.";
+      if (err.code.toString() == 'invalid-email')
+        res = "The email is badly formatted.";
       if (err.code == 'user-not-found')
         res = "No user found. Please sign up and try again.";
       else
-        res=err.code.toString();
+        res = err.code.toString();
     } on FirebaseException catch (err) {
       print(err.toString());
     } catch (err) {
