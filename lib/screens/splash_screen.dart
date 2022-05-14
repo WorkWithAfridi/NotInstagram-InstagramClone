@@ -10,6 +10,7 @@ import '../constants/layout_constraints.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash-view';
+
   const SplashScreen({Key? key}) : super(key: key);
 
   @override

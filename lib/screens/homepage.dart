@@ -171,18 +171,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       showChildOpacityTransition: false,
                       backgroundColor: Colors.white,
                       height: 100,
-                      child: provider.user.following.length == 0
-                          ? Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 45),
-                                child: Text(
-                                  "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
-                                  style: subHeaderNotHighlightedTextStyle,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            )
-                          : SingleChildScrollView(
+                      child:
+                      // provider.user.following.length == 0
+                      //     ? Center(
+                      //         child: Padding(
+                      //           padding: EdgeInsets.symmetric(horizontal: 45),
+                      //           child: Text(
+                      //             "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
+                      //             style: subHeaderNotHighlightedTextStyle,
+                      //             textAlign: TextAlign.center,
+                      //           ),
+                      //         ),
+                      //       )
+                      //     :
+                      SingleChildScrollView(
                               physics: const BouncingScrollPhysics(),
                               child: Column(
                                 children: [
@@ -193,6 +195,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     itemCount: snapshot.data!.docs.length,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
+                                      print(snapshot.data!.docs[index]
+                                      ['uid']);
+                                      print(provider.user.userId);
+
                                       return provider.user.following.contains(
                                                   snapshot.data!.docs[index]
                                                       ['uid']) ||

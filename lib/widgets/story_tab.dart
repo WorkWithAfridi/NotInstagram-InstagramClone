@@ -46,299 +46,307 @@ class _StoryTabState extends State<StoryTab> {
         ? const LinearProgressIndicator(
             minHeight: 1,
           )
-        : Column(
-            children: [
-              SizedBox(
-                height: 85,
-                width: MediaQuery.of(context).size.width,
-                // color: Colors.yellow,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          GetImage().OpenDialogAndShowOptionToPickImageFrom(
-                              context, true);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: SizedBox(
-                            width: 70,
-                            height: double.infinity,
-                            // color: Colors.pink,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                      // color: Colors.pink,
-                                      borderRadius: BorderRadius.circular(65),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            height: 60,
-                                            width: 60,
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(65),
-                                                child: CachedNetworkImage(
-                                                  cacheManager: cacheManager,
-                                                  imageUrl: user.photoUrl,
-                                                  fit: BoxFit.cover,
-                                                  alignment:
-                                                      FractionalOffset.center,
-                                                  placeholder: (context, url) =>
-                                                      Container(
-                                                    color: backgroundColor,
-                                                    // alignment: Alignment.center,
-                                                    // child: CircularProgressIndicator(
-                                                    //   color: Colors.pink,
-                                                    // ),
-                                                  ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Container(
-                                                    color: backgroundColor,
-                                                    alignment: Alignment.center,
-                                                    child: Icon(
-                                                      Icons.error,
-                                                      color: Colors.pink,
-                                                    ),
-                                                  ),
-                                                )
-
-                                                // Image.network(
-                                                //   user.photoUrl,
-                                                //   fit: BoxFit.cover,
-                                                // ),
-                                                ),
-                                          ),
+        : Consumer<UserProvider>(builder: (context, provider, childProperty) {
+            return Column(
+                children: [
+                  SizedBox(
+                    height: 85,
+                    width: MediaQuery.of(context).size.width,
+                    // color: Colors.yellow,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              GetImage().OpenDialogAndShowOptionToPickImageFrom(
+                                  context, true);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: SizedBox(
+                                width: 70,
+                                height: double.infinity,
+                                // color: Colors.pink,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        height: 65,
+                                        width: 65,
+                                        decoration: BoxDecoration(
+                                          // color: Colors.pink,
+                                          borderRadius: BorderRadius.circular(65),
                                         ),
-                                        Positioned(
-                                          bottom: 0,
-                                          right: 0,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Colors.pink,
-                                            ),
-                                            child: const Icon(
-                                              Icons.add,
-                                              size: 20,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  'Your story',
-                                  style: headerTextStyle.copyWith(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('stories')
-                            .orderBy('datePublished', descending: true)
-                            .snapshots(),
-                        builder: (context,
-                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                                snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container();
-                          }
+                                        child: Stack(
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                height: 60,
+                                                width: 60,
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(65),
+                                                    child: CachedNetworkImage(
+                                                      cacheManager: cacheManager,
+                                                      imageUrl: user.photoUrl,
+                                                      fit: BoxFit.cover,
+                                                      alignment:
+                                                          FractionalOffset.center,
+                                                      placeholder: (context, url) =>
+                                                          Container(
+                                                        color: backgroundColor,
+                                                        // alignment: Alignment.center,
+                                                        // child: CircularProgressIndicator(
+                                                        //   color: Colors.pink,
+                                                        // ),
+                                                      ),
+                                                      errorWidget:
+                                                          (context, url, error) =>
+                                                              Container(
+                                                        color: backgroundColor,
+                                                        alignment: Alignment.center,
+                                                        child: Icon(
+                                                          Icons.error,
+                                                          color: Colors.pink,
+                                                        ),
+                                                      ),
+                                                    )
 
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              return userProvider.user.following.contains(snapshot.data!.docs[index]['uid']) ? GestureDetector(onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => ViewStory(
-                                        snap: snapshot.data!.docs[index],
-                                        user: user,
-                                        parentSnap: snapshot.data!,
-                                        indexPosition: index,
+                                                    // Image.network(
+                                                    //   user.photoUrl,
+                                                    //   fit: BoxFit.cover,
+                                                    // ),
+                                                    ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              right: 0,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  color: Colors.pink,
+                                                ),
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 7.0,
-                                      right: index ==
-                                              snapshot.data!.docs.length - 1
-                                          ? 15
-                                          : 0),
-                                  child: SizedBox(
-                                    width: 70,
-                                    height: double.infinity,
-                                    // color: Colors.pink,
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            child: Stack(
-                                              children: [
-                                                Center(
-                                                  child: CircleAnimation(
-                                                    child: Container(
-                                                      height: 65,
-                                                      width: 65,
-                                                      decoration: BoxDecoration(
-                                                        // color: Colors.pink,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(65),
-                                                        gradient:
-                                                            LinearGradient(
-                                                                colors: [
-                                                                  Colors.orange
-                                                                      .withOpacity(
-                                                                          .8),
-                                                                  Colors
-                                                                      .orangeAccent
-                                                                      .withOpacity(
-                                                                          .8),
-                                                                  Colors.pink
-                                                                      .withOpacity(
-                                                                          .8),
-                                                                  Colors
-                                                                      .redAccent
-                                                                      .withOpacity(
-                                                                          .8),
-                                                                  //add more colors for gradient
-                                                                ],
-                                                                begin: Alignment
-                                                                    .topLeft, //begin of the gradient color
-                                                                end: Alignment
-                                                                    .bottomRight, //end of the gradient color
-                                                                stops: const [
-                                                                  0,
-                                                                  0.2,
-                                                                  0.5,
-                                                                  0.8
-                                                                ] //stops for individual color
-                                                                //set the stops number equal to numbers of color
-                                                                ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Center(
-                                                  child: Container(
-                                                    height: 60,
-                                                    width: 60,
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              65),
-                                                      child: Hero(
-                                                          tag: snapshot.data!
-                                                                  .docs[index]
-                                                              ['postPhotoUrl'],
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            cacheManager:
-                                                                cacheManager,
-                                                            imageUrl: snapshot
-                                                                    .data!
-                                                                    .docs[index]
-                                                                [
-                                                                'postPhotoUrl'],
-                                                            fit: BoxFit.cover,
-                                                            alignment:
-                                                                FractionalOffset
-                                                                    .center,
-                                                            placeholder:
-                                                                (context,
-                                                                        url) =>
-                                                                    Container(
-                                                              color:
-                                                                  backgroundColor,
-                                                              // alignment: Alignment.center,
-                                                              // child: CircularProgressIndicator(
-                                                              //   color: Colors.pink,
-                                                              // ),
-                                                            ),
-                                                            errorWidget:
-                                                                (context, url,
-                                                                        error) =>
-                                                                    Container(
-                                                              color:
-                                                                  backgroundColor,
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              child: Icon(
-                                                                Icons.error,
-                                                                color:
-                                                                    Colors.pink,
-                                                              ),
-                                                            ),
-                                                          )
+                                    Text(
+                                      'Your story',
+                                      style: headerTextStyle.copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('stories')
+                                .orderBy('datePublished', descending: true)
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                    snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container();
+                              }
 
-                                                          // Image.network(
-                                                          //   snapshot.data!
-                                                          //           .docs[index]
-                                                          //       ['postPhotoUrl'],
-                                                          //   fit: BoxFit.cover,
-                                                          // ),
-                                                          ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return provider.user.following.contains(
+                                      snapshot.data!.docs[index]
+                                      ['uid']) ||
+                                      snapshot.data!.docs[index]
+                                      ['uid'] ==
+                                          provider.user.userId? GestureDetector(onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewStory(
+                                            snap: snapshot.data!.docs[index],
+                                            user: user,
+                                            parentSnap: snapshot.data!,
+                                            indexPosition: index,
                                           ),
                                         ),
-                                        Text(
-                                          snapshot.data!.docs[index]
-                                              ['username'],
-                                          maxLines: 1,
-                                          textAlign: TextAlign.center,
-                                          style: headerTextStyle.copyWith(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.normal),
-                                        )
-                                      ],
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 7.0,
+                                          right: index ==
+                                                  snapshot.data!.docs.length - 1
+                                              ? 15
+                                              : 0),
+                                      child: SizedBox(
+                                        width: 70,
+                                        height: double.infinity,
+                                        // color: Colors.pink,
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                child: Stack(
+                                                  children: [
+                                                    Center(
+                                                      child: CircleAnimation(
+                                                        child: Container(
+                                                          height: 65,
+                                                          width: 65,
+                                                          decoration: BoxDecoration(
+                                                            // color: Colors.pink,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(65),
+                                                            gradient:
+                                                                LinearGradient(
+                                                                    colors: [
+                                                                      Colors.orange
+                                                                          .withOpacity(
+                                                                              .8),
+                                                                      Colors
+                                                                          .orangeAccent
+                                                                          .withOpacity(
+                                                                              .8),
+                                                                      Colors.pink
+                                                                          .withOpacity(
+                                                                              .8),
+                                                                      Colors
+                                                                          .redAccent
+                                                                          .withOpacity(
+                                                                              .8),
+                                                                      //add more colors for gradient
+                                                                    ],
+                                                                    begin: Alignment
+                                                                        .topLeft, //begin of the gradient color
+                                                                    end: Alignment
+                                                                        .bottomRight, //end of the gradient color
+                                                                    stops: const [
+                                                                      0,
+                                                                      0.2,
+                                                                      0.5,
+                                                                      0.8
+                                                                    ] //stops for individual color
+                                                                    //set the stops number equal to numbers of color
+                                                                    ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Center(
+                                                      child: Container(
+                                                        height: 60,
+                                                        width: 60,
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  65),
+                                                          child: Hero(
+                                                              tag: snapshot.data!
+                                                                      .docs[index]
+                                                                  ['postPhotoUrl'],
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                cacheManager:
+                                                                    cacheManager,
+                                                                imageUrl: snapshot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    [
+                                                                    'postPhotoUrl'],
+                                                                fit: BoxFit.cover,
+                                                                alignment:
+                                                                    FractionalOffset
+                                                                        .center,
+                                                                placeholder:
+                                                                    (context,
+                                                                            url) =>
+                                                                        Container(
+                                                                  color:
+                                                                      backgroundColor,
+                                                                  // alignment: Alignment.center,
+                                                                  // child: CircularProgressIndicator(
+                                                                  //   color: Colors.pink,
+                                                                  // ),
+                                                                ),
+                                                                errorWidget:
+                                                                    (context, url,
+                                                                            error) =>
+                                                                        Container(
+                                                                  color:
+                                                                      backgroundColor,
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  child: Icon(
+                                                                    Icons.error,
+                                                                    color:
+                                                                        Colors.pink,
+                                                                  ),
+                                                                ),
+                                                              )
+
+                                                              // Image.network(
+                                                              //   snapshot.data!
+                                                              //           .docs[index]
+                                                              //       ['postPhotoUrl'],
+                                                              //   fit: BoxFit.cover,
+                                                              // ),
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot.data!.docs[index]
+                                                  ['username'],
+                                              maxLines: 1,
+                                              textAlign: TextAlign.center,
+                                              style: headerTextStyle.copyWith(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.normal),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ) : SizedBox.shrink();
+                                  ) : SizedBox.shrink();
+                                },
+                              );
                             },
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Divider(
-                height: .5,
-                color: Colors.white.withOpacity(.2),
-              ),
-            ],
-          );
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Divider(
+                    height: .5,
+                    color: Colors.white.withOpacity(.2),
+                  ),
+                ],
+              );
+          }
+        );
   }
 }

@@ -12,6 +12,8 @@ import 'package:not_instagram/resources/storage_methods.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
+import '../utils/utils.dart';
+
 class FireStoreMethods {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
