@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:not_instagram/main.dart';
-import 'package:not_instagram/responsive/mainframe.dart';
 import 'package:not_instagram/screens/splash_screen_push.dart';
 import 'package:not_instagram/utils/global_variables.dart';
 
@@ -66,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         height: 100,
                         width: 65,
                         child: Lottie.asset(
@@ -100,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Column(
@@ -111,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             '!instagram',
                             style: AppTitleTextStyle,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Text(

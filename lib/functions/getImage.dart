@@ -62,7 +62,7 @@ class GetImage {
                   '!instagram',
                   style: headerTextStyle,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(
@@ -74,14 +74,14 @@ class GetImage {
           ),
           children: [
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.camera,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
@@ -91,19 +91,19 @@ class GetImage {
                 ],
               ),
               onPressed: () async {
-                Uint8List file = await _pickAndPushImageToRequiredUploadScreen(
+                await _pickAndPushImageToRequiredUploadScreen(
                     ImageSource.camera, context, isStory);
               },
             ),
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.image,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
@@ -114,21 +114,20 @@ class GetImage {
               ),
               onPressed: () async {
                 try {
-                  Uint8List file =
-                      await _pickAndPushImageToRequiredUploadScreen(
-                          ImageSource.gallery, context, isStory);
+                  await _pickAndPushImageToRequiredUploadScreen(
+                      ImageSource.gallery, context, isStory);
                 } catch (e) {}
               },
             ),
             SimpleDialogOption(
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.close,
                     color: Colors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(

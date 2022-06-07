@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: any
   change_app_package_name: any
   cloud_firestore: any
 
@@ -38,6 +39,8 @@ dependencies:
   firebase_storage: any
   flutter:
     sdk: flutter
+  flutter_cache_manager: any
+  flutter_image_compress: ^1.1.0
   flutter_staggered_grid_view: any
   font_awesome_flutter: any
   google_fonts: any
@@ -48,20 +51,11 @@ dependencies:
   lottie: any
   provider: any
   staggered_grid_view_flutter: any
-  uuid: any
-  flutter_image_compress: ^1.1.0
   timeago: any
-  cached_network_image: any
-  flutter_cache_manager: any
+  uuid: any
   webview_flutter: any
 
 dev_dependencies:
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter

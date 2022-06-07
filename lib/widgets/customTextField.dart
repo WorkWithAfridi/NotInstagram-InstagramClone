@@ -13,7 +13,8 @@ class getTextField extends StatelessWidget {
       required this.textEditingController,
       this.isPass = false,
       required this.hintText,
-      required this.textInputType, required this.maxLines})
+      required this.textInputType,
+      required this.maxLines})
       : super(key: key);
 
   @override
@@ -22,7 +23,6 @@ class getTextField extends StatelessWidget {
       borderSide: Divider.createBorderSide(context),
     );
     return TextField(
-
       style: subHeaderTextStyle.copyWith(fontSize: 16),
       cursorColor: Colors.white54,
       controller: textEditingController,
