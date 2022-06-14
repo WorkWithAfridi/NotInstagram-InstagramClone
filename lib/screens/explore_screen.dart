@@ -193,6 +193,8 @@ class getExploreScreen extends StatelessWidget {
           return StaggeredGridView.countBuilder(
             physics: const BouncingScrollPhysics(),
             crossAxisCount: 3,
+            addAutomaticKeepAlives: false,
+            addRepaintBoundaries: false,
             itemCount: (snapshot.data! as dynamic).docs.length,
             itemBuilder: (context, index) {
               return GestureDetector(

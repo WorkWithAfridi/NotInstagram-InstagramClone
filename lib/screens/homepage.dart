@@ -172,48 +172,43 @@ class _HomeScreenState extends State<HomeScreen> {
                       backgroundColor: Colors.white,
                       height: 100,
                       child:
-                      // provider.user.following.length == 0
-                      //     ? Center(
-                      //         child: Padding(
-                      //           padding: EdgeInsets.symmetric(horizontal: 45),
-                      //           child: Text(
-                      //             "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
-                      //             style: subHeaderNotHighlightedTextStyle,
-                      //             textAlign: TextAlign.center,
-                      //           ),
-                      //         ),
-                      //       )
-                      //     :
-                      SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Column(
-                                children: [
-                                  const StoryTab(),
-                                  ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data!.docs.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      print(snapshot.data!.docs[index]
-                                      ['uid']);
-                                      print(provider.user.userId);
-
-                                      return provider.user.following.contains(
-                                                  snapshot.data!.docs[index]
-                                                      ['uid']) ||
-                                              snapshot.data!.docs[index]
-                                                      ['uid'] ==
-                                                  provider.user.userId
-                                          ? PostCard(
-                                              snap: snapshot.data!.docs[index],
-                                            )
-                                          : SizedBox.shrink();
-                                    },
-                                  ),
-                                ],
-                              ),
+                          // provider.user.following.length == 0
+                          //     ? Center(
+                          //         child: Padding(
+                          //           padding: EdgeInsets.symmetric(horizontal: 45),
+                          //           child: Text(
+                          //             "Its quite empty down here! Maybe try uploading some memories or following someone? :)",
+                          //             style: subHeaderNotHighlightedTextStyle,
+                          //             textAlign: TextAlign.center,
+                          //           ),
+                          //         ),
+                          //       )
+                          //     :
+                          SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            const StoryTab(),
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.docs.length,
+                              addAutomaticKeepAlives: false,
+                              addRepaintBoundaries: false,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return provider.user.following.contains(snapshot
+                                            .data!.docs[index]['uid']) ||
+                                        snapshot.data!.docs[index]['uid'] ==
+                                            provider.user.userId
+                                    ? PostCard(
+                                        snap: snapshot.data!.docs[index],
+                                      )
+                                    : SizedBox.shrink();
+                              },
                             ),
+                          ],
+                        ),
+                      ),
                     );
                   },
                 ),
