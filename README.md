@@ -9,7 +9,7 @@ The app contains built-in image compression and cropping facility. Users can log
 *Image compressor and Image cropping achieved using packages from pub.dev
 
 ## Watch the DEMO at
-<a href="https://youtu.be/yh52QNufbr4" target="_blank">
+[![Not_Instagram Demo]](https://youtu.be/yh52QNufbr4)
 
 ## How to install the app on your physical device
 
