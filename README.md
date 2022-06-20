@@ -8,7 +8,7 @@ The app contains built-in image compression and cropping facility. Users can log
 *Backend using Firebase Cloud Firestore
 *Image compressor and Image cropping achieved using packages from pub.dev
 
-## Watch the DEMO at
+## Demo video and in-app screenshots
 
 [Not Instagram Demo Video](https://youtu.be/yh52QNufbr4)
 
