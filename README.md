@@ -10,7 +10,7 @@ The app contains built-in image compression and cropping facility. Users can log
 
 ## Demo video and in-app screenshots
 
-[Not Instagram Demo Video](https://youtu.be/yh52QNufbr4)
+* [Not Instagram Demo Video](https://youtu.be/yh52QNufbr4)
 
 ![Demo Image](https://github.com/llKYOTOll/NotInstagram-InstagramClone/blob/master/assets/promotional_images/Screenshot%202022-06-20%20160113.png?raw=true)
 
